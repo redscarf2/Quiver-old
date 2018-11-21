@@ -25,6 +25,7 @@ ipch
 *.htm
 *.aps
 *.db
+*.opendb
 .vs/*
 
 # Windows build products

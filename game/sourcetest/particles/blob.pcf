@@ -1,0 +1,142 @@
+<!-- DMXVersion keyvalues2_v1 -->
+"DmeElement"
+{
+	"id" "elementid" "833dbad4-0848-4c77-a49c-5a702a545c55"
+	"particleSystemDefinitions" "element_array" 
+	[
+		"DmeParticleSystemDefinition"
+		{
+			"id" "elementid" "3535d7f5-7d31-4b97-b772-46fadd300992"
+			"sequence_number" "int" "0"
+			"rotation_speed" "float" "0"
+			"rotation" "float" "0"
+			"color" "color" "255 255 255 255"
+			"radius" "float" "5"
+			"bounding_box_max" "vector3" "10 10 10"
+			"bounding_box_min" "vector3" "-10 -10 -10"
+			"bounding_box_control_point" "int" "0"
+			"material" "string" "shadertest\\lightmappedenvmappedtexturedetailv2.vmt"
+			"initial_particles" "int" "0"
+			"max_particles" "int" "1000"
+			"preventNameBasedLookup" "bool" "0"
+			"constraints" "element_array" 
+			[
+			]
+			"forces" "element_array" 
+			[
+			]
+			"children" "element_array" 
+			[
+			]
+			"emitters" "element_array" 
+			[
+				"DmeParticleOperator"
+				{
+					"id" "elementid" "54ac4e8b-0d8c-4013-9a2a-6ed25f4c9a1c"
+					"operator fade oscillate" "float" "0"
+					"num_to_emit" "int" "100"
+					"emission_start_time" "float" "0"
+					"operator end fadeout" "float" "0"
+					"operator start fadeout" "float" "0"
+					"operator end fadein" "float" "0"
+					"operator start fadein" "float" "0"
+					"functionName" "string" "emit_instantaneously"
+					"name" "string" "emit_instantaneously"
+				}
+			]
+			"initializers" "element_array" 
+			[
+				"DmeParticleOperator"
+				{
+					"id" "elementid" "7415690d-8459-438c-ae78-8ab6c1320095"
+					"operator fade oscillate" "float" "0"
+					"lifetime_random_exponent" "float" "1"
+					"lifetime_max" "float" "1"
+					"lifetime_min" "float" "1"
+					"operator end fadeout" "float" "0"
+					"operator start fadeout" "float" "0"
+					"operator end fadein" "float" "0"
+					"operator start fadein" "float" "0"
+					"functionName" "string" "lifetime_random"
+					"name" "string" "lifetime_random"
+				},
+				"DmeParticleOperator"
+				{
+					"id" "elementid" "bfe40106-301d-4024-bb24-879162b63418"
+					"distance_bias_absolute_value" "vector3" "0 0 0"
+					"operator fade oscillate" "float" "0"
+					"bias in local system" "bool" "0"
+					"distance_bias" "vector3" "1 1 1"
+					"speed_in_local_coordinate_system_max" "vector3" "0 0 0"
+					"speed_in_local_coordinate_system_min" "vector3" "0 0 0"
+					"speed_random_exponent" "float" "1"
+					"speed_max" "float" "0"
+					"speed_min" "float" "0"
+					"control_point_number" "int" "0"
+					"distance_max" "float" "10"
+					"distance_min" "float" "10"
+					"operator end fadeout" "float" "0"
+					"operator start fadeout" "float" "0"
+					"operator end fadein" "float" "0"
+					"operator start fadein" "float" "0"
+					"functionName" "string" "position_within_sphere"
+					"name" "string" "position_within_sphere"
+				}
+			]
+			"operators" "element_array" 
+			[
+				"DmeParticleOperator"
+				{
+					"id" "elementid" "a66571b0-1657-41ad-a160-ba5c3b722835"
+					"operator fade oscillate" "float" "0"
+					"end_fade_out_time" "float" "1"
+					"start_fade_out_time" "float" "0.5"
+					"end_fade_in_time" "float" "0.5"
+					"start_fade_in_time" "float" "0"
+					"end_alpha" "float" "0"
+					"start_alpha" "float" "1"
+					"operator end fadeout" "float" "0"
+					"operator start fadeout" "float" "0"
+					"operator end fadein" "float" "0"
+					"operator start fadein" "float" "0"
+					"functionName" "string" "alpha_fade"
+					"name" "string" "alpha_fade"
+				},
+				"DmeParticleOperator"
+				{
+					"id" "elementid" "1ec8a22e-5e14-45fe-9dab-02ffdd5772c8"
+					"operator fade oscillate" "float" "0"
+					"max constraint passes" "int" "3"
+					"drag" "float" "0"
+					"gravity" "vector3" "0 0 0"
+					"operator end fadeout" "float" "0"
+					"operator start fadeout" "float" "0"
+					"operator end fadein" "float" "0"
+					"operator start fadein" "float" "0"
+					"functionName" "string" "basic_movement"
+					"name" "string" "basic_movement"
+				}
+			]
+			"renderers" "element_array" 
+			[
+				"DmeParticleOperator"
+				{
+					"id" "elementid" "a510e031-95ca-4a71-85a4-d94516a4e12f"
+					"render_radius" "float" "1.2999999523"
+					"cutoff_radius" "float" "3.2999999523"
+					"cube_width" "float" "1"
+					"operator fade oscillate" "float" "0"
+					"operator end fadeout" "float" "0"
+					"operator start fadeout" "float" "0"
+					"operator end fadein" "float" "0"
+					"operator start fadein" "float" "0"
+					"functionName" "string" "render_blobs"
+					"name" "string" "render_blobs"
+				}
+			]
+			"name" "string" "default"
+		}
+	]
+	"name" "string" "untitled"
+}
+

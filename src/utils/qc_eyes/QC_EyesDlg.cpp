@@ -376,10 +376,10 @@ void CQC_EyesDlg::GenerateQCText()
 
 	AddText( "\tmouth 0 \"mouth\" \"ValveBiped.Bip01_Head1\" 0 1 0     // mouth illumination\n" );
 	AddText( "\tflexfile \"%s\" {\n", p.m_ExpressionsFilename );
-	AddText( "\t\t$include \"../standardflex_xsi.qci\"\n" );
+	AddText( "\t\t$Include \"../standardflex_xsi.qci\"\n" );
 	AddText( "\t}\n" );
-	AddText( "\t$include \"../facerules_xsi.qci\"\n" );
-	AddText( "\t$include \"../bodyrules_xsi.qci\"\n" );
+	AddText( "\t$Include \"../facerules_xsi.qci\"\n" );
+	AddText( "\t$Include \"../bodyrules_xsi.qci\"\n" );
 	AddText( "}\n" );
 	AddText( "//end eye/face data\n" );
 }

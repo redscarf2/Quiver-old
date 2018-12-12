@@ -1,22 +1,22 @@
 sub CreateFile
 {
-	local( $filename ) = shift;
+	local( $Filename ) = shift;
 	local( *FILE );
 
-	open FILE, ">$filename";
+	open FILE, ">$Filename";
 	close FILE;
 }
 
 sub ProcessFile
 {
-	local( $filename ) = shift;
+	local( $Filename ) = shift;
 	local( @fileContents );
-#	print "$filename\n";
-	if( $filename =~ /\.vtf/i )
+#	print "$Filename\n";
+	if( $Filename =~ /\.vtf/i )
 	{
-		return if( $filename =~ /_normal/i );
-		return if( $filename =~ /_dudv/i );
-		local( $cmd ) = "..\\..\\..\\bin\\vtfscrew \"$filename\" $r $g $b";
+		return if( $Filename =~ /_normal/i );
+		return if( $Filename =~ /_dudv/i );
+		local( $cmd ) = "..\\..\\..\\bin\\vtfscrew \"$Filename\" $r $g $b";
 		print $cmd . "\n";
 		system $cmd;
 	}

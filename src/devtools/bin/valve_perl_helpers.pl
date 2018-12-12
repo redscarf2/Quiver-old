@@ -51,25 +51,25 @@ sub MakeDirHier
 
 sub FileExists
 {
-	my $filename = shift;
-	my @statresult = stat $filename;
+	my $Filename = shift;
+	my @statresult = stat $Filename;
 	my $iswritable = @statresult != 0;
 	return $iswritable;
 }
 
 sub MakeFileWritable
 {
-	my $filename = shift;
-	if ( &FileExists( $filename ) )
+	my $Filename = shift;
+	if ( &FileExists( $Filename ) )
 	{
-		chmod 0666, $filename || die;
+		chmod 0666, $Filename || die;
 	}
 }
 
 sub MakeFileReadOnly
 {
-	my $filename = shift;
-	chmod 0444, $filename || die;
+	my $Filename = shift;
+	chmod 0444, $Filename || die;
 }
 
 # Run a command and get stdout and stderr to an array
@@ -90,17 +90,17 @@ sub RunCommand
 sub PerforceEditOrAdd
 {
 	return;
-	my $filename = shift;
+	my $Filename = shift;
 	my $changelistarg = shift;
 
 	# Is the file on the client?
-	my $cmd = "p4 fstat \"$filename\"";
+	my $cmd = "p4 fstat \"$Filename\"";
 	my @p4output = &RunCommand( $cmd );
 	my $p4output = join "", @p4output;
 	if( $p4output =~ m/no such file/ )
 	{
 		# not on client. . add
-		my $cmd = "p4 add $changelistarg $filename";
+		my $cmd = "p4 add $changelistarg $Filename";
 		my @p4output = &RunCommand( $cmd );
 		my $p4output = join "", @p4output;
 		if( $p4output =~ m/opened for add/ )
@@ -119,13 +119,13 @@ sub PerforceEditOrAdd
 	{
 		# Is is open for edit, let's see if it's still different.
 		# check for opened files that are not different from the revision in the depot.
-		my $cmd = "p4 diff -sr \"$filename\"";
+		my $cmd = "p4 diff -sr \"$Filename\"";
 		my @p4output = &RunCommand( $cmd );
 		my $outputstring = join "", @p4output;
 		# check for empty string
 		if( !( $outputstring =~ m/^\s*$/ ) )
 		{
-			my $cmd = "p4 revert \"$filename\"";
+			my $cmd = "p4 revert \"$Filename\"";
 			my @p4output = &RunCommand( $cmd );
 			my $outputstring = join "", @p4output;
 			print $outputstring;
@@ -134,18 +134,18 @@ sub PerforceEditOrAdd
 	}
 
 	# check for unopened files that are different from the revision in the depot.
-	my $cmd = "p4 diff -se \"$filename\"";
+	my $cmd = "p4 diff -se \"$Filename\"";
 	my @p4output = &RunCommand( $cmd );
 	my $outputstring = join "", @p4output;
 	# check for empty string
 	if( $outputstring =~ m/^\s*$/ )
 	{
-		&MakeFileReadOnly( $filename );
+		&MakeFileReadOnly( $Filename );
 		return;
 	}
 
 	# We need to edit the file since it is known to be different here.
-	my $cmd = "p4 edit $changelistarg \"$filename\"";
+	my $cmd = "p4 edit $changelistarg \"$Filename\"";
 	my @p4output = &RunCommand( $cmd );
 
 	my $line;
@@ -170,8 +170,8 @@ sub PerforceEditOrAdd
 
 sub FileIsWritable
 {
-	local( $filename ) = shift;
-	local( @statresult ) = stat $filename;
+	local( $Filename ) = shift;
+	local( @statresult ) = stat $Filename;
 	local( $mode, $iswritable );
 	$mode = oct( $statresult[2] );
 	$iswritable = ( $mode & 2 ) != 0;
@@ -180,10 +180,10 @@ sub FileIsWritable
 
 sub TouchFile
 {
-	my $filename = shift;
-	if( !&FileExists( $filename ) )
+	my $Filename = shift;
+	if( !&FileExists( $Filename ) )
 	{
-		if( !open FILE, ">$filename" )
+		if( !open FILE, ">$Filename" )
 		{
 			die;
 		}
@@ -191,13 +191,13 @@ sub TouchFile
 	}
 	my $now = time;
 	local( *FILE );
-	utime $now, $now, $filename;
+	utime $now, $now, $Filename;
 }
 
 sub FileExistsInPerforce
 {
-	my $filename = shift;
-	my @output = &RunCommand( "p4 fstat $filename" );
+	my $Filename = shift;
+	my @output = &RunCommand( "p4 fstat $Filename" );
 	my $line;
 	foreach $line (@output)
 	{
@@ -211,8 +211,8 @@ sub FileExistsInPerforce
 
 sub PerforceWriteFile
 {
-	my $filename = shift;
-	my $filecontents = shift;
+	my $Filename = shift;
+	my $Filecontents = shift;
 #	my $changelistname = shift;
 	
 	# Get the changelist number for the Shader Auto Checkout changelist. Will create the changelist if it doesn't exist.
@@ -227,30 +227,30 @@ sub PerforceWriteFile
 #	}
 
 	# Make the target vcs writable if it exists
-	MakeFileWritable( $filename );
+	MakeFileWritable( $Filename );
 
 	# Write the file.
 	local( *FP );
-	open FP, ">$filename";
-	print FP $filecontents;
+	open FP, ">$Filename";
+	print FP $Filecontents;
 	close FP;
 
 	# Do whatever needs to happen with perforce for this file.
-#	&PerforceEditOrAdd( $filename, $changelistarg );
+#	&PerforceEditOrAdd( $Filename, $changelistarg );
 }
 
 sub WriteFile
 {
-	my $filename = shift;
-	my $filecontents = shift;
+	my $Filename = shift;
+	my $Filecontents = shift;
 	
 	# Make the target vcs writable if it exists
-	MakeFileWritable( $filename );
+	MakeFileWritable( $Filename );
 
 	# Write the file.
 	local( *FP );
-	open FP, ">$filename";
-	print FP $filecontents;
+	open FP, ">$Filename";
+	print FP $Filecontents;
 	close FP;
 }
 
@@ -303,21 +303,21 @@ sub NormalizePerforceFilename
 
 sub MakeSureFileExists
 {
-	local( $filename ) = shift;
+	local( $Filename ) = shift;
 	local( $testexists ) = shift;
 	local( $testwrite ) = shift;
 
-	local( @statresult ) = stat $filename;
+	local( @statresult ) = stat $Filename;
 	if( !@statresult && $testexists )
 	{
-		die "$filename doesn't exist!\n";
+		die "$Filename doesn't exist!\n";
 	}
 	local( $mode, $iswritable );
 	$mode = oct( $statresult[2] );
 	$iswritable = ( $mode & 2 ) != 0;
 	if( !$iswritable && $testwrite )
 	{
-		die "$filename isn't writable!\n";
+		die "$Filename isn't writable!\n";
 	}
 }
 
@@ -436,14 +436,14 @@ sub LoadShaderListFile
 
 sub ReadInputFileWithIncludes
 {
-	local( $filename ) = shift;
-#	print STDERR "ReadInputFileWithIncludes: $filename\n";
+	local( $Filename ) = shift;
+#	print STDERR "ReadInputFileWithIncludes: $Filename\n";
 
 	local( *INPUT );
 	local( $output );
 
 #	print STDERR "before open\n";
-	open INPUT, "<$filename" || die;
+	open INPUT, "<$Filename" || die;
 #	print STDERR "after open\n";
 
 	local( $line );
@@ -466,8 +466,8 @@ sub ReadInputFileWithIncludes
 
 sub GetCRCFromSourceFile
 {
-	my $filename = shift;
-	my $data = &ReadInputFileWithIncludes( $filename );
+	my $Filename = shift;
+	my $data = &ReadInputFileWithIncludes( $Filename );
 #	print STDERR $data;
 	$crc = crc32( $data );
 #	print STDERR "GetCRCFromSourceFile: $crc\n";
@@ -476,16 +476,16 @@ sub GetCRCFromSourceFile
 
 sub GetCRCFromVCSFile
 {
-	my $filename = shift;
-#	print STDERR "GetCRCFromVCSFile $filename\n";
+	my $Filename = shift;
+#	print STDERR "GetCRCFromVCSFile $Filename\n";
 	local( *FP );
-	open FP, "<$filename" || die "GetCRCFromVCSFile: can't open file $filename\n";
+	open FP, "<$Filename" || die "GetCRCFromVCSFile: can't open file $Filename\n";
 	binmode( FP );
 
 	# unpack arguments
 	my $sInt = "i";
 	my $uInt = "I";
-	if( $filename =~ m/360/ )
+	if( $Filename =~ m/360/ )
 	{
 		# Change arguments to "big endian long"
 		$sInt = "N";
@@ -493,12 +493,12 @@ sub GetCRCFromVCSFile
 	}
 
 	my $header;
-	read FP, $header, 7 * 4 || die "updateshaders.pl:GetCRCFromVCSFile: can't read header for $filename\n";
+	read FP, $header, 7 * 4 || die "updateshaders.pl:GetCRCFromVCSFile: can't read header for $Filename\n";
 	my $version,$numCombos,$numDynamicCombos,$flags,$centroidMask,$refSize,$crc;
 	($version,$numCombos,$numDynamicCombos,$flags,$centroidMask,$refSize,$crc) = unpack "$sInt$sInt$sInt$uInt$uInt$uInt$uInt", $header;
 	unless( $version == 4 || $version == 5 || $version == 6 )
 	{
-		print STDERR "ERROR: GetCRCFromVCSFile: $filename is version $version\n";
+		print STDERR "ERROR: GetCRCFromVCSFile: $Filename is version $version\n";
 		return 0;
 	}
 #	print STDERR "version: $version\n";

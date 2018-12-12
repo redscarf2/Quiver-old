@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -23,7 +23,7 @@ $Configuration
 	}
 }
 
-$Project "Vvis_dll"
+$Project "vvis_dll"
 {
 	$Folder	"Source Files"
 	{
@@ -94,8 +94,8 @@ $Project "Vvis_dll"
 
 	$Folder	"Link Libraries"
 	{
-		$File "$SRCDIR\lib\public\mathlib.lib"
-		$File "$SRCDIR\lib\public\tier2.lib"
-		$File "$SRCDIR\lib\public\vmpi.lib"
+		$File "$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File "$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File "$SRCDIR\lib\public\$PLATSUBDIR\vmpi.lib"
 	}
 }

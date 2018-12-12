@@ -1,4 +1,4 @@
-﻿//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+﻿//========= Copyright, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -18,14 +18,6 @@
 #ifndef min
 	#define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
-//========= Copyright � 1996-2005, Valve Corporation, All rights reserved. ============//
-//
-// Purpose: Insert this file into all projects using the memory system
-// It will cause that project to use the shader memory allocator
-//
-// $NoKeywords: $
-//=============================================================================//
-
 
 #if !defined(STEAM) && !defined(NO_MALLOC_OVERRIDE)
 
@@ -1199,7 +1191,11 @@ typedef struct setloc_struct {
     LCID lcidLanguage;
     LCID lcidCountry;
     /* expand_locale static variables */
-    LC_ID       _cacheid;
+#if _MSC_VER >= 1800
+	LCID       _cacheid;
+#else
+	LC_ID       _cacheid;
+#endif
     UINT        _cachecp;
     char        _cachein[MAX_LC_LEN];
     char        _cacheout[MAX_LC_LEN];

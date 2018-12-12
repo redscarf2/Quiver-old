@@ -166,6 +166,8 @@ typedef unsigned int uint;
 #define NO_VTABLE
 #endif
 
+#define VALVE_RAND_MAX 0x7fff
+
 // This can be used to declare an abstract (interface only) class.
 // Classes marked abstract should not be instantiated.  If they are, and access violation will occur.
 //
@@ -249,10 +251,8 @@ typedef void * HINSTANCE;
 #define ALIGN_VALUE( val, alignment ) ( ( val + alignment - 1 ) & ~( alignment - 1 ) ) //  need macro for constant expression
 
 // Used to step into the debugger
-#if defined( _WIN32 ) && !defined( _X360 )
-#define DebuggerBreak()  __asm { int 3 }
-#elif defined( _X360 )
-#define DebuggerBreak() DebugBreak()
+#if defined( _WIN32 )
+#define DebuggerBreak() __debugbreak()
 #else
 #define DebuggerBreak()  {}
 #endif
@@ -477,8 +477,15 @@ static FORCEINLINE double fsel(double fComparand, double fValGE, double fLT)
 //-----------------------------------------------------------------------------
 //#define CHECK_FLOAT_EXCEPTIONS 1
 
-#if !defined( _X360 )
 #if defined( _MSC_VER )
+
+#ifdef WIN64
+
+inline void SetupFPUControlWord()
+{
+}
+
+#else
 
 inline void SetupFPUControlWordForceExceptions()
 {
@@ -516,7 +523,8 @@ inline void SetupFPUControlWord()
 	}
 }
 
-#endif
+#endif // CHECK_FLOAT_EXCEPTIONS
+#endif // WIN64
 
 #else
 
@@ -530,40 +538,6 @@ inline void SetupFPUControlWord()
 }
 
 #endif // _MSC_VER
-
-#else
-
-#ifdef _DEBUG
-FORCEINLINE bool IsFPUControlWordSet()
-{
-	float f = 0.996f;
-	union
-	{
-		double flResult;
-		int pResult[2];
-	};
-	flResult = __fctiw( f );
-	return ( pResult[1] == 1 );
-}
-#endif
-
-inline void SetupFPUControlWord()
-{
-	// Set round-to-nearest in FPSCR
-	// (cannot assemble, must use op-code form)
-	__emit( 0xFF80010C );	// mtfsfi  7,0
-
-	// Favour compatibility over speed (make sure the VPU set to Java-compliant mode)
-	// NOTE: the VPU *always* uses round-to-nearest
-	__vector4  a = { 0.0f, 0.0f, 0.0f, 0.0f };
-	a;				//	Avoid compiler warning
-	__asm
-	{
-		mtvscr a;	// Clear the Vector Status & Control Register to zero
-	}
-}
-
-#endif // _X360
 
 //-----------------------------------------------------------------------------
 // Purpose: Standard functions for handling endian-ness
@@ -601,28 +575,7 @@ inline T DWordSwapC( T dw )
 // Fast swaps
 //-------------------------------------
 
-#if defined( _X360 )
-
-#define WordSwap  WordSwap360Intr
-#define DWordSwap DWordSwap360Intr
-
-template <typename T>
-inline T WordSwap360Intr( T w )
-{
-	T output;
-	__storeshortbytereverse( w, 0, &output );
-	return output;
-}
-
-template <typename T>
-inline T DWordSwap360Intr( T dw )
-{
-	T output;
-	__storewordbytereverse( dw, 0, &output );
-	return output;
-}
-
-#elif defined( _MSC_VER )
+#if defined(WIN32) && !defined(WIN64)
 
 #define WordSwap  WordSwapAsm
 #define DWordSwap DWordSwapAsm
@@ -740,17 +693,6 @@ inline void SwapFloat( float *pOut, const float *pIn )		{ SafeSwapFloat( pOut, p
 
 #endif
 
-#if _X360
-inline unsigned long LoadLittleDWord( unsigned long *base, unsigned int dwordIndex )
-{
-	return __loadwordbytereverse( dwordIndex<<2, base );
-}
-
-inline void StoreLittleDWord( unsigned long *base, unsigned int dwordIndex, unsigned long dword )
-{
-	__storewordbytereverse( dword, dwordIndex<<2, base );
-}
-#else
 inline unsigned long LoadLittleDWord( unsigned long *base, unsigned int dwordIndex )
 {
 	return LittleDWord( base[dwordIndex] );
@@ -760,8 +702,6 @@ inline void StoreLittleDWord( unsigned long *base, unsigned int dwordIndex, unsi
 {
 	base[dwordIndex] = LittleDWord(dword);
 }
-#endif
-
 
 #ifndef STATIC_TIER0
 
@@ -962,10 +902,6 @@ inline const char *GetPlatformExt( void )
 //-----------------------------------------------------------------------------
 #include "tier0\fasttimer.h"
 
-#if defined( _X360 )
-#include "xbox/xbox_core.h"
-#endif
-
 //-----------------------------------------------------------------------------
 // Methods to invoke the constructor, copy constructor, and destructor
 //-----------------------------------------------------------------------------
@@ -1125,6 +1061,35 @@ RETURN_TYPE FASTCALL __Function_##NAME<nArgument>::Run ARGS
 	{\
 		CODE;\
 	}
+
+#if defined( _WIN32 ) && defined( _MSC_VER ) && ( _MSC_VER >= 1400 )
+extern "C" unsigned __int64 __rdtsc();
+#pragma intrinsic(__rdtsc)
+#endif
+
+inline uint64 Plat_Rdtsc()
+{
+#if defined( _WIN64 )
+	return (uint64)__rdtsc();
+#elif defined( _WIN32 )
+#if defined( _MSC_VER ) && ( _MSC_VER >= 1400 )
+	return (uint64)__rdtsc();
+#else
+	__asm rdtsc;
+	__asm ret;
+#endif
+#elif defined( __i386__ )
+	uint64 val;
+	__asm__ __volatile__("rdtsc" : "=A" (val));
+	return val;
+#elif defined( __x86_64__ )
+	uint32 lo, hi;
+	__asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
+	return (((uint64)hi) << 32) | lo;
+#else
+#error
+#endif
+}
 
 //-----------------------------------------------------------------------------
 

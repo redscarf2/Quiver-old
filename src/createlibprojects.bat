@@ -1,2 +1,2 @@
-devtools\bin\vpc +libraries /f /mksln libraries /2013
+devtools\bin\vpc +libraries /f /mksln libraries /define:2013
 pause

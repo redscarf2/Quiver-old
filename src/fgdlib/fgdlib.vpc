@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		".."
-$Macro OUTLIBDIR	"$SRCDIR\lib\public"
+$Macro OUTLIBDIR	"$SRCDIR\lib\public\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
@@ -17,7 +17,7 @@ $Configuration
 	}
 }
 
-$Project "Fgdlib"
+$Project "fgdlib"
 {
 	$Folder	"Source Files"
 	{

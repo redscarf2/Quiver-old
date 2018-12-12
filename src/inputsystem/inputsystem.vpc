@@ -5,13 +5,13 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
-	$Linker [$WIN32]
+	$Linker [$WINDOWS]
 	{
 		$AdditionalDependencies			"Winmm.lib;%(AdditionalDependencies)"
 	}
@@ -38,13 +38,13 @@ $Project "inputsystem"
 		$File	"$SRCDIR\dx9sdk\include\xinput.h"
 	}
 
-	$Folder	"Link Libraries" [$WIN32||$LINUX]
+	$Folder	"Link Libraries" [$WINDOWS||$POSIX]
 	{
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
 	}
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
 	}
 }

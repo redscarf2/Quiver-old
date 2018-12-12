@@ -5,36 +5,16 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
-$Linux
-{
-	$BuildForLinux 1
-}
 $Configuration
 {
 	$Compiler
 	{
 		$PreprocessorDefinitions	"$BASE;DEFINE_MATERIALSYSTEM_INTERFACE;MATERIALSYSTEM_EXPORTS;PROTECTED_THINGS_ENABLE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead;fopen=dont_use_fopen"
 		$Create/UsePCHThroughFile	"pch_materialsystem.h"
-	}
-}
-
-$Configuration "Debug"
-{
-	$Linker [$X360]
-	{
-		$AdditionalDependencies		"$BASE d3dx9d.lib"
-	}
-}
-
-$Configuration "Release"
-{
-	$Linker [$X360]
-	{
-		$AdditionalDependencies		"$BASE d3dx9.lib"
 	}
 }
 
@@ -154,7 +134,7 @@ $Project "MaterialSystem"
 		$File	"ITextureInternal.h"
 		$File	"MaterialSystem_Global.h"
 		$File	"OcclusionQueryMgr.h"
-		$File	"shader_dll_verify.h"		[$WIN32]
+		$File	"shader_dll_verify.h"		[$WINDOWS]
 		$File	"ShaderSystem.h"
 		$File	"TextureManager.h"
 	}
@@ -164,21 +144,12 @@ $Project "MaterialSystem"
 		$File	"Wireframe.cpp"
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\shaderlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\vtf.lib"
-	}
-
-	$Folder	"Link Libraries" [$X360]
-	{
-		$File	"$SRCDIR\lib\public\bitmap_360.lib"
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\shaderlib_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\vtf_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\shaderlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf.lib"
 	}
 }

@@ -9,6 +9,48 @@ $Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
+$Configuration	"Debug"
+{
+	$General
+	{
+		$ConfigurationType					"Dynamic Library (.dll)"
+	}
+
+	$Compiler
+	{
+		$AdditionalIncludeDirectories		"..\frame_encoder;$SRCDIR\public;$SRCDIR\public\tier1;$SRCDIR\public\tier0;..\..;$SRCDIR\common;.\source\libspeex;..\..\audio\public;$SRCDIR\engine"
+		$PreprocessorDefinitions			"WIN32;_DEBUG;_WINDOWS;_USRDLL;SPEEX_EXPORTS"
+		$Create/UsePrecompiledHeader		"Not Using Precompiled Headers"
+		$PrecompiledHeaderFile				"Debug/speex.pch"
+	}
+
+	$Linker
+	{
+		$AdditionalLibraryDirectories		"$SRCDIR\lib\common"
+	}
+}
+
+$Configuration	"Release"
+{
+	$General
+	{
+		$ConfigurationType					"Dynamic Library (.dll)"
+	}
+
+	$Compiler
+	{
+		$AdditionalIncludeDirectories		"..\frame_encoder;$SRCDIR\public;$SRCDIR\public\tier1;$SRCDIR\public\tier0;..\..;$SRCDIR\common;.\source\libspeex;..\..\audio\public;$SRCDIR\engine"
+		$PreprocessorDefinitions			"WIN32;NDEBUG;_WINDOWS;_USRDLL;SPEEX_EXPORTS"
+		$Create/UsePrecompiledHeader		"Not Using Precompiled Headers"
+		$PrecompiledHeaderFile				"Release/speex.pch"
+	}
+
+	$Linker
+	{
+		$AdditionalLibraryDirectories		"$SRCDIR\lib\common"
+	}
+}
+
 $Project "vaudio_speex"
 {
 	$Folder	"Source Files"
@@ -30,7 +72,7 @@ $Project "vaudio_speex"
 	{
 	}
 	$File	"source\win32\libspeex\Release\libspeex.lib"
-	$File	"$SRCDIR\lib\public\tier0.lib"
-	$File	"$SRCDIR\lib\public\tier1.lib"
-	$File	"$SRCDIR\lib\public\vstdlib.lib"
+	$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier0.lib"
+	$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier1.lib"
+	$File	"$SRCDIR\lib\public\$PLATSUBDIR\vstdlib.lib"
 }

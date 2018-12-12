@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 $Macro OUTBINNAME	"vgui2"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
@@ -19,7 +19,7 @@ $Configuration
 //		$TreatWchar_tAsBuiltinType		"No"
 	}
 
-	$Linker [$WIN32]
+	$Linker [$WINDOWS]
 	{
 		$AdditionalDependencies			"$BASE Imm32.lib Shlwapi.lib odbc32.lib odbccp32.lib winmm.lib"
 	}
@@ -34,14 +34,14 @@ $Project "vgui2"
 		$File	"fileimage.cpp"
 		$File	"$SRCDIR\public\filesystem_helpers.cpp"
 		$File	"$SRCDIR\public\filesystem_init.cpp"
-		$File	"HtmlWindow.cpp"				[$WIN32]
+		$File	"HtmlWindow.cpp"				[$WINDOWS]
 		$File	"InputWin32.cpp"
 		$File	"LocalizedStringTable.cpp"
 		$File	"MemoryBitmap.cpp"
 		$File	"Memorybitmap.h"
 		$File	"MessageListener.cpp"
 		$File	"Scheme.cpp"
-		$File	"Surface.cpp"					[$WIN32]
+		$File	"Surface.cpp"					[$WINDOWS]
 		$File	"System.cpp"
 		$File	"$SRCDIR\public\UnicodeFileHelpers.cpp"
 		$File	"vgui.cpp"
@@ -106,16 +106,16 @@ $Project "vgui2"
 		$File	"VGUI_Border.h"
 	}
 
-	$Folder "Link Libraries" [$WIN32]
+	$Folder "Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\vgui_surfacelib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_surfacelib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
 	}
 
 	$Folder "Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\tier3_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3_360.lib"
 	}
 }

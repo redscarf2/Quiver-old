@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -18,13 +18,13 @@ $Configuration
 	}
 }
 
-$Project "VAudio_Miles"
+$Project "vaudio_miles"
 {
 	$Folder	"Source Files"
 	{
 		$File	"milesbase.cpp"
 		$File	"mp3_miles.cpp"
-		$File	"..\frame_encoder\voice_codec_frame.cpp"
+//		$File	"..\frame_encoder\voice_codec_frame.cpp"
 		$File	"voice_codec_miles.cpp"
 	}
 

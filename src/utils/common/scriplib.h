@@ -49,7 +49,7 @@ qboolean GetTokenizerStatus( char **pFilename, int *pLine );
 //	Is called after the contents of a file is loaded.
 //	pFilenameLoaded			is the path of a file that got loaded.
 //	pIncludedFromFileName	is the name of the parent file or NULL if loaded because of "LoadScriptFile" toplevel call.
-//	nIncludeLineNumber		is the number of the line in the parent file with $include statement or 0 in case of "LoadScriptFile"
+//	nIncludeLineNumber		is the number of the line in the parent file with $Include statement or 0 in case of "LoadScriptFile"
 typedef void ( * SCRIPT_LOADED_CALLBACK )( char const *pFilenameLoaded, char const *pIncludedFromFileName, int nIncludeLineNumber );
 
 // SetScriptLoadedCallback:

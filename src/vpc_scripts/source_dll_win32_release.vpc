@@ -137,7 +137,7 @@ $Configuration "Release"
 		$SuppressStartupBanner				"Yes (/NOLOGO)"
 		$IgnoreImportLibrary
 		$RegisterOutput
-		$AdditionalLibraryDirectories		"$SRCDIR\lib\common;$SRCDIR\lib\public"
+		$AdditionalLibraryDirectories		"$SRCDIR\lib\common;$SRCDIR\lib\public\$PLATSUBDIR"
 		$LinkLibraryDependencies
 		$UseLibraryDependencyInputs
 		$UseUNICODEResponseFiles			"No"

@@ -522,7 +522,7 @@ void CCreateMultiplayerGameServerPage::LoadMODList()
 	// add steam games
 	if (CommandLine()->CheckParm("-steam"))
 	{
-		const char *pSteamGamesFilename = "hlds_steamgames.vdf";
+		const char *pSteamGamesFilename = "bin/hlds_steamgames.vdf";
 
 		KeyValues *gamesFile = new KeyValues( pSteamGamesFilename );
 		

@@ -5,14 +5,9 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
-
-$Linux
-{
-	$BuildForLinux 1
-}
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
@@ -50,15 +45,15 @@ $Project "datacache"
 		$File	"$SRCDIR\public\datacache\imdlcache.h"
 	}
 	
-	$folder	"Link Libraries"	[$WIN32]
+	$folder	"Link Libraries"	[$WINDOWS]
 	{
-		$file	"$SRCDIR\lib\public\tier2.lib"
-		$file	"$SRCDIR\lib\public\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
 	}
 
 	$folder	"Link Libraries"	[$X360]
 	{
-		$file	"$SRCDIR\lib\public\tier2_360.lib"
-		$file	"$SRCDIR\lib\public\tier3_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3_360.lib"
 	}
 }

@@ -1109,77 +1109,104 @@ inline void CVertexBuilder::FastAdvanceNVertices( int n )
 //-----------------------------------------------------------------------------
 inline void CVertexBuilder::FastVertex( const ModelVertexDX7_t &vertex )
 {
-	Assert( m_CompressionType == VERTEX_COMPRESSION_NONE ); // FIXME: support compressed verts if needed
-	Assert( m_nCurrentVertex < m_nMaxVertexCount );
+	Assert(m_CompressionType == VERTEX_COMPRESSION_NONE); // FIXME: support compressed verts if needed
+	Assert(m_nCurrentVertex < m_nMaxVertexCount);
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( _WIN32 ) && !defined( WIN64 )
 	const void *pRead = &vertex;
 	void *pCurrPos = m_pCurrPosition;
 
 	__asm
 	{
 		mov esi, pRead
-			mov edi, pCurrPos
+		mov edi, pCurrPos
 
-			movq mm0, [esi + 0]
+		movq mm0, [esi + 0]
 		movq mm1, [esi + 8]
 		movq mm2, [esi + 16]
 		movq mm3, [esi + 24]
 		movq mm4, [esi + 32]
 		movq mm5, [esi + 40]
 
-		movntq [edi + 0], mm0
-			movntq [edi + 8], mm1
-			movntq [edi + 16], mm2
-			movntq [edi + 24], mm3
-			movntq [edi + 32], mm4
-			movntq [edi + 40], mm5
+		movntq[edi + 0], mm0
+		movntq[edi + 8], mm1
+		movntq[edi + 16], mm2
+		movntq[edi + 24], mm3
+		movntq[edi + 32], mm4
+		movntq[edi + 40], mm5
 
-			emms
+		emms
 	}
+#elif defined(GNUC)
+	const void *pRead = &vertex;
+	void *pCurrPos = m_pCurrPosition;
+	__asm__ __volatile__(
+		"movq (%0), %%mm0\n"
+		"movq 8(%0), %%mm1\n"
+		"movq 16(%0), %%mm2\n"
+		"movq 24(%0), %%mm3\n"
+		"movq 32(%0), %%mm4\n"
+		"movq 40(%0), %%mm5\n"
+		"movntq %%mm0, (%1)\n"
+		"movntq %%mm1, 8(%1)\n"
+		"movntq %%mm2, 16(%1)\n"
+		"movntq %%mm3, 24(%1)\n"
+		"movntq %%mm4, 32(%1)\n"
+		"movntq %%mm5, 40(%1)\n"
+		"emms\n"
+		:: "r" (pRead), "r" (pCurrPos) : "memory");
 #else
-	Error( "Implement CMeshBuilder::FastVertex(dx7) ");
+	Error("Implement CMeshBuilder::FastVertex(dx7) ");
 #endif
 
-	IncrementFloatPointer( m_pCurrPosition, m_VertexSize_Position );
+	IncrementFloatPointer(m_pCurrPosition, m_VertexSize_Position);
 	//m_nVertexCount = ++m_nCurrentVertex;
 
 #if ( defined( _DEBUG ) && ( COMPRESSED_NORMALS_TYPE == COMPRESSED_NORMALS_COMBINEDTANGENTS_UBYTE4 ) )
-	m_bWrittenNormal   = false;
+	m_bWrittenNormal = false;
 	m_bWrittenUserData = false;
 #endif
 }
 
 inline void CVertexBuilder::FastVertexSSE( const ModelVertexDX7_t &vertex )
 {
-	Assert( m_CompressionType == VERTEX_COMPRESSION_NONE ); // FIXME: support compressed verts if needed
-	Assert( m_nCurrentVertex < m_nMaxVertexCount );
+	Assert(m_CompressionType == VERTEX_COMPRESSION_NONE); // FIXME: support compressed verts if needed
+	Assert(m_nCurrentVertex < m_nMaxVertexCount);
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( _WIN32 ) && !defined( WIN64 )
 	const void *pRead = &vertex;
 	void *pCurrPos = m_pCurrPosition;
 	__asm
 	{
 		mov esi, pRead
-			mov edi, pCurrPos
+		mov edi, pCurrPos
 
-			movaps xmm0, [esi + 0]
+		movaps xmm0, [esi + 0]
 		movaps xmm1, [esi + 16]
 		movaps xmm2, [esi + 32]
 
-		movntps [edi + 0], xmm0
-			movntps [edi + 16], xmm1
-			movntps [edi + 32], xmm2
+		movntps[edi + 0], xmm0
+		movntps[edi + 16], xmm1
+		movntps[edi + 32], xmm2
 	}
+#elif defined(GNUC)
+	const char *pRead = (char *)&vertex;
+	char *pCurrPos = (char *)m_pCurrPosition;
+	__m128 m1 = _mm_load_ps((float *)pRead);
+	__m128 m2 = _mm_load_ps((float *)(pRead + 16));
+	__m128 m3 = _mm_load_ps((float *)(pRead + 32));
+	_mm_stream_ps((float *)pCurrPos, m1);
+	_mm_stream_ps((float *)(pCurrPos + 16), m2);
+	_mm_stream_ps((float *)(pCurrPos + 32), m3);
 #else
-	Error( "Implement CMeshBuilder::FastVertexSSE(dx7)" );
+	Error("Implement CMeshBuilder::FastVertexSSE(dx7)");
 #endif
 
-	IncrementFloatPointer( m_pCurrPosition, m_VertexSize_Position );
+	IncrementFloatPointer(m_pCurrPosition, m_VertexSize_Position);
 	//m_nVertexCount = ++m_nCurrentVertex;
 
 #if ( defined( _DEBUG ) && ( COMPRESSED_NORMALS_TYPE == COMPRESSED_NORMALS_COMBINEDTANGENTS_UBYTE4 ) )
-	m_bWrittenNormal   = false;
+	m_bWrittenNormal = false;
 	m_bWrittenUserData = false;
 #endif
 }
@@ -1190,76 +1217,76 @@ inline void CVertexBuilder::Fast4VerticesSSE(
 	ModelVertexDX7_t const *vtx_c,
 	ModelVertexDX7_t const *vtx_d)
 {
-	Assert( m_CompressionType == VERTEX_COMPRESSION_NONE ); // FIXME: support compressed verts if needed
-	Assert( m_nCurrentVertex < m_nMaxVertexCount-3 );
+	Assert(m_CompressionType == VERTEX_COMPRESSION_NONE); // FIXME: support compressed verts if needed
+	Assert(m_nCurrentVertex < m_nMaxVertexCount - 3);
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( WIN32 ) && !defined( WIN64 )
 	void *pCurrPos = m_pCurrPosition;
 	__asm
 	{
 		mov esi, vtx_a
-			mov ebx, vtx_b
+		mov ecx, vtx_b
 
-			mov edi, pCurrPos
-			nop
+		mov edi, pCurrPos
+		nop
 
-			movaps xmm0, [esi + 0]
+		movaps xmm0, [esi + 0]
 		movaps xmm1, [esi + 16]
 		movaps xmm2, [esi + 32]
-		movaps xmm3, [ebx + 0]
-		movaps xmm4, [ebx + 16]
-		movaps xmm5, [ebx + 32]
+		movaps xmm3, [ecx + 0]
+		movaps xmm4, [ecx + 16]
+		movaps xmm5, [ecx + 32]
 
 		mov esi, vtx_c
-			mov ebx, vtx_d
+		mov ecx, vtx_d
 
-			movntps [edi + 0], xmm0
-			movntps [edi + 16], xmm1
-			movntps [edi + 32], xmm2
-			movntps [edi + 48], xmm3
-			movntps [edi + 64], xmm4
-			movntps [edi + 80], xmm5
+		movntps[edi + 0], xmm0
+		movntps[edi + 16], xmm1
+		movntps[edi + 32], xmm2
+		movntps[edi + 48], xmm3
+		movntps[edi + 64], xmm4
+		movntps[edi + 80], xmm5
 
-			movaps xmm0, [esi + 0]
+		movaps xmm0, [esi + 0]
 		movaps xmm1, [esi + 16]
 		movaps xmm2, [esi + 32]
-		movaps xmm3, [ebx + 0]
-		movaps xmm4, [ebx + 16]
-		movaps xmm5, [ebx + 32]
+		movaps xmm3, [ecx + 0]
+		movaps xmm4, [ecx + 16]
+		movaps xmm5, [ecx + 32]
 
-		movntps [edi + 0+96], xmm0
-			movntps [edi + 16+96], xmm1
-			movntps [edi + 32+96], xmm2
-			movntps [edi + 48+96], xmm3
-			movntps [edi + 64+96], xmm4
-			movntps [edi + 80+96], xmm5
+		movntps[edi + 0 + 96], xmm0
+		movntps[edi + 16 + 96], xmm1
+		movntps[edi + 32 + 96], xmm2
+		movntps[edi + 48 + 96], xmm3
+		movntps[edi + 64 + 96], xmm4
+		movntps[edi + 80 + 96], xmm5
 
 	}
 #else
-	Error( "Implement CMeshBuilder::Fast4VerticesSSE\n");
+	Error("Implement CMeshBuilder::Fast4VerticesSSE\n");
 #endif
-	IncrementFloatPointer( m_pCurrPosition, 4*m_VertexSize_Position );
+	IncrementFloatPointer(m_pCurrPosition, 4 * m_VertexSize_Position);
 
 #if ( defined( _DEBUG ) && ( COMPRESSED_NORMALS_TYPE == COMPRESSED_NORMALS_COMBINEDTANGENTS_UBYTE4 ) )
-	m_bWrittenNormal   = false;
+	m_bWrittenNormal = false;
 	m_bWrittenUserData = false;
 #endif
 }
 
 inline void CVertexBuilder::FastVertex( const ModelVertexDX8_t &vertex )
 {
-	Assert( m_CompressionType == VERTEX_COMPRESSION_NONE ); // FIXME: support compressed verts if needed
-	Assert( m_nCurrentVertex < m_nMaxVertexCount );
+	Assert(m_CompressionType == VERTEX_COMPRESSION_NONE); // FIXME: support compressed verts if needed
+	Assert(m_nCurrentVertex < m_nMaxVertexCount);
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( WIN32 ) && !defined( WIN64 )
 	const void *pRead = &vertex;
 	void *pCurrPos = m_pCurrPosition;
 	__asm
 	{
 		mov esi, pRead
-			mov edi, pCurrPos
+		mov edi, pCurrPos
 
-			movq mm0, [esi + 0]
+		movq mm0, [esi + 0]
 		movq mm1, [esi + 8]
 		movq mm2, [esi + 16]
 		movq mm3, [esi + 24]
@@ -1268,62 +1295,97 @@ inline void CVertexBuilder::FastVertex( const ModelVertexDX8_t &vertex )
 		movq mm6, [esi + 48]
 		movq mm7, [esi + 56]
 
-		movntq [edi + 0], mm0
-			movntq [edi + 8], mm1
-			movntq [edi + 16], mm2
-			movntq [edi + 24], mm3
-			movntq [edi + 32], mm4
-			movntq [edi + 40], mm5
-			movntq [edi + 48], mm6
-			movntq [edi + 56], mm7
+		movntq[edi + 0], mm0
+		movntq[edi + 8], mm1
+		movntq[edi + 16], mm2
+		movntq[edi + 24], mm3
+		movntq[edi + 32], mm4
+		movntq[edi + 40], mm5
+		movntq[edi + 48], mm6
+		movntq[edi + 56], mm7
 
-			emms
+		emms
 	}
+#elif defined(GNUC)
+	const void *pRead = &vertex;
+	void *pCurrPos = m_pCurrPosition;
+	__asm__ __volatile__(
+		"movq (%0), %%mm0\n"
+		"movq 8(%0), %%mm1\n"
+		"movq 16(%0), %%mm2\n"
+		"movq 24(%0), %%mm3\n"
+		"movq 32(%0), %%mm4\n"
+		"movq 40(%0), %%mm5\n"
+		"movq 48(%0), %%mm6\n"
+		"movq 56(%0), %%mm7\n"
+		"movntq %%mm0, (%1)\n"
+		"movntq %%mm1, 8(%1)\n"
+		"movntq %%mm2, 16(%1)\n"
+		"movntq %%mm3, 24(%1)\n"
+		"movntq %%mm4, 32(%1)\n"
+		"movntq %%mm5, 40(%1)\n"
+		"movntq %%mm6, 48(%1)\n"
+		"movntq %%mm7, 56(%1)\n"
+		"emms\n"
+		:: "r" (pRead), "r" (pCurrPos) : "memory");
 #else
-	Error( "Implement CMeshBuilder::FastVertex(dx8)" );
+	Error("Implement CMeshBuilder::FastVertex(dx8)");
 #endif
 
-	IncrementFloatPointer( m_pCurrPosition, m_VertexSize_Position );
+	IncrementFloatPointer(m_pCurrPosition, m_VertexSize_Position);
 	//	m_nVertexCount = ++m_nCurrentVertex;
 
 #if ( defined( _DEBUG ) && ( COMPRESSED_NORMALS_TYPE == COMPRESSED_NORMALS_COMBINEDTANGENTS_UBYTE4 ) )
-	m_bWrittenNormal   = false;
+	m_bWrittenNormal = false;
 	m_bWrittenUserData = false;
 #endif
 }
 
 inline void CVertexBuilder::FastVertexSSE( const ModelVertexDX8_t &vertex )
 {
-	Assert( m_CompressionType == VERTEX_COMPRESSION_NONE ); // FIXME: support compressed verts if needed
-	Assert( m_nCurrentVertex < m_nMaxVertexCount );
+	Assert(m_CompressionType == VERTEX_COMPRESSION_NONE); // FIXME: support compressed verts if needed
+	Assert(m_nCurrentVertex < m_nMaxVertexCount);
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( WIN32 ) && !defined( WIN64 )
 	const void *pRead = &vertex;
 	void *pCurrPos = m_pCurrPosition;
 	__asm
 	{
 		mov esi, pRead
-			mov edi, pCurrPos
+		mov edi, pCurrPos
 
-			movaps xmm0, [esi + 0]
+		movaps xmm0, [esi + 0]
 		movaps xmm1, [esi + 16]
 		movaps xmm2, [esi + 32]
 		movaps xmm3, [esi + 48]
 
-		movntps [edi + 0], xmm0
-			movntps [edi + 16], xmm1
-			movntps [edi + 32], xmm2
-			movntps [edi + 48], xmm3
+		movntps[edi + 0], xmm0
+		movntps[edi + 16], xmm1
+		movntps[edi + 32], xmm2
+		movntps[edi + 48], xmm3
 	}
+#elif defined(GNUC)
+	const void *pRead = &vertex;
+	void *pCurrPos = m_pCurrPosition;
+	__asm__ __volatile__(
+		"movaps (%0), %%xmm0\n"
+		"movaps 16(%0), %%xmm1\n"
+		"movaps 32(%0), %%xmm2\n"
+		"movaps 48(%0), %%xmm3\n"
+		"movntps %%xmm0, (%1)\n"
+		"movntps %%xmm1, 16(%1)\n"
+		"movntps %%xmm2, 32(%1)\n"
+		"movntps %%xmm3, 48(%1)\n"
+		:: "r" (pRead), "r" (pCurrPos) : "memory");
 #else
-	Error( "Implement CMeshBuilder::FastVertexSSE((dx8)" );
+	Error("Implement CMeshBuilder::FastVertexSSE((dx8)");
 #endif
 
-	IncrementFloatPointer( m_pCurrPosition, m_VertexSize_Position );
+	IncrementFloatPointer(m_pCurrPosition, m_VertexSize_Position);
 	//	m_nVertexCount = ++m_nCurrentVertex;
 
 #if ( defined( _DEBUG ) && ( COMPRESSED_NORMALS_TYPE == COMPRESSED_NORMALS_COMBINEDTANGENTS_UBYTE4 ) )
-	m_bWrittenNormal   = false;
+	m_bWrittenNormal = false;
 	m_bWrittenUserData = false;
 #endif
 }

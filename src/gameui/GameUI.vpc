@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
@@ -19,7 +19,7 @@ $Configuration
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE Ws2_32.lib odbc32.lib odbccp32.lib Shlwapi.lib" [$WIN32]
+		$AdditionalDependencies			"$BASE Ws2_32.lib odbc32.lib odbccp32.lib Shlwapi.lib" [$WINDOWS]
 	}
 }
 
@@ -224,25 +224,25 @@ $Project "GameUI"
 		$File	"OptionsSubVoice.h"
 	}
 	
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\bitmap.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
 		$File	"$SRCDIR\lib\common\vc8\cryptlib.lib"
 		$File	"$SRCDIR\lib\common\jpeglib.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls.lib"
-		$File	"$SRCDIR\lib\public\vtf.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf.lib"
 	}
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\bitmap_360.lib"
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\tier3_360.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls_360.lib"
-		$File	"$SRCDIR\lib\public\vtf_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf_360.lib"
 	}
 }

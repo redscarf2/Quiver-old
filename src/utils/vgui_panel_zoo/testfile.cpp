@@ -144,7 +144,7 @@ int CPanelZooApp::Main()
 	vgui::surface()->SetEmbeddedPanel( panel->GetVPanel() );
 
 	// Load the scheme
-	if (!vgui::scheme()->LoadSchemeFromFile( "//platform/Resource/SourceScheme.res", "PANELZOO" ))
+	if (!vgui::scheme()->LoadSchemeFromFile( "//core/Resource/SourceScheme.res", "PANELZOO" ))
 		return 1;
 
 	// localization

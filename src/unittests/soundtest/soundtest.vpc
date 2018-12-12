@@ -19,6 +19,6 @@ $Project "Soundtest"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\appframework.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"
 	}
 }

@@ -470,12 +470,12 @@ bool CL_CheckCRCs( const char *pszMap )
 
 	// Check to see that our copy of the client side dll matches the server's.
 	// Client side DLL  CRC check.
-	Q_snprintf( szDllName, sizeof( szDllName ), IsX360() ? "bin\\client_360.dll" : "bin\\client.dll" );
+	Q_snprintf( szDllName, sizeof( szDllName ), "bin\\client.dll" );
 
 	CRC32_t clientDllCRC;
 	if ( !CRC_File( &clientDllCRC, szDllName) && !demoplayer->IsPlayingBack() )
 	{
-		COM_ExplainDisconnection( true, "Couldn't CRC client side dll %s.\n", szDllName);
+		COM_ExplainDisconnection( true, "Couldn't CRC client DLL %s.\n", szDllName);
 		Host_Error( "Disconnected" );
 		return false;
 	}
@@ -488,7 +488,7 @@ bool CL_CheckCRCs( const char *pszMap )
 		if ( !demoplayer->IsPlayingBack() )
 		{
 			// TODO: allow Valve mods to differ!!
-			Warning( "Your .dll [%s] differs from the server's.\n", szDllName );
+			Warning( "Your '%s' DLL differs from the server's.\n", szDllName );
 			//COM_ExplainDisconnection( true, "Your .dll [%s] differs from the server's.\n", szDllName);
 			//Host_Error( "Disconnected" );
 			//return false;

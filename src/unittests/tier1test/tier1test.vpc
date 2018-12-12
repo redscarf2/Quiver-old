@@ -32,7 +32,7 @@ $Project "tier1test"
 	
 	$Folder "Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\unitlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\unitlib.lib"
 	}
 }

@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2004, Valve Corporation, All rights reserved. =======
+//====== Copyright Valve Corporation, All rights reserved. ====================
 //
 // Purpose: 
 //
@@ -10,7 +10,7 @@
 #undef fopen
 #endif
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#ifdef _WIN32
 #include <windows.h>
 #include <direct.h>
 #include <io.h>
@@ -29,23 +29,11 @@
 #include "KeyValues.h"
 #include "appframework/IAppSystemGroup.h"
 #include "tier1/smartptr.h"
-#if defined( _X360 )
-#include "xbox\xbox_win32stubs.h"
-#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
-#if !defined( _X360 )
 #define GAMEINFO_FILENAME			"gameinfo.txt"
-#else
-// The .xtx file is a TCR requirement, as .txt files cannot live on the DVD.
-// The .xtx file only exists outside the zips (same as .txt and is made during the image build) and is read to setup the search paths.
-// So all other code should be able to safely expect gameinfo.txt after the zip is mounted as the .txt file exists inside the zips.
-// The .xtx concept is private and should only have to occurr here. As a safety measure, if the .xtx file is not found
-// a retry is made with the original .txt name
-#define GAMEINFO_FILENAME			"gameinfo.xtx"
-#endif
 #define GAMEINFO_FILENAME_ALTERNATE	"gameinfo.txt"
 
 static char g_FileSystemError[256];
@@ -253,12 +241,6 @@ const char *FileSystem_GetLastErrorString()
 
 void AddLanguageGameDir( IFileSystem *pFileSystem, const char *pLocation, const char *pLanguage )
 {
-	if ( IsX360() )
-	{
-		// 360 does not use this path for localization
-		return;
-	}
-
 #if !defined( SWDS )
 	char temp[MAX_PATH];
 	Q_snprintf( temp, sizeof(temp), "%s_%s", pLocation, pLanguage );
@@ -337,11 +319,12 @@ static bool Sys_GetExecutableName( char *out, int len )
 	return true;
 }
 
+// Returns the location of the executable passed in
 bool FileSystem_GetExecutableDir( char *exedir, int exeDirLen )
 {
 	exedir[0] = 0;
 
-	if ( s_bUseVProjectBinDir )
+/*	if ( s_bUseVProjectBinDir )
 	{
 		const char *pProject = GetVProjectCmdLineValue();
 		if ( !pProject )
@@ -361,16 +344,6 @@ bool FileSystem_GetExecutableDir( char *exedir, int exeDirLen )
 		return false;
 	Q_StripFilename( exedir );
 
-	if ( IsX360() )
-	{
-		// The 360 can have its exe and dlls reside on different volumes
-		// use the optional basedir as the exe dir
-		if ( CommandLine()->FindParm( "-basedir" ) )
-		{
-			strcpy( exedir, CommandLine()->ParmValue( "-basedir", "" ) );
-		}
-	}
-
 	Q_FixSlashes( exedir );
 
 	// Return the bin directory as the executable dir if it's not in there
@@ -381,8 +354,37 @@ bool FileSystem_GetExecutableDir( char *exedir, int exeDirLen )
 	{
 		Q_strncat( exedir, "\\bin", exeDirLen, COPY_ALL_CHARACTERS );
 		Q_FixSlashes( exedir );
-	}
-	
+	}*/
+
+	if (!Sys_GetExecutableName(exedir, exeDirLen))
+		return false;
+	Q_StripFilename(exedir);
+
+	Q_FixSlashes(exedir);
+
+	// Return the bin directory as the executable dir if it's not in there
+	// because that's really where we're running from...
+	char ext[MAX_PATH];
+	Q_StrRight(exedir, 4, ext, sizeof(ext));
+#ifdef _WIN32
+	Q_strncat(exedir, "\\win32", exeDirLen, COPY_ALL_CHARACTERS);
+	Q_FixSlashes(exedir);
+#elif defined(WIN64)
+	Q_strncat(exedir, "\\win64", exeDirLen, COPY_ALL_CHARACTERS);
+	Q_FixSlashes(exedir);
+#elif defined(LINUX32)
+	Q_strncat(exedir, "\\linux32", exeDirLen, COPY_ALL_CHARACTERS);
+	Q_FixSlashes(exedir);
+#elif defined(LINUX64)
+	Q_strncat(exedir, "\\linux32", exeDirLen, COPY_ALL_CHARACTERS);
+	Q_FixSlashes(exedir);
+#elif defined(OSX32)
+	Q_strncat(exedir, "\\osx32", exeDirLen, COPY_ALL_CHARACTERS);
+	Q_FixSlashes(exedir);
+#elif defined(OSX64)
+	Q_strncat(exedir, "\\osx64", exeDirLen, COPY_ALL_CHARACTERS);
+	Q_FixSlashes(exedir);
+#endif
 	return true;
 }
 
@@ -399,7 +401,7 @@ static bool FileSystem_GetBaseDir( char *baseDir, int baseDirLen )
 
 void LaunchVConfig()
 {
-#if defined( _WIN32 ) && !defined( _X360 )
+#ifdef _WIN32
 	char vconfigExe[MAX_PATH];
 	FileSystem_GetExecutableDir( vconfigExe, sizeof( vconfigExe ) );
 	Q_AppendSlash( vconfigExe, sizeof( vconfigExe ) );
@@ -413,8 +415,6 @@ void LaunchVConfig()
 	};
 
 	_spawnv( _P_NOWAIT, vconfigExe, argv );
-#elif defined( _X360 )
-	Msg( "Launching vconfig.exe not supported\n" );
 #endif
 }
 
@@ -1162,7 +1162,7 @@ FSReturnCode_t FileSystem_GetFileSystemDLLName( char *pFileSystemDLL, int nMaxLe
 	if ( !FileSystem_GetExecutableDir( executablePath, sizeof( executablePath ) )	)
 		return SetupFileSystemError( false, FS_INVALID_PARAMETERS, "FileSystem_GetExecutableDir failed." );
 	
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( _WIN32 )
 	// If filesystem_stdio.dll is missing or -steam is specified, then load filesystem_steam.dll.
 	// There are two command line parameters for Steam:
 	//		1) -steam (runs Steam in remote filesystem mode; requires Steam backend)
@@ -1170,15 +1170,16 @@ FSReturnCode_t FileSystem_GetFileSystemDLLName( char *pFileSystemDLL, int nMaxLe
 	Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_stdio.dll", executablePath, CORRECT_PATH_SEPARATOR );
 	if ( CommandLine()->FindParm( "-steam" ) || CommandLine()->FindParm( "-steamlocal" ) || _access( pFileSystemDLL, 0 ) != 0 )
 	{
+		// executablePath | CORRECT_PATH_SEPARATOR
+		// hl2.exe\\bin	  | \\ | filesystem_steam.dll
 		Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_steam.dll", executablePath, CORRECT_PATH_SEPARATOR );
+		Q_snprintf(pFileSystemDLL, nMaxLen, "filesystem_steam.dll", executablePath, CORRECT_PATH_SEPARATOR);
 		bSteam = true;
 	}
-#elif defined( _X360 )
-	Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_stdio.dll", executablePath, CORRECT_PATH_SEPARATOR );
 #elif defined( _LINUX )
 	Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_i486.so", executablePath, CORRECT_PATH_SEPARATOR );
 #else
-	#error "define a filesystem dll name"
+	#error "Define a File System DLL in function FileSystem_GetFileSystemDLLName()"
 #endif
 
 	return FS_OK;
@@ -1340,7 +1341,7 @@ void FileSystem_ClearSteamEnvVars()
 }
 
 //-----------------------------------------------------------------------------
-// Adds the platform folder to the search path.
+// Adds the 'platform' folder to the search path. Now named 'core'
 //-----------------------------------------------------------------------------
 void FileSystem_AddSearchPath_Platform( IFileSystem *pFileSystem, const char *szGameInfoPath )
 {
@@ -1348,13 +1349,13 @@ void FileSystem_AddSearchPath_Platform( IFileSystem *pFileSystem, const char *sz
 	if ( pFileSystem->IsSteam() )
 	{
 		// Steam doesn't support relative paths
-		Q_strncpy( platform, "platform", MAX_PATH );
+		Q_strncpy( platform, "core", MAX_PATH );
 	}
 	else
 	{
 		Q_strncpy( platform, szGameInfoPath, MAX_PATH );
 		Q_StripTrailingSlash( platform );
-		Q_strncat( platform, "/../platform", MAX_PATH, MAX_PATH );
+		Q_strncat( platform, "/../core", MAX_PATH, MAX_PATH );
 	}
 
 	pFileSystem->AddSearchPath( platform, "PLATFORM" );

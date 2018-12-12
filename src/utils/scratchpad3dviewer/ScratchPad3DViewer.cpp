@@ -12,7 +12,6 @@
 #include "ScratchPad3D.h"
 #include "tier1/strtools.h"
 
-
 #define SPColorExpand( c ) (c).m_vColor.x, (c).m_vColor.y, (c).m_vColor.z, (c).m_flAlpha
 
 

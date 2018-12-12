@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -18,7 +18,7 @@ $Configuration
 
 	$Linker
 	{
-		$AdditionalDependencies		"$BASE shlwapi.lib winmm.lib wsock32.lib odbc32.lib odbccp32.lib $SRCDIR\dx9sdk\lib\dinput8.lib $SRCDIR\dx9sdk\lib\ddraw.lib" [$WIN32]
+		$AdditionalDependencies		"$BASE shlwapi.lib winmm.lib wsock32.lib odbc32.lib odbccp32.lib $SRCDIR\dx9sdk\lib\dinput8.lib $SRCDIR\dx9sdk\lib\ddraw.lib" [$WINDOWS]
 	}
 }
 
@@ -77,17 +77,17 @@ $Project "launcher"
 		$File	"$SRCDIR\public\vstdlib\vstdlib.h"
 	}
 
-	$folder	"Link Libraries"	[$WIN32||$LINUX]
+	$folder	"Link Libraries"	[$WINDOWS||$POSIX]
 	{
-		$File	"$SRCDIR\lib\public\appframework.lib"		
-		$File	"$SRCDIR\lib\public\tier2.lib"			
-		$File	"$SRCDIR\lib\public\tier3.lib"				
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"		
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"			
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"				
 	}
 
 	$folder	"Link Libraries"	[$X360]
 	{
-		$File	"$SRCDIR\lib\public\appframework_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\tier3_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3_360.lib"
 	}
 }

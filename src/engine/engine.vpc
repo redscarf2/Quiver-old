@@ -5,173 +5,30 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
-
-$Linux
-{
-	$BuildForLinux 1
-
-	// Libs we don't want.
-	-$File	"$SRCDIR\lib\public\bitmap.lib"
-	-$File	"$SRCDIR\lib\common\vc7\bzip2.lib"
-	-$File	"$SRCDIR\lib\common\jpeglib.lib"
-	-$File	"$SRCDIR\lib\public\matsys_controls.lib"
-	-$File	"$SRCDIR\lib\common\vc7\ValidateNewValveCDKeyClient.lib"
-	-$File  "$SRCDIR\lib\public\steam_api.lib"
-	-$File	"$SRCDIR\lib\public\vtf.lib"
-	-$File	"$SRCDIR\lib\public\vgui_controls.lib"
-	-$File	"$SRCDIR\lib\common\binkw32.lib"
-
-	// Libs we do want.
-	$File	"$SRCDIR\lib\linux\FindSteamServers.a"
-	$File	"$SRCDIR\lib\linux\libbz2.a"
-	$File	"$SRCDIR\linux\libsteamvalidateuseridtickets_i486.so"
-	$File	"$SRCDIR\linux\steam_api_i486.so"
-	$File	"$SRCDIR\linux\tier0_i486.so"
-	$File	"$SRCDIR\lib\linux\tier1_486.a"
-	$File	"$SRCDIR\linux\vstdlib_i486.so"
-
-	// Source files we don't want.	
-	-$File  "EngineSoundClient.cpp"
-	-$File	"$SRCDIR\public\XZip.cpp"
-	-$File	"$SRCDIR\public\XUnzip.cpp"
-	-$File	"cl_steamauth.cpp"
-	-$File	"view.cpp"
-	-$File	"cl_ents_parse.cpp"
-	-$File	"cl_localnetworkbackdoor.cpp"
-	-$File	"cl_parse_event.cpp"
-	-$File	"cl_pred.cpp"
-	-$File	"cl_texturelistpanel.cpp"
-	-$File	"colorcorrectionpanel.cpp"
-	-$File  "saverestore_filesystem.cpp"
-	-$File	"vgui_askconnectpanel.cpp"
-	-$File	"cl_demoactioneditors.cpp"
-	-$File	"cl_demoactionpanel.cpp"
-	-$File	"cl_demosmootherpanel.cpp"
-	-$File	"cl_demoactionmanager.cpp"
-	-$File	"cl_demo.cpp"
-	-$File	"cl_demoaction.cpp"
-	-$File	"cl_demoaction_types.cpp"
-	-$File	"cl_demoeditorpanel.cpp"
-	-$File	"cl_demouipanel.cpp"
-	-$File	"cl_entityreport.cpp"
-	-$File	"cl_pluginhelpers.cpp"
-	-$File	"cl_txviewpanel.cpp"
-	-$File	"lightcache.cpp"
-	-$File	"r_efx.cpp"
-	-$File	"client_pch.cpp"
-	-$File	"host_saverestore.cpp"
-	-$File	"enginetool.cpp"
-	-$File	"matchmakingshared.cpp"
-	-$File	"matchmakinghost.cpp"
-	-$File	"matchmakingclient.cpp"
-	-$File	"matchmakingmigrate.cpp"
-	-$File	"matchmakingqos.cpp"
-
-	-$File	"buildcubemaps.cpp"
-	-$File	"DebugOverlay.cpp"
-	-$File	"gl_drawlights.cpp"
-	-$File	"gl_lightmap.cpp"
-	-$File	"gl_matsysiface.cpp"
-	-$File	"gl_rlight.cpp"
-	-$File	"gl_rmisc.cpp"
-	-$File	"gl_warp.cpp"
-	-$File	"Overlay.cpp"
-	-$File	"r_areaportal.cpp"
-	-$File	"r_linefile.cpp"
-	-$File	"ShadowMgr.cpp"
-	-$File	"LoadScreenUpdate.cpp"
-	-$File  "$SRCDIR\engine\cl_main.cpp"
-	-$File  "$SRCDIR\engine\cdll_engine_int.cpp"
-	-$File  "$SRCDIR\engine\client.cpp"
-	-$File  "$SRCDIR\engine\gl_rmain.cpp"
-	-$File  "$SRCDIR\engine\cl_rcon.cpp"
-	-$File  "$SRCDIR\engine\gl_screen.cpp"
-	-$File  "$SRCDIR\engine\engsoundservice.cpp"
-	-$File	"bugreporter.cpp"
-	-$File	"sys_getmodes.cpp"
-	-$File	"audio\private\MPAFile.cpp"
-	-$File	"audio\private\MPAHeader.cpp"
-	-$File	"audio\audio_pch.cpp"
-	-$File		\
-				"audio\private\snd_dev_common.cpp"								\
-				"audio\private\snd_dma.cpp"										\
-				"audio\private\snd_dsp.cpp"										\
-				"audio\private\snd_mix.cpp"										\
-				"audio\private\snd_sentence_mixer.cpp"							\
-				"audio\private\snd_wave_data.cpp"								\
-				"audio\private\snd_wave_mixer.cpp"								\
-				"audio\private\snd_wave_mixer_adpcm.cpp"						\
-				"audio\private\snd_wave_source.cpp"								\
-				"audio\private\snd_wave_temp.cpp"								\
-				"audio\private\snd_win.cpp"										\
-				"audio\private\voice_gain.cpp"									
-	-$File	"audio\private\snd_dev_direct.cpp"			\
-				"audio\private\snd_dev_wave.cpp"			\
-				"audio\private\snd_mp3_source.cpp"			\
-				"audio\private\snd_wave_mixer_mp3.cpp"		\
-				"audio\private\VBRHeader.cpp"				\
-				"audio\private\voice.cpp"					\
-				"audio\private\voice_mixer_controls.cpp"	\
-				"audio\private\voice_record_dsound.cpp"		\
-				"audio\private\voice_sound_engine_interface.cpp"
-	-$File	"perfuipanel.cpp"										\
-				"vgui_basepanel.cpp"									\
-				"vgui_baseui_interface.cpp"								\
-				"vgui_budgetpanel.cpp"									\
-				"vgui_DebugSystemPanel.cpp"								\
-				"vgui_drawtreepanel.cpp"								\
-				"vgui_helpers.cpp"										\
-				"vgui_texturebudgetpanel.cpp"							\
-				"vgui_vprofgraphpanel.cpp"								\
-				"vgui_vprofpanel.cpp"									
-	-$File	"$SRCDIR\public\vgui_controls\vgui_controls.cpp"
-	-$File	"$SRCDIR\common\vgui\vgui_basebudgetpanel.cpp"
-	-$File	"$SRCDIR\common\vgui\vgui_budgetbargraphpanel.cpp"
-	-$File	"$SRCDIR\common\vgui\vgui_budgethistorypanel.cpp"
-	-$File	"$SRCDIR\common\vgui\vgui_budgetpanelshared.cpp"
-}
-
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
 	$Compiler
 	{
 		$AdditionalIncludeDirectories	"$BASE;.\;audio;audio\private;audio\public;$SRCDIR\vgui2\include;$SRCDIR\vgui2\controls"
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include" [$WIN32]
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include" [$WINDOWS]
 		$PreprocessorDefinitions		"$BASE;USE_CONVARS;VOICE_OVER_IP;BUMPMAP;__USEA3D;_ADD_EAX_;ENGINE_DLL;PROTECTED_THINGS_ENABLE;fopen=dont_use_fopen"
 	}
 
-	$Compiler [$WIN32]
+	$Compiler [$WINDOWS]
 	{
 		$EnableEnhancedInstructionSet	"Streaming SIMD Extensions (/arch:SSE)"
 	}
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE dinput8.lib winmm.lib wsock32.lib ws2_32.lib wininet.lib vfw32.lib Rpcrt4.lib" [$WIN32]
-		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\lib\common\vc7;$SRCDIR\dx9sdk\lib" [$WIN32]
+		$AdditionalDependencies			"$BASE dinput8.lib winmm.lib wsock32.lib ws2_32.lib wininet.lib vfw32.lib Rpcrt4.lib" [$WINDOWS]
+		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\lib\common\vc7;$SRCDIR\dx9sdk\lib" [$WINDOWS]
 	}
 }
-
-$Configuration "Debug"
-{
-	$Linker [$X360]
-	{
-		$AdditionalDependencies		"$BASE xonlined.lib xaudiod.lib Xhv.lib xmp.lib"
-	}
-}
-
-$Configuration "Release"
-{
-	$Linker [$X360]
-	{
-		$AdditionalDependencies		"$BASE xonline.lib xaudio.lib Xhv.lib xmp.lib"
-	}
-}
-
 
 $Project "engine"
 {
@@ -202,7 +59,6 @@ $Project "engine"
 		$File	"tmessage.cpp"
 		$File	"r_efx.cpp"
 		$File	"View.cpp"
-		$File	"$SRCDIR\avi\bink.cpp"	[$X360]
 
 		$File	"baseclient.cpp"				\
 				"baseclientstate.cpp"			\
@@ -451,8 +307,8 @@ $Project "engine"
 			{
 				$Compiler
 				{
-					$AdditionalOptions		"/EHa"			 [!$X360]
-					$EnableC++Exceptions	"Yes (/EHsc)"	 [!$X360]
+					$AdditionalOptions		"/EHa"			
+					$EnableC++Exceptions	"Yes (/EHsc)"
 				}
 			}
 		}
@@ -492,8 +348,8 @@ $Project "engine"
 		$File	"EngineSoundClient.cpp"
 		$File	"EngSoundService.cpp"
 		$File   "audio\private\voice_wavefile.cpp"
-		$File	"audio\private\MPAFile.cpp"			[$WIN32]
-		$File	"audio\private\MPAHeader.cpp"		[$WIN32]
+		$File	"audio\private\MPAFile.cpp"			[$WINDOWS]
+		$File	"audio\private\MPAHeader.cpp"		[$WINDOWS]
 		$File	"audio\private\CircularBuffer.cpp"
 		
 		$File	"audio\audio_pch.cpp"
@@ -545,22 +401,7 @@ $Project "engine"
 				"audio\private\voice.cpp"					\
 				"audio\private\voice_mixer_controls.cpp"	\
 				"audio\private\voice_record_dsound.cpp"		\
-				"audio\private\voice_sound_engine_interface.cpp"	[$WIN32]
-		{
-			$Configuration
-			{
-				$Compiler
-				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
-					$Create/UsePCHThroughFile		"audio_pch.h"
-					$PrecompiledHeaderFile			"$(IntDir)/audio_pch.pch"
-				}
-			}
-		}
-		
-		// X360 only audio files
-		$File	"audio\private\snd_dev_xaudio.cpp"		\
-				"audio\private\snd_wave_mixer_xma.cpp"	[$X360]		
+				"audio\private\voice_sound_engine_interface.cpp"	[$WINDOWS]
 		{
 			$Configuration
 			{
@@ -585,16 +426,16 @@ $Project "engine"
 			$File	"audio\public\SoundService.h"
 			$File	"audio\public\Voice.h"
 			$File	"audio\public\vox.h"
-			$File	"audio\private\MPAFile.h"							[$WIN32]
-			$File	"audio\private\MPAHeader.h"							[$WIN32]
-			$File	"audio\private\VBRHeader.h"							[$WIN32]
+			$File	"audio\private\MPAFile.h"							[$WINDOWS]
+			$File	"audio\private\MPAHeader.h"							[$WINDOWS]
+			$File	"audio\private\VBRHeader.h"							[$WINDOWS]
 			$File	"audio\private\CircularBuffer.h"
 			$File	"audio\private\EAX.H"
 			$File	"audio\private\snd_channels.h"
 			$File	"audio\private\snd_convars.h"
 			$File	"audio\private\snd_dev_common.h"
-			$File	"audio\private\snd_dev_direct.h"					[$WIN32]
-			$File	"audio\private\snd_dev_wave.h"						[$WIN32]
+			$File	"audio\private\snd_dev_direct.h"					[$WINDOWS]
+			$File	"audio\private\snd_dev_wave.h"						[$WINDOWS]
 			$File	"audio\private\snd_dev_xaudio.h"
 			$File	"audio\private\snd_dma.h"
 			$File	"audio\private\snd_env_fx.h"
@@ -948,7 +789,7 @@ $Project "engine"
 		$File	"cl_txviewpanel.h"
 	}
 
-	$Folder	"Resource Files" [$WIN32]
+	$Folder	"Resource Files" [$WINDOWS]
 	{
 		$File	"halflife.rc"
 		$File	"valve.ico"
@@ -1195,37 +1036,145 @@ $Project "engine"
 		$File	"$SRCDIR\public\xwvfile.h"
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder "Source Files" [$POSIX]
 	{
-		$File	"$SRCDIR\lib\public\appframework.lib"
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\common\vc7\bzip2.lib"
-		$File	"$SRCDIR\lib\public\Dmxloader.lib"
-		$File	"$SRCDIR\lib\common\jpeglib.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\matsys_controls.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
-		$File	"$SRCDIR\lib\common\vc7\ValidateNewValveCDKeyClient.lib"
-		$File	"$SRCDIR\lib\public\vtf.lib"
-		$File	"$SRCDIR\DX9SDK\lib\dsound.lib"
-		$File	"$SRCDIR\DX9SDK\lib\dxguid.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls.lib"
-		$File	"$SRCDIR\lib\common\binkw32.lib"
+		// Source files we don't want.
+		-$File  "EngineSoundClient.cpp"
+		-$File	"$SRCDIR\public\XZip.cpp"
+		-$File	"$SRCDIR\public\XUnzip.cpp"
+		-$File	"cl_steamauth.cpp"
+		-$File	"view.cpp"
+		-$File	"cl_ents_parse.cpp"
+		-$File	"cl_localnetworkbackdoor.cpp"
+		-$File	"cl_parse_event.cpp"
+		-$File	"cl_pred.cpp"
+		-$File	"cl_texturelistpanel.cpp"
+		-$File	"colorcorrectionpanel.cpp"
+		-$File  "saverestore_filesystem.cpp"
+		-$File	"vgui_askconnectpanel.cpp"
+		-$File	"cl_demoactioneditors.cpp"
+		-$File	"cl_demoactionpanel.cpp"
+		-$File	"cl_demosmootherpanel.cpp"
+		-$File	"cl_demoactionmanager.cpp"
+		-$File	"cl_demo.cpp"
+		-$File	"cl_demoaction.cpp"
+		-$File	"cl_demoaction_types.cpp"
+		-$File	"cl_demoeditorpanel.cpp"
+		-$File	"cl_demouipanel.cpp"
+		-$File	"cl_entityreport.cpp"
+		-$File	"cl_pluginhelpers.cpp"
+		-$File	"cl_txviewpanel.cpp"
+		-$File	"lightcache.cpp"
+		-$File	"r_efx.cpp"
+		-$File	"client_pch.cpp"
+		-$File	"host_saverestore.cpp"
+		-$File	"enginetool.cpp"
+		-$File	"matchmakingshared.cpp"
+		-$File	"matchmakinghost.cpp"
+		-$File	"matchmakingclient.cpp"
+		-$File	"matchmakingmigrate.cpp"
+		-$File	"matchmakingqos.cpp"
+		-$File	"buildcubemaps.cpp"
+		-$File	"DebugOverlay.cpp"
+		-$File	"gl_drawlights.cpp"
+		-$File	"gl_lightmap.cpp"
+		-$File	"gl_matsysiface.cpp"
+		-$File	"gl_rlight.cpp"
+		-$File	"gl_rmisc.cpp"
+		-$File	"gl_warp.cpp"
+		-$File	"Overlay.cpp"
+		-$File	"r_areaportal.cpp"
+		-$File	"r_linefile.cpp"
+		-$File	"ShadowMgr.cpp"
+		-$File	"LoadScreenUpdate.cpp"
+		-$File  "$SRCDIR\engine\cl_main.cpp"
+		-$File  "$SRCDIR\engine\cdll_engine_int.cpp"
+		-$File  "$SRCDIR\engine\client.cpp"
+		-$File  "$SRCDIR\engine\gl_rmain.cpp"
+		-$File  "$SRCDIR\engine\cl_rcon.cpp"
+		-$File  "$SRCDIR\engine\gl_screen.cpp"
+		-$File  "$SRCDIR\engine\engsoundservice.cpp"
+		-$File	"bugreporter.cpp"
+		-$File	"sys_getmodes.cpp"
+		-$File	"audio\private\MPAFile.cpp"
+		-$File	"audio\private\MPAHeader.cpp"
+		-$File	"audio\audio_pch.cpp"
+		-$File		\
+					"audio\private\snd_dev_common.cpp"						\
+					"audio\private\snd_dma.cpp"								\
+					"audio\private\snd_dsp.cpp"								\
+					"audio\private\snd_mix.cpp"								\
+					"audio\private\snd_sentence_mixer.cpp"					\
+					"audio\private\snd_wave_data.cpp"						\
+					"audio\private\snd_wave_mixer.cpp"						\
+					"audio\private\snd_wave_mixer_adpcm.cpp"				\
+					"audio\private\snd_wave_source.cpp"						\
+					"audio\private\snd_wave_temp.cpp"						\
+					"audio\private\snd_win.cpp"								\
+					"audio\private\voice_gain.cpp"									
+		-$File	"audio\private\snd_dev_direct.cpp"							\
+					"audio\private\snd_dev_wave.cpp"						\
+					"audio\private\snd_mp3_source.cpp"						\
+					"audio\private\snd_wave_mixer_mp3.cpp"					\
+					"audio\private\VBRHeader.cpp"							\
+					"audio\private\voice.cpp"								\
+					"audio\private\voice_mixer_controls.cpp"				\
+					"audio\private\voice_record_dsound.cpp"					\
+					"audio\private\voice_sound_engine_interface.cpp"
+		-$File	"perfuipanel.cpp"											\
+					"vgui_basepanel.cpp"									\
+					"vgui_baseui_interface.cpp"								\
+					"vgui_budgetpanel.cpp"									\
+					"vgui_DebugSystemPanel.cpp"								\
+					"vgui_drawtreepanel.cpp"								\
+					"vgui_helpers.cpp"										\
+					"vgui_texturebudgetpanel.cpp"							\
+					"vgui_vprofgraphpanel.cpp"								\
+					"vgui_vprofpanel.cpp"									
+		-$File	"$SRCDIR\public\vgui_controls\vgui_controls.cpp"
+		-$File	"$SRCDIR\common\vgui\vgui_basebudgetpanel.cpp"
+		-$File	"$SRCDIR\common\vgui\vgui_budgetbargraphpanel.cpp"
+		-$File	"$SRCDIR\common\vgui\vgui_budgethistorypanel.cpp"
+		-$File	"$SRCDIR\common\vgui\vgui_budgetpanelshared.cpp"
 	}
 
-	$Folder	"Link Libraries" [$X360]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\appframework_360.lib"
-		$File	"$SRCDIR\lib\public\bitmap_360.lib"
-		$File	"$SRCDIR\lib\common\vc7\bzip2_360.lib"
-		$File	"$SRCDIR\lib\public\Dmxloader_360.lib"
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\matsys_controls_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\tier3_360.lib"
-		$File	"$SRCDIR\lib\public\vtf_360.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls_360.lib"
-		$File	"$SRCDIR\lib\common\binkxenon.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		$File	"$SRCDIR\lib\common\vc7\bzip2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\Dmxloader.lib"
+		$File	"$SRCDIR\lib\common\jpeglib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\matsys_controls.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$File	"$SRCDIR\lib\common\vc7\ValidateNewValveCDKeyClient.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf.lib"
+		$File	"$SRCDIR\DX9SDK\lib\dsound.lib"
+		$File	"$SRCDIR\DX9SDK\lib\dxguid.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
+	}
+
+	$Folder "Link Libraries" [$POSIX]
+	{
+		// Libs we do want.
+		$File	"$SRCDIR\lib\linux\FindSteamServers.a"
+		$File	"$SRCDIR\lib\linux\libbz2.a"
+		$File	"$SRCDIR\linux\libsteamvalidateuseridtickets_i486.so"
+		$File	"$SRCDIR\linux\steam_api_i486.so"
+		$File	"$SRCDIR\linux\tier0_i486.so"
+		$File	"$SRCDIR\lib\linux\tier1_486.a"
+		$File	"$SRCDIR\linux\vstdlib_i486.so"
+
+		// Libs we don't want.
+		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		-$File	"$SRCDIR\lib\common\vc7\bzip2.lib"
+		-$File	"$SRCDIR\lib\common\jpeglib.lib"
+		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\matsys_controls.lib"
+		-$File	"$SRCDIR\lib\common\vc7\ValidateNewValveCDKeyClient.lib"
+		-$File  "$SRCDIR\lib\public\steam_api.lib"
+		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf.lib"
+		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
 	}
 }

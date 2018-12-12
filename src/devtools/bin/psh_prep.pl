@@ -183,8 +183,8 @@ for( $shaderCombo = 0; $shaderCombo < $numCombos; $shaderCombo++ )
 	system $cmd || die $!;
 
 	# Make sure a file got generated because sometimes the die above won't happen on compile errors.
-	my $filesize = (stat $tempFilename)[7];
-	if ( !$filesize )
+	my $Filesize = (stat $tempFilename)[7];
+	if ( !$Filesize )
 	{
 		die "Error compiling shader$shaderCombo.o";
 	}
@@ -301,19 +301,19 @@ my @byteCodeSize;
 # Write out the shader object code.
 for( $shaderCombo = 0; $shaderCombo < $numCombos; $shaderCombo++ )
 {
-	my $filename = "shader$shaderCombo\.o";
-	my $filesize = (stat $filename)[7];
+	my $Filename = "shader$shaderCombo\.o";
+	my $Filesize = (stat $Filename)[7];
 
 	$byteCodeStart[$shaderCombo] = tell COMPILEDSHADER;
-	$byteCodeSize[$shaderCombo] = $filesize;
-	open SHADERBYTECODE, "<$filename";
+	$byteCodeSize[$shaderCombo] = $Filesize;
+	open SHADERBYTECODE, "<$Filename";
 	binmode SHADERBYTECODE;
 
 	my $bin;
-	my $numread = read SHADERBYTECODE, $bin, $filesize;
-#	print "filename: $filename numread: $numread filesize: $filesize\n";
+	my $numread = read SHADERBYTECODE, $bin, $Filesize;
+#	print "filename: $Filename numread: $numread filesize: $Filesize\n";
 	close SHADERBYTECODE;
-	unlink $filename;
+	unlink $Filename;
 
 	print COMPILEDSHADER $bin;
 }

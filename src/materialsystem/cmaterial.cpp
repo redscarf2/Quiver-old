@@ -3149,7 +3149,7 @@ void ExpandPatchFile( KeyValues& keyValues, KeyValues &patchKeyValues, const cha
 			else
 			{
 				includeKeyValues->deleteThis();
-				Warning( "Failed to load $include VMT file (%s)\n", pIncludeFileName );
+				Warning( "Failed to load $Include VMT file (%s)\n", pIncludeFileName );
 				Assert( success );
 				return;
 			}
@@ -3158,8 +3158,8 @@ void ExpandPatchFile( KeyValues& keyValues, KeyValues &patchKeyValues, const cha
 		}
 		else
 		{
-			// A patch file without an $include key? Not good...
-			Warning( "VMT patch file has no $include key - invalid!\n" );
+			// A patch file without an $Include key? Not good...
+			Warning( "VMT patch file has no $Include key - invalid!\n" );
 			Assert( pIncludeFileName );
 			break;
 		}

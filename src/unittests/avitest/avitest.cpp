@@ -164,7 +164,7 @@ int CAVITestApp::Main()
 
 	// load the base localization file
 	g_pVGuiLocalize->AddFile( "Resource/valve_%language%.txt" );
-	g_pFullFileSystem->AddSearchPath("platform", "PLATFORM");
+	g_pFullFileSystem->AddSearchPath("core", "PLATFORM");
 	g_pVGuiLocalize->AddFile( "Resource/vgui_%language%.txt");
 
 	// start vgui

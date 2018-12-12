@@ -44,7 +44,7 @@ $Configuration "Release"
 	}
 }
 
-$Project "Vmpi_service_install"
+$Project "vmpi_service_install"
 {
 	$Folder	"Source Files"
 	{
@@ -82,6 +82,6 @@ $Project "Vmpi_service_install"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\vmpi.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vmpi.lib"
 	}
 }

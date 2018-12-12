@@ -3,10 +3,10 @@ require "valve_perl_helpers.pl";
 
 sub ReadInputFile
 {
-	local( $filename ) = shift;
+	local( $Filename ) = shift;
 	local( *INPUT );
 	local( @output );
-	open INPUT, "<$filename" || die;
+	open INPUT, "<$Filename" || die;
 
 	local( $line );
 	local( $linenum ) = 1;
@@ -15,7 +15,7 @@ sub ReadInputFile
 #		print "LINE: $line";
 #		$line =~ s/\n//g;
 #		local( $postfix ) = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
-#		$postfix .= "; LINEINFO($filename)($linenum)\n";
+#		$postfix .= "; LINEINFO($Filename)($linenum)\n";
 		if( $line =~ m/\#include\s+\"(.*)\"/i )
 		{
 			push @output, &ReadInputFile( $1 );

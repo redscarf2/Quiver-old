@@ -7,14 +7,17 @@
  *
  ****************************************************************************/
 
-#ifndef __XACTWB_H__
-#define __XACTWB_H__
+#ifndef __XACT3WB_H__
+#define __XACT3WB_H__
 
 #ifdef _XBOX
-#   include <xauddefs.h>
+#   include <xtl.h>
 #else
 #   include <math.h>
 #endif
+
+#include <audiodefs.h>
+#include <xma2defs.h>
 
 #pragma warning(push)
 #pragma warning(disable:4201)
@@ -32,7 +35,7 @@
 #endif
 
 #define WAVEBANK_HEADER_SIGNATURE               'DNBW'      // WaveBank  RIFF chunk signature
-#define WAVEBANK_HEADER_VERSION                 42          // Current wavebank file version
+#define WAVEBANK_HEADER_VERSION                 44          // Current wavebank file version
 
 #define WAVEBANK_BANKNAME_LENGTH                64          // Wave bank friendly name length, in characters
 #define WAVEBANK_ENTRYNAME_LENGTH               64          // Wave bank entry friendly name length, in characters
@@ -252,34 +255,49 @@ typedef const WAVEBANKHEADER *LPCWAVEBANKHEADER;
 // NOTE: There can be a max of 8 values in the table.
 //
 
-#define MAX_WMA_AVG_BYTES_PER_SEC_ENTRIES 2
+#define MAX_WMA_AVG_BYTES_PER_SEC_ENTRIES 7
 
 static const DWORD aWMAAvgBytesPerSec[] =
 {
     12000,
-    24000
+    24000,
+    4000,
+    6000,
+    8000,
+    20000,
+    2500
 };
-
+// bitrate = entry * 8
 
 //
 // Table for converting WMA Block Align values to the WAVEBANKMINIWAVEFORMAT wBlockAlign field
 // NOTE: There can be a max of 32 values in the table.
 //
 
-#define MAX_WMA_BLOCK_ALIGN_ENTRIES 9
+#define MAX_WMA_BLOCK_ALIGN_ENTRIES 17
 
 static const DWORD aWMABlockAlign[] =
 {
-    929,            // 22050, 1 channel (24000)
-    1487,           // 22050, 2 channel (24000)
-    1280,           // 32000, 1 channel (24000)
-    2230,           // 44100, 1 channel (12000, 24000)
-    8917,           // 44100, 2 channel (24000); 44100, 6 channel (24000)
-    8192,           // 48000, 6 channel (24000); 48000, 2 channel (24000)
-    4459,           // 44100, 2 channel (12000)
-    5945,           // 44100, 6 channel (12000)
-    2304            // 32000, 2 channel (24000)
+    929,
+    1487,
+    1280,
+    2230,
+    8917,
+    8192,
+    4459,
+    5945,
+    2304,
+    1536,
+    1485,
+    1008,
+    2731,
+    4096,
+    6827,
+    5462,
+    1280
 };
+
+struct WAVEBANKENTRY;
 
 //
 // Entry compressed data format
@@ -307,7 +325,15 @@ typedef union WAVEBANKMINIWAVEFORMAT
 
     WORD BitsPerSample() const
     {
-        return wFormatTag == WAVEBANKMINIFORMAT_TAG_WMA ? 16 : (wBitsPerSample == WAVEBANKMINIFORMAT_BITDEPTH_16 ? 16 : 8);
+        if (wFormatTag == WAVEBANKMINIFORMAT_TAG_XMA)
+            return XMA_OUTPUT_SAMPLE_BITS; // First, because most common on Xbox 360
+        if (wFormatTag == WAVEBANKMINIFORMAT_TAG_WMA)
+            return 16;
+        if (wFormatTag == WAVEBANKMINIFORMAT_TAG_ADPCM)
+            return 4; // MSADPCM_BITS_PER_SAMPLE == 4
+
+        // wFormatTag must be WAVEBANKMINIFORMAT_TAG_PCM (2 bits can only represent 4 different values)
+        return (wBitsPerSample == WAVEBANKMINIFORMAT_BITDEPTH_16) ? 16 : 8;
     }
 
     #define ADPCM_MINIWAVEFORMAT_BLOCKALIGN_CONVERSION_OFFSET 22
@@ -315,21 +341,27 @@ typedef union WAVEBANKMINIWAVEFORMAT
     {
         DWORD dwReturn = 0;
 
-        if (wFormatTag == WAVEBANKMINIFORMAT_TAG_WMA)
+        switch (wFormatTag)
         {
-            DWORD dwBlockAlignIndex = wBlockAlign & 0x1F;
-            if (dwBlockAlignIndex < MAX_WMA_BLOCK_ALIGN_ENTRIES)
-            {
-                dwReturn = aWMABlockAlign[dwBlockAlignIndex];
-            }
-        }
-        else if (wFormatTag == WAVEBANKMINIFORMAT_TAG_ADPCM)
-        {
-            dwReturn = (wBlockAlign + ADPCM_MINIWAVEFORMAT_BLOCKALIGN_CONVERSION_OFFSET) * nChannels;
-        }
-        else
-        {
+        case WAVEBANKMINIFORMAT_TAG_PCM:
             dwReturn = wBlockAlign;
+            break;
+
+        case WAVEBANKMINIFORMAT_TAG_XMA:
+            dwReturn = nChannels * XMA_OUTPUT_SAMPLE_BITS / 8;
+            break;
+
+        case WAVEBANKMINIFORMAT_TAG_ADPCM:
+            dwReturn = (wBlockAlign + ADPCM_MINIWAVEFORMAT_BLOCKALIGN_CONVERSION_OFFSET) * nChannels;
+            break;
+
+        case WAVEBANKMINIFORMAT_TAG_WMA:
+            {
+                DWORD dwBlockAlignIndex = wBlockAlign & 0x1F;
+                if (dwBlockAlignIndex < MAX_WMA_BLOCK_ALIGN_ENTRIES)
+                        dwReturn = aWMABlockAlign[dwBlockAlignIndex];
+            }
+            break;
         }
 
         return dwReturn;
@@ -339,19 +371,34 @@ typedef union WAVEBANKMINIWAVEFORMAT
     {
         DWORD dwReturn = 0;
 
-        if (wFormatTag == WAVEBANKMINIFORMAT_TAG_WMA)
+        switch (wFormatTag)
         {
-            DWORD dwBytesPerSecIndex = wBlockAlign >> 5;
-            if (dwBytesPerSecIndex < MAX_WMA_AVG_BYTES_PER_SEC_ENTRIES)
+        case WAVEBANKMINIFORMAT_TAG_PCM:
+        case WAVEBANKMINIFORMAT_TAG_XMA:
+            dwReturn = nSamplesPerSec * wBlockAlign;
+            break;
+
+        case WAVEBANKMINIFORMAT_TAG_ADPCM:
             {
-                dwReturn = aWMAAvgBytesPerSec[dwBytesPerSecIndex];
+                DWORD blockAlign = BlockAlign();
+                DWORD samplesPerAdpcmBlock = AdpcmSamplesPerBlock();
+                dwReturn = blockAlign * nSamplesPerSec / samplesPerAdpcmBlock;
             }
+            break;
+
+        case WAVEBANKMINIFORMAT_TAG_WMA:
+            {
+                DWORD dwBytesPerSecIndex = wBlockAlign >> 5;
+                if (dwBytesPerSecIndex < MAX_WMA_AVG_BYTES_PER_SEC_ENTRIES)
+                    dwReturn = aWMAAvgBytesPerSec[dwBytesPerSecIndex];
+            }
+            break;
         }
 
         return dwReturn;
     }
 
-    DWORD EncodeWMABlockAlign(DWORD dwBlockAlign, DWORD dwAvgBytesPerSec)
+    DWORD EncodeWMABlockAlign(DWORD dwBlockAlign, DWORD dwAvgBytesPerSec) const
     {
         DWORD dwReturn = 0;
         DWORD dwBlockAlignIndex = 0;
@@ -370,6 +417,24 @@ typedef union WAVEBANKMINIWAVEFORMAT
         }
 
         return dwReturn;
+    }
+
+
+    void XMA2FillFormatEx(XMA2WAVEFORMATEX *fmt, WORD blockCount, const struct WAVEBANKENTRY* entry) const;
+
+    DWORD AdpcmSamplesPerBlock() const
+    {
+        DWORD nBlockAlign = (wBlockAlign + ADPCM_MINIWAVEFORMAT_BLOCKALIGN_CONVERSION_OFFSET) * nChannels;
+        return nBlockAlign * 2 / (DWORD)nChannels - 12;
+    }
+
+    void AdpcmFillCoefficientTable(ADPCMWAVEFORMAT *fmt) const
+    {
+        // These are fixed since we are always using MS ADPCM
+        fmt->wNumCoef = 7; /* MSADPCM_NUM_COEFFICIENTS */
+
+        static ADPCMCOEFSET aCoef[7] = { { 256, 0}, {512, -256}, {0,0}, {192,64}, {240,0}, {460, -208}, {392,-232} };
+        memcpy( &fmt->aCoef, aCoef, sizeof(aCoef) );
     }
 
 #endif // __cplusplus
@@ -478,6 +543,49 @@ typedef struct WAVEBANKDATA
 } WAVEBANKDATA, *LPWAVEBANKDATA;
 
 typedef const WAVEBANKDATA *LPCWAVEBANKDATA;
+
+inline void WAVEBANKMINIWAVEFORMAT::XMA2FillFormatEx(XMA2WAVEFORMATEX *fmt, WORD blockCount, const WAVEBANKENTRY* entry) const
+{
+    // Note caller is responsbile for filling out fmt->wfx with other helper functions.
+
+    fmt->NumStreams = (WORD)( (nChannels + 1) / 2 );
+
+    switch (nChannels)
+    {
+        case 1: fmt->ChannelMask =  SPEAKER_MONO; break;
+        case 2: fmt->ChannelMask =  SPEAKER_STEREO; break;
+        case 3: fmt->ChannelMask =  SPEAKER_2POINT1; break;
+        case 4: fmt->ChannelMask =  SPEAKER_QUAD; break;
+        case 5: fmt->ChannelMask =  SPEAKER_4POINT1; break;
+        case 6: fmt->ChannelMask =  SPEAKER_5POINT1; break;
+        case 7: fmt->ChannelMask =  SPEAKER_5POINT1 | SPEAKER_BACK_CENTER; break;
+        case 8: fmt->ChannelMask =  SPEAKER_7POINT1; break;
+        default: fmt->ChannelMask = 0; break;
+    }
+
+    fmt->SamplesEncoded = entry->Duration;
+    fmt->BytesPerBlock = 65536; /* XACT_FIXED_XMA_BLOCK_SIZE */
+
+    fmt->PlayBegin = entry->PlayRegion.dwOffset;
+    fmt->PlayLength = entry->PlayRegion.dwLength;
+
+    if (entry->LoopRegion.dwTotalSamples > 0)
+    {
+        fmt->LoopBegin = entry->LoopRegion.dwStartSample;
+        fmt->LoopLength = entry->LoopRegion.dwTotalSamples;
+        fmt->LoopCount = 0xff; /* XACTLOOPCOUNT_INFINITE */
+    }
+    else
+    {
+        fmt->LoopBegin = 0;
+        fmt->LoopLength = 0;
+        fmt->LoopCount = 0;
+    }
+
+    fmt->EncoderVersion = 4; // XMAENCODER_VERSION_XMA2
+
+    fmt->BlockCount = blockCount;
+}
 
 #ifdef _M_PPCBE
 #pragma bitfield_order(pop)

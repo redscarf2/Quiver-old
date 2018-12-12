@@ -4977,14 +4977,14 @@ void CMapDoc::OnFileRunmap(void)
 	if ((dlg.m_iQBSP) && (m_pGame->szBSP[0] != '\0'))
 	{
 		strcpy(cmd.szRun, "$bsp_exe");
-		sprintf(cmd.szParms, "-game $gamedir %s$path\\$file", dlg.m_iQBSP == 2 ? "-onlyents " : "");
+		sprintf(cmd.szParms, "-game $gamedir %s$path\\$File", dlg.m_iQBSP == 2 ? "-onlyents " : "");
 
 		// check for bsp existence only in quake maps, because
 		// we're using the editor's utilities
 		if (g_pGameConfig->mapformat == mfQuake)
 		{
 			cmd.bEnsureCheck = TRUE;
-			strcpy(cmd.szEnsureFn, "$path\\$file.bsp");
+			strcpy(cmd.szEnsureFn, "$path\\$File.bsp");
 		}
 
 		cmds.Add(cmd);
@@ -4996,7 +4996,7 @@ void CMapDoc::OnFileRunmap(void)
 	if ((dlg.m_iVis) && (m_pGame->szVIS[0] != '\0'))
 	{
 		strcpy(cmd.szRun, "$vis_exe");
-		sprintf(cmd.szParms, "-game $gamedir %s$path\\$file", dlg.m_iVis == 2 ? "-fast " : "");
+		sprintf(cmd.szParms, "-game $gamedir %s$path\\$File", dlg.m_iVis == 2 ? "-fast " : "");
 		cmds.Add(cmd);
 	}
 
@@ -5004,14 +5004,14 @@ void CMapDoc::OnFileRunmap(void)
 	if ((dlg.m_iLight) && (m_pGame->szLIGHT[0] != '\0'))
 	{
 		strcpy(cmd.szRun, "$light_exe");
-		sprintf(cmd.szParms, "%s -game $gamedir %s$path\\$file", dlg.m_bHDRLight ? "-both" : "", dlg.m_iLight == 2 ? "-noextra " : "" );
+		sprintf(cmd.szParms, "%s -game $gamedir %s$path\\$File", dlg.m_bHDRLight ? "-both" : "", dlg.m_iLight == 2 ? "-noextra " : "" );
 		cmds.Add(cmd);
 	}
 
 	// Copy BSP file to BSP directory for running
 	cmd.iSpecialCmd = CCCopyFile;
 	strcpy(cmd.szRun, "Copy File");
-	sprintf(cmd.szParms, "$path\\$file.bsp $bspdir\\$file.bsp");
+	sprintf(cmd.szParms, "$path\\$File.bsp $bspdir\\$File.bsp");
 	cmds.Add(cmd);
 	cmd.iSpecialCmd = 0;
 
@@ -5034,17 +5034,17 @@ void CMapDoc::OnFileRunmap(void)
 
 			//if (strSteamAppID.GetLength() != 0)
 			//{
-			//	sprintf(cmd.szParms, "-applaunch %s -game $gamedir %s +map $file", strSteamAppID, dlg.m_strQuakeParms);
+			//	sprintf(cmd.szParms, "-applaunch %s -game $gamedir %s +map $File", strSteamAppID, dlg.m_strQuakeParms);
 			//}
 			//else
 			//{
-			//	sprintf(cmd.szParms, "-game $moddir %s +map $file", dlg.m_strQuakeParms);
+			//	sprintf(cmd.szParms, "-game $moddir %s +map $File", dlg.m_strQuakeParms);
 			//}
 		//}
 		//else
 		{
 			strcpy(cmd.szRun, "$game_exe");
-			sprintf(cmd.szParms, "-game $gamedir %s +map $file", dlg.m_strQuakeParms);
+			sprintf(cmd.szParms, "-game $gamedir %s +map $File", dlg.m_strQuakeParms);
 		}
 
 		cmds.Add(cmd);

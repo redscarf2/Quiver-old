@@ -438,7 +438,7 @@ sub nextvpcline
 			$macros{$1}=$2;
 			return &nextvpcline;
 		}
-		s/\[\$WIN32\]//g;
+		s/\[\$WINDOWS\]//g;
 		return &nextvpcline if (/\[\$X360\]/);
 		if ( /^\s*\$include\s+\"(.*)\"/i)
 		{

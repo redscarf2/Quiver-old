@@ -964,23 +964,6 @@ const char *COM_DXLevelToString( int dxlevel )
 		{
 		case 0:
 			return "default";
-		case 60:
-			return "6.0";
-		case 70:
-			return "7.0";
-		case 80:
-			return "8.0";
-		case 81:
-			return "8.1";
-		case 82:
-			if( bHalfPrecision )
-			{
-				return "8.1 with some 9.0 (half-precision)";
-			}
-			else
-			{
-				return "8.1 with some 9.0 (full-precision)";
-			}
 		case 90:
 			if( bHalfPrecision )
 			{
@@ -990,6 +973,15 @@ const char *COM_DXLevelToString( int dxlevel )
 			{
 				return "9.0 (full-precision)";
 			}
+		case 10:
+			if( bHalfPrecision )
+			{
+				return "10.0 (half-precision)";
+			}
+			else
+			{
+				return "10.0 (full-precision)";
+			}
 		default:
 			return "UNKNOWN";
 		}
@@ -998,23 +990,6 @@ const char *COM_DXLevelToString( int dxlevel )
 	{
 		switch( dxlevel )
 		{
-		case 60:
-			return "gamemode - 6.0";
-		case 70:
-			return "gamemode - 7.0";
-		case 80:
-			return "gamemode - 8.0";
-		case 81:
-			return "gamemode - 8.1";
-		case 82:
-			if( bHalfPrecision )
-			{
-				return "gamemode - 8.1 with some 9.0 (half-precision)";
-			}
-			else
-			{
-				return "gamemode - 8.1 with some 9.0 (full-precision)";
-			}
 		case 90:
 			if( bHalfPrecision )
 			{
@@ -1023,6 +998,15 @@ const char *COM_DXLevelToString( int dxlevel )
 			else
 			{
 				return "gamemode - 9.0 (full-precision)";
+			}
+		case 10:
+			if( bHalfPrecision )
+			{
+				return "gamemode - 10.0 (half-precision)";
+			}
+			else
+			{
+				return "gamemode - 10.0 (full-precision)";
 			}
 		default:
 			return "gamemode";

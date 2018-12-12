@@ -19,17 +19,53 @@
 
 #include "comdecl.h"        // For DEFINE_CLSID and DEFINE_IID
 
-// XAudioFX 2.0 (March 2008 SDK)
+// XAudio 2.0 (March 2008 SDK)
 //DEFINE_CLSID(AudioVolumeMeter, C0C56F46, 29B1, 44E9, 99, 39, A3, 2C, E8, 68, 67, E2);
 //DEFINE_CLSID(AudioVolumeMeter_Debug, C0C56F46, 29B1, 44E9, 99, 39, A3, 2C, E8, 68, 67, DB);
 //DEFINE_CLSID(AudioReverb, 6F6EA3A9, 2CF5, 41CF, 91, C1, 21, 70, B1, 54, 00, 63);
 //DEFINE_CLSID(AudioReverb_Debug, 6F6EA3A9, 2CF5, 41CF, 91, C1, 21, 70, B1, 54, 00, DB);
 
-DEFINE_CLSID(AudioVolumeMeter, c1e3f122, a2ea, 442c, 85, 4f, 20, d9, 8f, 83, 57, a1);
-DEFINE_CLSID(AudioVolumeMeter_Debug, 6d97a461, b02d, 48ae, b5, 43, 82, bc, 35, fd, fa, e2);
-DEFINE_CLSID(AudioReverb, f4769300, b949, 4df9, b3, 33, 00, d3, 39, 32, e9, a6);
-DEFINE_CLSID(AudioReverb_Debug, aea2cabc, 8c7c, 46aa, ba, 44, 0e, 6d, 75, 88, a1, f2);
+// XAudio 2.1 (June 2008 SDK)
+//DEFINE_CLSID(AudioVolumeMeter, c1e3f122, a2ea, 442c, 85, 4f, 20, d9, 8f, 83, 57, a1);
+//DEFINE_CLSID(AudioVolumeMeter_Debug, 6d97a461, b02d, 48ae, b5, 43, 82, bc, 35, fd, fa, e2);
+//DEFINE_CLSID(AudioReverb, f4769300, b949, 4df9, b3, 33, 00, d3, 39, 32, e9, a6);
+//DEFINE_CLSID(AudioReverb_Debug, aea2cabc, 8c7c, 46aa, ba, 44, 0e, 6d, 75, 88, a1, f2);
 
+// XAudio 2.2 (August 2008 SDK)
+//DEFINE_CLSID(AudioVolumeMeter, f5ca7b34, 8055, 42c0, b8, 36, 21, 61, 29, eb, 7e, 30);
+//DEFINE_CLSID(AudioVolumeMeter_Debug, f796f5f7, 6059, 4a9f, 98, 2d, 61, ee, c2, ed, 67, ca);
+//DEFINE_CLSID(AudioReverb, 629cf0de, 3ecc, 41e7, 99, 26, f7, e4, 3e, eb, ec, 51);
+//DEFINE_CLSID(AudioReverb_Debug, 4aae4299, 3260, 46d4, 97, cc, 6c, c7, 60, c8, 53, 29);
+
+// XAudio 2.3 (November 2008 SDK)
+//DEFINE_CLSID(AudioVolumeMeter, e180344b, ac83, 4483, 95, 9e, 18, a5, c5, 6a, 5e, 19);
+//DEFINE_CLSID(AudioVolumeMeter_Debug, 922a0a56, 7d13, 40ae, a4, 81, 3c, 6c, 60, f1, 14, 01);
+//DEFINE_CLSID(AudioReverb, 9cab402c, 1d37, 44b4, 88, 6d, fa, 4f, 36, 17, 0a, 4c);
+//DEFINE_CLSID(AudioReverb_Debug, eadda998, 3be6, 4505, 84, be, ea, 06, 36, 5d, b9, 6b);
+
+// XAudio 2.4 (March 2009 SDK)
+//DEFINE_CLSID(AudioVolumeMeter, c7338b95, 52b8, 4542, aa, 79, 42, eb, 01, 6c, 8c, 1c);
+//DEFINE_CLSID(AudioVolumeMeter_Debug, 524bd872, 5c0b, 4217, bd, b8, 0a, 86, 81, 83, 0b, a5);
+//DEFINE_CLSID(AudioReverb, 8bb7778b, 645b, 4475, 9a, 73, 1d, e3, 17, 0b, d3, af);
+//DEFINE_CLSID(AudioReverb_Debug, da7738a2, cd0c, 4367, 9a, ac, d7, ea, d7, c6, 4f, 98);
+
+// XAudio 2.5 (March 2009 SDK)
+//DEFINE_CLSID(AudioVolumeMeter, 2139e6da, c341, 4774, 9a, c3, b4, e0, 26, 34, 7f, 64);
+//DEFINE_CLSID(AudioVolumeMeter_Debug, a5cc4e13, ca00, 416b, a6, ee, 49, fe, e7, b5, 43, d0);
+//DEFINE_CLSID(AudioReverb, d06df0d0, 8518, 441e, 82, 2f, 54, 51, d5, c5, 95, b8);
+//DEFINE_CLSID(AudioReverb_Debug, 613604ec, 304c, 45ec, a4, ed, 7a, 1c, 61, 2e, 9e, 72);
+
+// XAudio 2.6 (February 2010 SDK)
+//DEFINE_CLSID(AudioVolumeMeter, e48c5a3f, 93ef, 43bb, a0, 92, 2c, 7c, eb, 94, 6f, 27);
+//DEFINE_CLSID(AudioVolumeMeter_Debug, 9a9eaef7, a9e0, 4088, 9b, 1b, 9c, a0, 3a, 1a, ec, d4);
+//DEFINE_CLSID(AudioReverb, cecec95a, d894, 491a, be, e3, 5e, 10, 6f, b5, 9f, 2d);
+//DEFINE_CLSID(AudioReverb_Debug, 99a1c72e, 364c, 4c1b, 96, 23, fd, 5c, 8a, bd, 90, c7);
+
+// XAudio 2.7 (June 2010 SDK)
+DEFINE_CLSID(AudioVolumeMeter, cac1105f, 619b, 4d04, 83, 1a, 44, e1, cb, f1, 2d, 57);
+DEFINE_CLSID(AudioVolumeMeter_Debug, 2d9a0f9c, e67b, 4b24, ab, 44, 92, b3, e7, 70, c0, 20);
+DEFINE_CLSID(AudioReverb, 6a93130e, 1d53, 41d1, a9, cf, e7, 58, 80, 0b, b1, 79);
+DEFINE_CLSID(AudioReverb_Debug, c4f82dd4, cb4e, 4ce1, 8b, db, ee, 32, d4, 19, 82, 69);
 
 // Ignore the rest of this header if only the GUID definitions were requested
 #ifndef GUID_DEFS_ONLY
@@ -68,22 +104,22 @@ DEFINE_CLSID(AudioReverb_Debug, aea2cabc, 8c7c, 46aa, ba, 44, 0e, 6d, 75, 88, a1
 
 #ifdef _XBOX
 
-    STDAPI CreateAudioVolumeMeter(IUnknown** ppApo);
-    STDAPI CreateAudioReverb(IUnknown** ppApo);
+    STDAPI CreateAudioVolumeMeter(__deref_out IUnknown** ppApo);
+    STDAPI CreateAudioReverb(__deref_out IUnknown** ppApo);
 
-    __inline HRESULT XAudio2CreateVolumeMeter(IUnknown** ppApo, UINT32 /*Flags*/ DEFAULT(0))
+    __inline HRESULT XAudio2CreateVolumeMeter(__deref_out IUnknown** ppApo, UINT32 /*Flags*/ DEFAULT(0))
     {
         return CreateAudioVolumeMeter(ppApo);
     }
 
-    __inline HRESULT XAudio2CreateReverb(IUnknown** ppApo, UINT32 /*Flags*/ DEFAULT(0))
+    __inline HRESULT XAudio2CreateReverb(__deref_out IUnknown** ppApo, UINT32 /*Flags*/ DEFAULT(0))
     {
         return CreateAudioReverb(ppApo);
     }
 
 #else // Windows
 
-    __inline HRESULT XAudio2CreateVolumeMeter(IUnknown** ppApo, UINT32 Flags DEFAULT(0))
+    __inline HRESULT XAudio2CreateVolumeMeter(__deref_out IUnknown** ppApo, UINT32 Flags DEFAULT(0))
     {
         #ifdef __cplusplus
             return CoCreateInstance((Flags & XAUDIO2FX_DEBUG) ? __uuidof(AudioVolumeMeter_Debug)
@@ -96,7 +132,7 @@ DEFINE_CLSID(AudioReverb_Debug, aea2cabc, 8c7c, 46aa, ba, 44, 0e, 6d, 75, 88, a1
         #endif
     }
 
-    __inline HRESULT XAudio2CreateReverb(IUnknown** ppApo, UINT32 Flags DEFAULT(0))
+    __inline HRESULT XAudio2CreateReverb(__deref_out IUnknown** ppApo, UINT32 Flags DEFAULT(0))
     {
         #ifdef __cplusplus
             return CoCreateInstance((Flags & XAUDIO2FX_DEBUG) ? __uuidof(AudioReverb_Debug)
@@ -143,9 +179,15 @@ typedef struct XAUDIO2FX_VOLUMEMETER_LEVELS
  * The reverb supports only FLOAT32 audio with the following channel
  * configurations:
  *     Input: Mono   Output: Mono
+ *     Input: Mono   Output: 5.1
  *     Input: Stereo Output: Stereo
  *     Input: Stereo Output: 5.1
  * The framerate must be within [20000, 48000] Hz.
+ *
+ * When using mono input, delay filters associated with the right channel
+ * are not executed.  In this case, parameters such as PositionRight and
+ * PositionMatrixRight have no effect.  This also means the reverb uses
+ * less CPU when hosted in a mono submix.
  *
  **************************************************************************/
 
@@ -156,7 +198,7 @@ typedef struct XAUDIO2FX_VOLUMEMETER_LEVELS
 
 typedef struct XAUDIO2FX_REVERB_PARAMETERS
 {
-    // Original / processed signal ratio
+    // ratio of wet (processed) signal to dry (original) signal
     float WetDryMix;            // [0, 100] (percentage)
 
     // Delay times
@@ -166,9 +208,9 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
 
     // Indexed parameters
     BYTE PositionLeft;          // [0, 30] no units
-    BYTE PositionRight;         // [0, 30] no units
+    BYTE PositionRight;         // [0, 30] no units, ignored when configured to mono
     BYTE PositionMatrixLeft;    // [0, 30] no units
-    BYTE PositionMatrixRight;   // [0, 30] no units
+    BYTE PositionMatrixRight;   // [0, 30] no units, ignored when configured to mono
     BYTE EarlyDiffusion;        // [0, 15] no units
     BYTE LateDiffusion;         // [0, 15] no units
     BYTE LowEQGain;             // [0, 12] no units
@@ -192,13 +234,13 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
 #define XAUDIO2FX_REVERB_MIN_WET_DRY_MIX            0.0f
 #define XAUDIO2FX_REVERB_MIN_REFLECTIONS_DELAY      0
 #define XAUDIO2FX_REVERB_MIN_REVERB_DELAY           0
+#define XAUDIO2FX_REVERB_MIN_REAR_DELAY             0
 #define XAUDIO2FX_REVERB_MIN_POSITION               0
 #define XAUDIO2FX_REVERB_MIN_DIFFUSION              0
 #define XAUDIO2FX_REVERB_MIN_LOW_EQ_GAIN            0
 #define XAUDIO2FX_REVERB_MIN_LOW_EQ_CUTOFF          0
 #define XAUDIO2FX_REVERB_MIN_HIGH_EQ_GAIN           0
 #define XAUDIO2FX_REVERB_MIN_HIGH_EQ_CUTOFF         0
-#define XAUDIO2FX_REVERB_MIN_REAR_DELAY             0
 #define XAUDIO2FX_REVERB_MIN_ROOM_FILTER_FREQ       20.0f
 #define XAUDIO2FX_REVERB_MIN_ROOM_FILTER_MAIN       -100.0f
 #define XAUDIO2FX_REVERB_MIN_ROOM_FILTER_HF         -100.0f
@@ -211,13 +253,13 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
 #define XAUDIO2FX_REVERB_MAX_WET_DRY_MIX            100.0f
 #define XAUDIO2FX_REVERB_MAX_REFLECTIONS_DELAY      300
 #define XAUDIO2FX_REVERB_MAX_REVERB_DELAY           85
+#define XAUDIO2FX_REVERB_MAX_REAR_DELAY             5
 #define XAUDIO2FX_REVERB_MAX_POSITION               30
 #define XAUDIO2FX_REVERB_MAX_DIFFUSION              15
 #define XAUDIO2FX_REVERB_MAX_LOW_EQ_GAIN            12
 #define XAUDIO2FX_REVERB_MAX_LOW_EQ_CUTOFF          9
 #define XAUDIO2FX_REVERB_MAX_HIGH_EQ_GAIN           8
 #define XAUDIO2FX_REVERB_MAX_HIGH_EQ_CUTOFF         14
-#define XAUDIO2FX_REVERB_MAX_REAR_DELAY             5
 #define XAUDIO2FX_REVERB_MAX_ROOM_FILTER_FREQ       20000.0f
 #define XAUDIO2FX_REVERB_MAX_ROOM_FILTER_MAIN       0.0f
 #define XAUDIO2FX_REVERB_MAX_ROOM_FILTER_HF         0.0f
@@ -229,6 +271,7 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
 #define XAUDIO2FX_REVERB_DEFAULT_WET_DRY_MIX        100.0f
 #define XAUDIO2FX_REVERB_DEFAULT_REFLECTIONS_DELAY  5
 #define XAUDIO2FX_REVERB_DEFAULT_REVERB_DELAY       5
+#define XAUDIO2FX_REVERB_DEFAULT_REAR_DELAY         5
 #define XAUDIO2FX_REVERB_DEFAULT_POSITION           6
 #define XAUDIO2FX_REVERB_DEFAULT_POSITION_MATRIX    27
 #define XAUDIO2FX_REVERB_DEFAULT_EARLY_DIFFUSION    8
@@ -237,7 +280,6 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
 #define XAUDIO2FX_REVERB_DEFAULT_LOW_EQ_CUTOFF      4
 #define XAUDIO2FX_REVERB_DEFAULT_HIGH_EQ_GAIN       8
 #define XAUDIO2FX_REVERB_DEFAULT_HIGH_EQ_CUTOFF     4
-#define XAUDIO2FX_REVERB_DEFAULT_REAR_DELAY         5
 #define XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_FREQ   5000.0f
 #define XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_MAIN   0.0f
 #define XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_HF     0.0f
@@ -252,7 +294,7 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
 
 typedef struct XAUDIO2FX_REVERB_I3DL2_PARAMETERS
 {
-    // Original / processed signal ratio
+    // ratio of wet (processed) signal to dry (original) signal
     float WetDryMix;            // [0, 100] (percentage)
 
     // Standard I3DL2 parameters
@@ -275,10 +317,13 @@ typedef struct XAUDIO2FX_REVERB_I3DL2_PARAMETERS
 
 __inline void ReverbConvertI3DL2ToNative
 (
-    const XAUDIO2FX_REVERB_I3DL2_PARAMETERS* pI3DL2,
-    XAUDIO2FX_REVERB_PARAMETERS* pNative
+    __in const XAUDIO2FX_REVERB_I3DL2_PARAMETERS* pI3DL2,
+    __out XAUDIO2FX_REVERB_PARAMETERS* pNative
 )
 {
+    float reflectionsDelay;
+    float reverbDelay;
+
     // RoomRolloffFactor is ignored
 
     // These parameters have no equivalent in I3DL2
@@ -297,23 +342,22 @@ __inline void ReverbConvertI3DL2ToNative
 
     if (pI3DL2->DecayHFRatio >= 1.0f)
     {
-        pNative->HighEQGain = 8;
         INT32 index = (INT32)(-4.0 * log10(pI3DL2->DecayHFRatio));
-        if (index < -8)
-        index = -8;
-        pNative->LowEQGain = BYTE((index < 0) ? index + 8 : 8);
+        if (index < -8) index = -8;
+        pNative->LowEQGain = (BYTE)((index < 0) ? index + 8 : 8);
+        pNative->HighEQGain = 8;
         pNative->DecayTime = pI3DL2->DecayTime * pI3DL2->DecayHFRatio;
     }
     else
     {
-        pNative->LowEQGain = 8;
         INT32 index = (INT32)(4.0 * log10(pI3DL2->DecayHFRatio));
         if (index < -8) index = -8;
-        pNative->HighEQGain = BYTE((index < 0) ? index + 8 : 8);
+        pNative->LowEQGain = 8;
+        pNative->HighEQGain = (BYTE)((index < 0) ? index + 8 : 8);
         pNative->DecayTime = pI3DL2->DecayTime;
     }
 
-    float reflectionsDelay = pI3DL2->ReflectionsDelay * 1000.0f;
+    reflectionsDelay = pI3DL2->ReflectionsDelay * 1000.0f;
     if (reflectionsDelay >= XAUDIO2FX_REVERB_MAX_REFLECTIONS_DELAY) // 300
     {
         reflectionsDelay = (float)(XAUDIO2FX_REVERB_MAX_REFLECTIONS_DELAY - 1);
@@ -324,7 +368,7 @@ __inline void ReverbConvertI3DL2ToNative
     }
     pNative->ReflectionsDelay = (UINT32)reflectionsDelay;
 
-    float reverbDelay = pI3DL2->ReverbDelay * 1000.0f;
+    reverbDelay = pI3DL2->ReverbDelay * 1000.0f;
     if (reverbDelay >= XAUDIO2FX_REVERB_MAX_REVERB_DELAY) // 85
     {
         reverbDelay = (float)(XAUDIO2FX_REVERB_MAX_REVERB_DELAY - 1);
@@ -378,48 +422,6 @@ __inline void ReverbConvertI3DL2ToNative
 #define XAUDIO2FX_I3DL2_PRESET_MEDIUMHALL      {100, -1000, -600,0.0f, 1.80f,0.70f, -1300,0.015f,  -800,0.030f,100.0f,100.0f,5000.0f}
 #define XAUDIO2FX_I3DL2_PRESET_LARGEHALL       {100, -1000, -600,0.0f, 1.80f,0.70f, -2000,0.030f, -1400,0.060f,100.0f,100.0f,5000.0f}
 #define XAUDIO2FX_I3DL2_PRESET_PLATE           {100, -1000, -200,0.0f, 1.30f,0.90f,     0,0.002f,     0,0.010f,100.0f, 75.0f,5000.0f}
-
-
-/**************************************************************************
- *
- * Object type values used by XAudio2FX for internal memory allocations.
- * The IXAudio2::GetPerformanceData method writes per-object-type memory
- * usage details to the debugger.  By referring to the values below, the
- * user can see which effects are using the most memory.
- *
- **************************************************************************/
-
-enum XAudio2FXObjectType
-{
-    eXAudio2FXObjectType_DSP = 10,  // Mixing, SRC and other basic DSP
-    eXAudio2FXObjectType_Reverb,    // Reverb effect data
-    eXAudio2FXObjectType_Meter      // Volume meter data
-};
-
-#ifdef _XBOX
-
-    #define MAKE_XAUDIO2FX_ALLOC_ATTRIBUTES(type) MAKE_XALLOC_ATTRIBUTES  \
-    (                                                                     \
-        eXAudio2FXObjectType_ ## type,  /* ObjectType */                  \
-        FALSE,                          /* HeapTracksAttributes */        \
-        FALSE,                          /* MustSucceed */                 \
-        FALSE,                          /* FixedSize */                   \
-        eXALLOCAllocatorId_XAUDIO2,     /* AllocatorId */                 \
-        XALLOC_ALIGNMENT_DEFAULT,       /* Alignment */                   \
-        XALLOC_MEMPROTECT_READWRITE,    /* MemoryProtect */               \
-        FALSE,                          /* ZeroInitialize */              \
-        XALLOC_MEMTYPE_HEAP             /* MemoryType */                  \
-    )
-
-#else // Windows
-
-    #define MAKE_XAUDIO2FX_ALLOC_ATTRIBUTES(type) DWORD(eXAudio2FXObjectType_ ## type)
-
-#endif
-
-#define X2FXDSP     MAKE_XAUDIO2FX_ALLOC_ATTRIBUTES(DSP)
-#define X2FXREVERB  MAKE_XAUDIO2FX_ALLOC_ATTRIBUTES(Reverb)
-#define X2FXMETER   MAKE_XAUDIO2FX_ALLOC_ATTRIBUTES(Meter)
 
 
 // Undo the #pragma pack(push, 1) at the top of this file

@@ -31,6 +31,6 @@ $Project "Testprocess"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
 	}
 }

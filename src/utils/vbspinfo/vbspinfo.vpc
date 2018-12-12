@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"
 
@@ -23,7 +23,7 @@ $Configuration
 	}
 }
 
-$Project "Vbspinfo"
+$Project "vbspinfo"
 {
 	$Folder	"Source Files"
 	{
@@ -53,7 +53,7 @@ $Project "Vbspinfo"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
 	}
 }

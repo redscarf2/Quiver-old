@@ -653,7 +653,7 @@ int CQueuedLoader::CFileJobsLessFunc::GetLayoutOrderForFilename( const char *pFi
 			order = 0;
 		}
 	}
-	else if ( V_stristr( pFilename, "\\platform\\zip" ) )
+	else if ( V_stristr( pFilename, "\\core\\zip" ) )
 	{
 		order = 2;
 	}

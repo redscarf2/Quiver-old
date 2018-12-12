@@ -5,25 +5,18 @@
 //-----------------------------------------------------------------------------
 
 $Macro OUTBINNAME	"server"
-$Macro OUTBINDIR	"$SRCDIR\..\game\$GAMENAME\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\$GAMENAME\bin\$PLATSUBDIR"
 
 $MacroRequired "GAMENAME"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
-$Linux
-{
-	-$File	"$SRCDIR\lib\public\steam_api.lib"
-	$File	"$SRCDIR\linux\steam_api_i486.so"
-}
-
-
 $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory		".\Debug_$GAMENAME"			[$WIN32]
-		$IntermediateDirectory	".\Debug_$GAMENAME"			[$WIN32]
+		$OutputDirectory		".\Debug_$GAMENAME"			[$WINDOWS]
+		$IntermediateDirectory	".\Debug_$GAMENAME"			[$WINDOWS]
 	}
 }
 
@@ -31,8 +24,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory		".\Release_$GAMENAME"		[$WIN32]
-		$IntermediateDirectory	".\Release_$GAMENAME"		[$WIN32]
+		$OutputDirectory		".\Release_$GAMENAME"		[$WINDOWS]
+		$IntermediateDirectory	".\Release_$GAMENAME"		[$WINDOWS]
 	}
 }
 
@@ -48,7 +41,7 @@ $Configuration
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE winmm.lib" [$WIN32]
+		$AdditionalDependencies			"$BASE winmm.lib" [$WINDOWS]
 	}
 }
 
@@ -383,7 +376,7 @@ $Project
 		$File	"h_ai.cpp"
 		$File	"hierarchy.cpp"
 		$File	"hierarchy.h"
-		$file	"$SRCDIR\common\hl2orange.spa.h"
+		$File	"$SRCDIR\common\hl2orange.spa.h"
 		$File	"hltvdirector.cpp"
 		$File	"hltvdirector.h"
 		$File	"$SRCDIR\game\shared\hintmessage.cpp"
@@ -979,13 +972,19 @@ $Project
 		$File	"toolframework_server.h"
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\choreoobjects.lib"
-		$File	"$SRCDIR\lib\public\dmxloader.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\particles.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\choreoobjects.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmxloader.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\particles.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+	}
+	
+	$Folder "Link Libraries" [$POSIX]
+	{
+		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\steam_api.lib"
+		$File	"$SRCDIR\linux\steam_api_i486.so"
 	}
 }

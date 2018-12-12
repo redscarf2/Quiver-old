@@ -713,9 +713,17 @@ int TextureCompile_Main( int argc, char* argv[] )
 
 		// DIE DIE KILL KILL AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		char path[MAX_PATH];
-		sprintf( path, "%s%s\\bin\\server.dll", g_WorkerTempPath, g_pGameDir + 3 ); // hack hack
+#ifdef WIN32
+		sprintf( path, "%s%s\\bin\\win32\\server.dll", g_WorkerTempPath, g_pGameDir + 3 ); // hack hack
+#elif WIN64
+		sprintf(path, "%s%s\\bin\\win64\\server.dll", g_WorkerTempPath, g_pGameDir + 3); // hack hack
+#endif
 		TouchFile( path );
-		sprintf( path, "%s%s\\bin\\client.dll", g_WorkerTempPath, g_pGameDir + 3 );// hack hack
+#ifdef WIN32
+		sprintf( path, "%s%s\\bin\\win32\\client.dll", g_WorkerTempPath, g_pGameDir + 3 );// hack hack
+#elif WIN64
+		sprintf(path, "%s%s\\bin\\win64\\client.dll", g_WorkerTempPath, g_pGameDir + 3);// hack hack
+#endif
 		TouchFile( path );
 
 		Worker_GetLocalCopyOfBinaries();

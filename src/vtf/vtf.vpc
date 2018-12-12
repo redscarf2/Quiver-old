@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTLIBDIR	"$SRCDIR\lib\public"
+$Macro OUTLIBDIR	"$SRCDIR\lib\public\$PLATSUBDIR"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
@@ -18,7 +18,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include"			[$WIN32]
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include"			[$WINDOWS]
 		$PreprocessorDefinitions		"$BASE;fopen=dont_use_fopen"
 	}
 }
@@ -28,14 +28,14 @@ $Project "vtf"
 	$Folder	"Source Files"
 	{
 		$File	"convert_x360.cpp"
-		$File	"s3tc_decode.cpp" 	[$WIN32]
+		$File	"s3tc_decode.cpp" 	[$WINDOWS]
 		$File	"vtf.cpp"
 	}
 
 	$Folder	"Public Header Files"
 	{	
-//		$File	"$SRCDIR\public\s3_intrf.h"	[$WIN32]
-		$File	"s3tc_decode.h"				[$WIN32]
+//		$File	"$SRCDIR\public\s3_intrf.h"	[$WINDOWS]
+		$File	"s3tc_decode.h"				[$WINDOWS]
 		$File	"$SRCDIR\Public\vtf\vtf.h"
 	}
 

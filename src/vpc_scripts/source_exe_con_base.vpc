@@ -1,5 +1,5 @@
 $Include "$SRCDIR\vpc_scripts\platform_dirs.vpc"
-$include "$SRCDIR\vpc_scripts\source_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_base.vpc"
 
 
 $Include "$SRCDIR\vpc_scripts\source_exe_con_win32_base.vpc" [$WIN32 || $WIN64]

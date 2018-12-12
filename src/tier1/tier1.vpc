@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$macro OUTLIBDIR	"$SRCDIR\lib\public"
+$Macro OUTLIBDIR	"$SRCDIR\lib\public\$PLATSUBDIR"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
@@ -21,7 +21,7 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;TIER1_STATIC_LIB"
 	}
 
-	$Librarian [$WIN32]
+	$Librarian [$WINDOWS]
 	{
 		$AdditionalDependencies			"Rpcrt4.lib"
 	}
@@ -113,7 +113,7 @@ $Project "tier1"
 		$File	"$SRCDIR\public\tier1\strtools.h"
 		$File	"$SRCDIR\public\tier1\tier1.h"
 		$File	"$SRCDIR\public\tier1\tokenreader.h"
-		$File	"$SRCDIR\public\tier1\uniqueid.h"				[$WIN32]
+		$File	"$SRCDIR\public\tier1\uniqueid.h"				[$WINDOWS]
 		$File	"$SRCDIR\public\tier1\utlbidirectionalset.h"
 		$File	"$SRCDIR\public\tier1\utlblockmemory.h"
 		$File	"$SRCDIR\public\tier1\utlbuffer.h"
@@ -136,6 +136,6 @@ $Project "tier1"
 		$File	"$SRCDIR\public\tier1\UtlStringMap.h"
 		$File	"$SRCDIR\public\tier1\utlsymbol.h"
 		$File	"$SRCDIR\public\tier1\utlvector.h"
-		//$File	"$SRCDIR\common\xbox\xboxstubs.h"				[$WIN32||$LINUX]
+		//$File	"$SRCDIR\common\xbox\xboxstubs.h"				[$WINDOWS||$LINUX]
 	}
 }

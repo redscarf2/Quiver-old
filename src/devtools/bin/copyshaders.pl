@@ -5,12 +5,12 @@ use String::CRC32;
 
 sub ReadInputFileWithIncludes
 {
-	local( $filename ) = shift;
+	local( $Filename ) = shift;
 
 	local( *INPUT );
 	local( $output );
 
-	open INPUT, "<$filename" || die;
+	open INPUT, "<$Filename" || die;
 
 	local( $line );
 	local( $linenum ) = 1;
@@ -32,15 +32,15 @@ sub ReadInputFileWithIncludes
 
 sub PatchCRC
 {
-	my $filename = shift;
+	my $Filename = shift;
 	my $crc = shift;
-#	print STDERR "PatchCRC( $filename, $crc )\n";
+#	print STDERR "PatchCRC( $Filename, $crc )\n";
 	local( *FP );
-	open FP, "+<$filename" || die;
+	open FP, "+<$Filename" || die;
 	binmode( FP );
 	seek FP, 6 * 4, 0;
 	my $uInt = "I";
-	if( $filename =~ m/360/ )
+	if( $Filename =~ m/360/ )
 	{
 		$uInt = "N";
 	}
@@ -152,7 +152,7 @@ while( $src = <TXTFILE> )
 
 		my $dir = $dst;
 		$dir =~ s,([^/\\]*$),,;  # rip the filename off the end
-		my $filename = $1;
+		my $Filename = $1;
 
 		# create the target directory if it doesn't exist
 		if( !$dstexists )

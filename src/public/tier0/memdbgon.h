@@ -183,10 +183,10 @@ inline wchar_t *MemAlloc_WcStrDup(const wchar_t *pString, const char *pFileName,
 #undef _wcsdup
 #undef wcsdup
 
-#define _strdup(s) MemAlloc_StrDup(s)
+/*#define _strdup(s) MemAlloc_StrDup(s)
 #define strdup(s)  MemAlloc_StrDup(s)
 #define _wcsdup(s) MemAlloc_WcStrDup(s)
-#define wcsdup(s)  MemAlloc_WcStrDup(s)
+#define wcsdup(s)  MemAlloc_WcStrDup(s)*/
 
 // Make sure we don't define strdup twice
 #if !defined(MEMDBGON_H)

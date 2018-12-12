@@ -136,7 +136,7 @@ bool FileSystem_Init_Normal( const char *pFilename, FSInitType_t initType, bool 
 			return false;
 
 		g_pFullFileSystem->RemoveAllSearchPaths();
-		g_pFullFileSystem->AddSearchPath( "../platform", "PLATFORM" );
+		g_pFullFileSystem->AddSearchPath( "../core", "PLATFORM" );
 		g_pFullFileSystem->AddSearchPath( ".", "GAME" );
 
 		g_pFileSystem = g_pFullFileSystem;

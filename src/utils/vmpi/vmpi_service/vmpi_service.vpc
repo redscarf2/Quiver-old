@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_base.vpc"
 
@@ -23,7 +23,7 @@ $Configuration
 	}
 }
 
-$Project "Vmpi_service"
+$Project "vmpi_service"
 {
 	$Folder	"Source Files"
 	{

@@ -274,16 +274,22 @@ void GameData::ClearData(void)
 // Input  : pszFilename - 
 // Output : Returns TRUE on success, FALSE on failure.
 //-----------------------------------------------------------------------------
-BOOL GameData::Load(const char *pszFilename)
+BOOL GameData::Load(const char *pszFilename02)
 {
 	TokenReader tr;
+
+	// Hammer will now need to read the fgd from a folder back now
+	// that we moved our binaries to a platform specific output folder.
+	// e.g. 'win32'
+	char *pszFilename = "..\\";
+	strcat(pszFilename, pszFilename02);
 
 	if(GetFileAttributes(pszFilename) == 0xffffffff)
 		return FALSE;
 
 	if(!tr.Open(pszFilename))
 		return FALSE;
-
+	
 	trtoken_t ttype;
 	char szToken[128];
 

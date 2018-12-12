@@ -22,7 +22,7 @@ $Configuration
 	}
 }
 
-$Project "Vmpi_launch"
+$Project "vmpi_launch"
 {
 	$Folder	"Source Files"
 	{

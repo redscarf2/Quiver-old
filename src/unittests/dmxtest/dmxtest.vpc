@@ -44,14 +44,14 @@ $Project "Dmxtest"
 
 	$Folder "Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\choreoobjects.lib"
-		$File	"$SRCDIR\lib\public\datamodel.lib"
-		$File	"$SRCDIR\lib\public\dmserializers.lib"
-		$File	"$SRCDIR\lib\public\dmxloader.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\movieobjects.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
-		$File	"$SRCDIR\lib\public\unitlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\choreoobjects.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\datamodel.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmserializers.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmxloader.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\movieobjects.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\unitlib.lib"
 	}
 }

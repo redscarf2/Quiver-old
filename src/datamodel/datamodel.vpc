@@ -5,14 +5,14 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		".."
-$Macro OUTLIBDIR	"$SRCDIR\lib\public"
+$Macro OUTLIBDIR	"$SRCDIR\lib\public\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
-//$Linux
-//{
-//		$BuildForLinux 1
-//}
+$Linux
+{
+		$BuildForLinux 1
+}
 
 $Configuration
 {

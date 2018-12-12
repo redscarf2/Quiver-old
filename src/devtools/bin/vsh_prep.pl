@@ -310,17 +310,17 @@ sub ReadInputFileWithLineInfo
 
 	# Look in the stdshaders directory, followed by the current directory.
 	# (This is for the SDK, since some of its files are under stdshaders).
-	local( $filename ) = $base_filename;
-	if ( !-e $filename )
+	local( $Filename ) = $base_filename;
+	if ( !-e $Filename )
 	{
-		$filename = "$g_SourceDir\\materialsystem\\stdshaders\\$base_filename";
-		if ( !-e $filename )
+		$Filename = "$g_SourceDir\\materialsystem\\stdshaders\\$base_filename";
+		if ( !-e $Filename )
 		{
-			die "\nvsh_prep.pl ERROR: missing include file: $filename.\n\n";
+			die "\nvsh_prep.pl ERROR: missing include file: $Filename.\n\n";
 		}
 	}
 
-	open INPUT, "<$filename" || die;
+	open INPUT, "<$Filename" || die;
 
 	local( $line );
 	local( $linenum ) = 1;
@@ -328,7 +328,7 @@ sub ReadInputFileWithLineInfo
 	{
 		$line =~ s/\n//g;
 		local( $postfix ) = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
-		$postfix .= "; LINEINFO($filename)($linenum)\n";
+		$postfix .= "; LINEINFO($Filename)($linenum)\n";
 		if( $line =~ m/\#include\s+\"(.*)\"/i )
 		{
 			push @output, &ReadInputFileWithLineInfo( $1 );
@@ -353,17 +353,17 @@ sub ReadInputFileWithoutLineInfo
 
 	# Look in the stdshaders directory, followed by the current directory.
 	# (This is for the SDK, since some of its files are under stdshaders).
-	local( $filename ) = $base_filename;
-	if ( !-e $filename )
+	local( $Filename ) = $base_filename;
+	if ( !-e $Filename )
 	{
-		$filename = "$g_SourceDir\\materialsystem\\stdshaders\\$base_filename";
-		if ( !-e $filename )
+		$Filename = "$g_SourceDir\\materialsystem\\stdshaders\\$base_filename";
+		if ( !-e $Filename )
 		{
-			die "\nERROR: missing include file: $filename.\n\n";
+			die "\nERROR: missing include file: $Filename.\n\n";
 		}
 	}
 
-	open INPUT, "<$filename" || die;
+	open INPUT, "<$Filename" || die;
 
 	local( $line );
 	while( $line = <INPUT> )
@@ -437,11 +437,11 @@ sub TranslateErrorMessages
 	{
 		if( $origline =~ m/(.*)\((\d+)\)\s*:\s*(.*)$/i )
 		{
-			local( $filename ) = $1;
+			local( $Filename ) = $1;
 			local( $linenum ) = $2;
 			local( $error ) = $3;
 			local( *FILE );
-			open FILE, "<$filename" || die;
+			open FILE, "<$Filename" || die;
 			local( $i );
 			local( $line );
 			for( $i = 1; $i < $linenum; $i++ )
@@ -452,7 +452,7 @@ sub TranslateErrorMessages
 			{
 				print "$1\($2\) : $error\n";
 				my $num = $linenum - 1;
-				print "$filename\($num\) : original error location\n";
+				print "$Filename\($num\) : original error location\n";
 			}
 			close FILE;
 		}
@@ -562,13 +562,13 @@ $g_SourceDir = "..\\..";
 
 while( 1 )
 {
-	$filename = shift;
+	$Filename = shift;
 
-	if ( $filename =~ m/-source/i )
+	if ( $Filename =~ m/-source/i )
 	{
 		$g_SourceDir = shift;
 	}
-	elsif( $filename =~ m/-x360/i )
+	elsif( $Filename =~ m/-x360/i )
 	{
 		$g_x360 = 1;
 	}
@@ -578,7 +578,7 @@ while( 1 )
 	}
 }
 
-$filename =~ s/-----.*$//;
+$Filename =~ s/-----.*$//;
 
 
 #
@@ -614,8 +614,8 @@ if( !stat $vshtmp )
 	mkdir $vshtmp, 0777 || die $!;
 }
 
-# suck in all files, including $include files.
-@input = &ReadInputFileWithLineInfo( $filename );
+# suck in all files, including $Include files.
+@input = &ReadInputFileWithLineInfo( $Filename );
 
 sub CalcNumCombos
 {
@@ -736,10 +736,10 @@ while( $inputLine = shift @input )
 
 $outputProgram = join "", @outputProgram;
 
-$filename_base = $filename;
-$filename_base =~ s/\.vsh//i;
+$Filename_base = $Filename;
+$Filename_base =~ s/\.vsh//i;
 
-open DEBUGOUT, ">$vshtmp" . "/$filename_base.pl" || die;
+open DEBUGOUT, ">$vshtmp" . "/$Filename_base.pl" || die;
 print DEBUGOUT $outputProgram;
 close DEBUGOUT;
 
@@ -752,7 +752,7 @@ eval( $bigProg );
 
 #push @finalheader, "// hack to force dependency checking\n";
 #push @finalheader, "\#ifdef NEVER\n";
-#push @finalheader, "\#include \"" . $filename_base . "\.vsh\"\n";
+#push @finalheader, "\#include \"" . $Filename_base . "\.vsh\"\n";
 #push @finalheader, "\#include \"..\\..\\devtools\\bin\\vsh_prep.pl\"\n";
 #push @finalheader, "\#endif\n";
 
@@ -766,7 +766,7 @@ $numDynamicCombos = &CalcNumDynamicCombos();
 #print $numCombos / $numDynamicCombos . " static combos\n";
 
 # Write out the C++ helper class for picking shader combos
-$fxc_filename = $filename_base;
+$fxc_filename = $Filename_base;
 &WriteStaticHelperClasses();
 &WriteDynamicHelperClasses();
 
@@ -777,14 +777,14 @@ $perlskipfunc = "sub SkipCombo { return $perlskipcode; }\n";
 eval $perlskipfunc;
 &CreateFuncToSetPerlVars();
 
-my $incfilename = "$vshtmp/$filename_base" . ".inc";
+my $incfilename = "$vshtmp/$Filename_base" . ".inc";
 
 # Write the inc file that has indexing helpers, etc.
 &WriteFile( $incfilename, join( "", @outputHeader ) );
 
 
 # Run the output program for all the combinations of bones and lights.
-print "$filename_base.vsh\n";
+print "$Filename_base.vsh\n";
 for( $i = 0; $i < $numCombos; $i++ )
 {
 #	print "combo $i\n";
@@ -888,7 +888,7 @@ for( $i = 0; $i < $numCombos; $i++ )
 	$start = SampleTime();
 
 
-	$outfilename_base = $filename_base . "_" . $i;
+	$outfilename_base = $Filename_base . "_" . $i;
 			
 	# $outfilename is the name of the file generated from executing the perl code
 	# for this shader.  This file is generated once per combo.
@@ -955,25 +955,25 @@ for( $i = 0; $i < $numCombos; $i++ )
 $main_total_time = SampleTime() - $main_start_time;
 
 # stick info about the shaders at the end of the inc file.
-push @finalheader, "static PrecompiledShaderByteCode_t $filename_base" . "_vertex_shaders[] = {\n";
+push @finalheader, "static PrecompiledShaderByteCode_t $Filename_base" . "_vertex_shaders[] = {\n";
 for( $i = 0; $i < $numCombos; $i++ )
 {
-	$outfilename_base = $filename_base . "_" . $i;
+	$outfilename_base = $Filename_base . "_" . $i;
 	push @finalheader, "{ $outfilename_base, sizeof( $outfilename_base ) },\n";
 }
 push @finalheader, "};\n";
 
 
-push @finalheader, "struct $filename_base" . "_VertexShader_t : public PrecompiledShader_t\n";
+push @finalheader, "struct $Filename_base" . "_VertexShader_t : public PrecompiledShader_t\n";
 push @finalheader, "{\n";
-push @finalheader, "\t$filename_base" . "_VertexShader_t()\n";
+push @finalheader, "\t$Filename_base" . "_VertexShader_t()\n";
 push @finalheader, "\t{\n";
 push @finalheader, "\t\tm_nFlags = 0;\n";
 
 $flags = 0;
-#push @finalheader, "\t\tppVertexShaders = $filename_base" . "_vertex_shaders;\n";
-push @finalheader, "\t\tm_pByteCode = $filename_base" . "_vertex_shaders;\n";
-push @finalheader, "\t\tm_pName = \"$filename_base\";\n";
+#push @finalheader, "\t\tppVertexShaders = $Filename_base" . "_vertex_shaders;\n";
+push @finalheader, "\t\tm_pByteCode = $Filename_base" . "_vertex_shaders;\n";
+push @finalheader, "\t\tm_pName = \"$Filename_base\";\n";
 push @finalheader, "\t\tm_nShaderCount = " . ( $maxNumBones + 1 ) * $totalFogCombos * $totalLightCombos . ";\n";
 push @finalheader, "\t\tm_nDynamicCombos = m_nShaderCount;\n";
 push @finalheader, "\t\tGetShaderDLL()->InsertPrecompiledShader( PRECOMPILED_VERTEX_SHADER, this );\n";
@@ -983,10 +983,10 @@ push @finalheader, "\t{\n";
 push @finalheader, "\t\treturn m_pByteCode[shaderID];\n";
 push @finalheader, "\t}\n";
 push @finalheader, "};\n";
-push @finalheader, "static $filename_base" . "_VertexShader_t $filename_base" . "_VertexShaderInstance;\n";
+push @finalheader, "static $Filename_base" . "_VertexShader_t $Filename_base" . "_VertexShaderInstance;\n";
 
 # Write the final header file with the compiled vertex shader programs.
-$finalheadername = "$vshtmp\\" . $filename_base . ".inc";
+$finalheadername = "$vshtmp\\" . $Filename_base . ".inc";
 #print "writing $finalheadername\n";
 #open FINALHEADER, ">$finalheadername" || die;
 #print FINALHEADER @finalheader;
@@ -997,11 +997,11 @@ $finalheadername = "$vshtmp\\" . $filename_base . ".inc";
 my $vcsName = "";
 if( $g_x360 )
 {
-	$vcsName = $filename_base . ".360.vcs";
+	$vcsName = $Filename_base . ".360.vcs";
 }
 else
 {
-	$vcsName = $filename_base . ".vcs";
+	$vcsName = $Filename_base . ".vcs";
 }
 open COMPILEDSHADER, ">shaders/vsh/$vcsName" || die;
 binmode( COMPILEDSHADER );
@@ -1020,10 +1020,10 @@ if ( $g_x360 )
 	$uInt = "N";
 }
 
-my $undecoratedinput = join "", &ReadInputFileWithoutLineInfo( $filename );
+my $undecoratedinput = join "", &ReadInputFileWithoutLineInfo( $Filename );
 #print STDERR "undecoratedinput: $undecoratedinput\n";
 my $crc = crc32( $undecoratedinput );
-#print STDERR "crc for $filename: $crc\n";
+#print STDERR "crc for $Filename: $crc\n";
 
 # version
 print COMPILEDSHADER pack $sInt, 4;
@@ -1058,17 +1058,17 @@ my @byteCodeSize;
 # Write out the shader object code.
 for( $shaderCombo = 0; $shaderCombo < $numCombos; $shaderCombo++ )
 {
-	my $filename = "shader$shaderCombo\.o";
-	my $filesize = (stat $filename)[7];
+	my $Filename = "shader$shaderCombo\.o";
+	my $Filesize = (stat $Filename)[7];
 	$byteCodeStart[$shaderCombo] = tell COMPILEDSHADER;
-	$byteCodeSize[$shaderCombo] = $filesize;
-	open SHADERBYTECODE, "<$filename" || die;
+	$byteCodeSize[$shaderCombo] = $Filesize;
+	open SHADERBYTECODE, "<$Filename" || die;
 	binmode SHADERBYTECODE;
 	my $bin;
-	my $numread = read SHADERBYTECODE, $bin, $filesize;
-#	print "filename: $filename numread: $numread filesize: $filesize\n";
+	my $numread = read SHADERBYTECODE, $bin, $Filesize;
+#	print "filename: $Filename numread: $numread filesize: $Filesize\n";
 	close SHADERBYTECODE;
-	unlink $filename;
+	unlink $Filename;
 
 	print COMPILEDSHADER $bin;
 }

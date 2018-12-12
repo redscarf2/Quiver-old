@@ -2209,9 +2209,9 @@ CDmxEdit CDmxEditLua::m_dmxEdit;
 
 CDmxEditLua::LuaFunc_s CDmxEditLua::s_luaFuncs[] =
 {
-	{	"Load",								Load,							"< $file.dmx | $file.obj >, [ $loadType ]",							"Replaces the current scene with the specified scene.  The current mesh will be set to the first mesh with a combination operator found in the new scene.  $loadType is one of \"absolute\" or \"relative\".  If not specified, \"absolute\" is assumed." },
-	{	"Import",							Import,							"< $file.dmx >, [ $parentBone ]",									"Imports the specified DMX model into the scene.  The imported model can optionally be parented (which implictly skins it) to a specified bone in the existing scene via $parentBone." },
-	{	"Save",								Save,							"[ $file.dmx | $file.obj ], [ $saveType ], [ $delta ]",				"Saves the current scene to either a single dmx file or a sequence of obj files.  If $file is not specified, the filename used in the last Load() command will be used to save the file.  $saveType is one of \"absolute\" or \"relative\".  If not specified, \"absolute\" is assumed.  If $delta is passed and the save type is OBJ, then only a single OBJ of that delta is saved.  \"base\" is the base state." },
+	{	"Load",								Load,							"< $File.dmx | $File.obj >, [ $loadType ]",							"Replaces the current scene with the specified scene.  The current mesh will be set to the first mesh with a combination operator found in the new scene.  $loadType is one of \"absolute\" or \"relative\".  If not specified, \"absolute\" is assumed." },
+	{	"Import",							Import,							"< $File.dmx >, [ $parentBone ]",									"Imports the specified DMX model into the scene.  The imported model can optionally be parented (which implictly skins it) to a specified bone in the existing scene via $parentBone." },
+	{	"Save",								Save,							"[ $File.dmx | $File.obj ], [ $saveType ], [ $delta ]",				"Saves the current scene to either a single dmx file or a sequence of obj files.  If $File is not specified, the filename used in the last Load() command will be used to save the file.  $saveType is one of \"absolute\" or \"relative\".  If not specified, \"absolute\" is assumed.  If $delta is passed and the save type is OBJ, then only a single OBJ of that delta is saved.  \"base\" is the base state." },
 	{	"ListDeltas",						ListDeltas,						"",																	"Prints a list of all of the deltas present in the current mesh" },
 	{	"ImportComboRules",					ImportComboRules,				"< $rules.dmx >, [ #bOverwrite ], [ #bPurgeDeltas ]",				"Imports the combintion rules from the specified dmx file and replaces the current rules with those from the file is #bOverwrite specified or is true.  If #bOverwrite is false then any existing controls that are not in the imported rules file are preserved.  If #bPurgeDeltas is specified and is true, then any delta states which are no longer referred to by any combination rule or control will be purged. " },
 	{	"ResetState",						ResetState,						"",																	"Resets the current mesh back to the default base state, i.e. no deltas active" },
@@ -2242,7 +2242,7 @@ CDmxEditLua::LuaFunc_s CDmxEditLua::s_luaFuncs[] =
 	{	"SetDistanceType",					SetDistanceType,				"< $distanceType >",												"Sets the way distances will be interpreted after the command.  $distanceType is one of \"absolute\" or \"relative\".  By default distances are \"absolute\".  All functions that work with distances (Add, Interp and Translate) work on the currently selected vertices.  \"absolute\" means use the distance as that number of units, \"relative\" means use the distance as a scale of the radius of the bounding sphere of the selected vertices." },
 	{	"Translate",						Translate,						"< #xTranslate, #yTranslate, #zTranslate >, [ #falloffDistance, $falloffType ]",	"Translates the selected vertices of the mesh by the specified amount" },
 	{	"FixPresetFile",					FixPresetFile,					"< $preset.pre >",													"Fixes the presets for CloseLid based on CloseLidLo, CloseLidUp or CloseLid, CloseLidV to new CloseLid multi-control" },
-	{	"FileExists",						FileExists,						"< $filename >",													"Returns true if the given filename exists on disk, false otherwise" },
+	{	"FileExists",						FileExists,						"< $Filename >",													"Returns true if the given filename exists on disk, false otherwise" },
 };
 
 

@@ -63,11 +63,9 @@ struct AAMode_t
 //-----------------------------------------------------------------------------
 int g_DirectXLevels[] =
 {
-	70,
-	80,
-	81,
 	90,
 	95,
+	10,
 };
 
 //-----------------------------------------------------------------------------
@@ -603,9 +601,7 @@ public:
 
 		SetComboItemAsRecommended( m_pShaderDetail, nReduceFillRate ? 0 : 1 );
 		
-#ifndef _X360
 		if ( nWaterUseRealtimeReflection )
-#endif
 		{
 			if ( nWaterUseEntityReflection )
 			{
@@ -616,12 +612,10 @@ public:
 				SetComboItemAsRecommended( m_pWaterDetail, 1 );
 			}
 		}
-#ifndef _X360
 		else
 		{
 			SetComboItemAsRecommended( m_pWaterDetail, 0 );
 		}
-#endif
 
 		SetComboItemAsRecommended( m_pVSync, nMatVSync != 0 );
 

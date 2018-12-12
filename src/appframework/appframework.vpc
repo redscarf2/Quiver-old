@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$macro OUTLIBDIR	"$SRCDIR\lib\public"
+$Macro OUTLIBDIR	"$SRCDIR\lib\public\$PLATSUBDIR"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
@@ -23,7 +23,7 @@ $Project "appframework"
 	{
 		$File	"AppSystemGroup.cpp"
 		$File	"$SRCDIR\public\filesystem_init.cpp"
-		$File	"VguiMatSysApp.cpp"	[$WIN32]
+		$File	"VguiMatSysApp.cpp"	[$WINDOWS]
 		$File	"WinApp.cpp"
 	}
 

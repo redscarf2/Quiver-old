@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -13,11 +13,9 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory		"Debug_dx9"			[$WIN32]
-		$IntermediateDirectory	"Debug_dx9"			[$WIN32]
+		$OutputDirectory		"Debug_dx9"			[$WINDOWS]
+		$IntermediateDirectory	"Debug_dx9"			[$WINDOWS]
 		
-		$OutputDirectory		"Debug_dx9_360"		[$X360]
-		$IntermediateDirectory	"Debug_dx9_360"		[$X360]
 	}
 }
 
@@ -25,11 +23,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory		"Release_dx9"		[$WIN32]
-		$IntermediateDirectory	"Release_dx9"		[$WIN32]
-
-		$OutputDirectory		"Release_dx9_360"	[$X360]
-		$IntermediateDirectory	"Release_dx9_360"	[$X360]
+		$OutputDirectory		"Release_dx9"		[$WINDOWS]
+		$IntermediateDirectory	"Release_dx9"		[$WINDOWS]
 	}
 }
 
@@ -38,15 +33,13 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;fxctmp9;vshtmp9;..\..\dx9sdk\include"	[$WIN32]
-		$AdditionalIncludeDirectories	"$BASE;fxctmp9_360;vshtmp9_360"					[$X360]
+		$AdditionalIncludeDirectories	"$BASE;fxctmp9;vshtmp9;..\..\dx9sdk\include"	[$WINDOWS]
 		$PreprocessorDefinitions		"$BASE;STDSHADER_DX9_DLL_EXPORT;FAST_MATERIALVAR_ACCESS"
 	}
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE version.lib winmm.lib"	[$WIN32]
-		$ModuleDefinitionFile			"xbox\xbox_dx9.def"				[$X360]
+		$AdditionalDependencies			"$BASE version.lib winmm.lib"	[$WINDOWS]
 	}
 }
 
@@ -71,7 +64,7 @@ $Project "stdshader_dx9"
 		$File	"colorcorrection.cpp"
 		$File	"core_dx9.cpp"
 		$File	"debugmrttexture.cpp"
-		$File	"debugmorphaccumulator_dx9.cpp"					[$WIN32]
+		$File	"debugmorphaccumulator_dx9.cpp"					[$WINDOWS]
 		$File	"debugtextureview.cpp"
 		$File	"DecalBaseTimesLightmapAlphaBlendSelfIllum_dx9.cpp"
 		$File	"DecalModulate_dx9.cpp"
@@ -101,8 +94,8 @@ $Project "stdshader_dx9"
 		$File	"lightmappedreflective.cpp"
 		$File	"modulate_dx9.cpp"
 		$File	"MonitorScreen_dx9.cpp"
-		$File	"morphaccumulate_dx9.cpp"					[$WIN32]
-		$File	"morphweight_dx9.cpp"						[$WIN32]
+		$File	"morphaccumulate_dx9.cpp"					[$WINDOWS]
+		$File	"morphweight_dx9.cpp"						[$WINDOWS]
 		$File	"motion_blur_dx9.cpp"
 		$File	"occlusion_dx9.cpp"
 		$File	"particlelitgeneric_dx9.cpp"
@@ -114,7 +107,6 @@ $Project "stdshader_dx9"
 		$File	"portal_refract_helper.cpp"
 		$File	"refract.cpp"
 		$File	"refract_dx9_helper.cpp"
-		$File	"rendertargetblit_x360.cpp"					[$X360]	
 		$File	"sample4x4.cpp"
 		$File	"sample4x4_blend.cpp"
 		$File	"screenspace_general.cpp"
@@ -151,34 +143,13 @@ $Project "stdshader_dx9"
 		$File	"writez_dx9.cpp"
 		$File	"writestencil_dx9.cpp"
 
-//		$Folder	"Remove me when VAC2 is out" [$WIN32]
+//		$Folder	"Remove me when VAC2 is out" [$WINDOWS]
 //		{
 //			$File	"$SRCDIR\tier1\checksum_crc.cpp"
 //			$File	"$SRCDIR\tier1\checksum_md5.cpp"
 //			$File	"..\shader_dll_verify.cpp"
 //			$File	"..\shader_dll_verify.h"
 //		}
-
-		// 360 collapes stdshader_dbg.dll into stdshader_dx9.dll
-		$Folder	"stdshader_dbg Files" [$X360]
-		{
-			$File	"debugdepth.cpp"
-			$File	"DebugDrawEnvmapMask.cpp"
-			$File	"debugluxel.cpp"
-			$File	"debugnormalmap.cpp"
-			$File	"debugtangentspace.cpp"
-			$File	"fillrate.cpp"
-			$File	"fillrate_dx6.cpp"
-
-			// dead shader, but hl2 models have it
-			$File	"eyeball.cpp"
-		}
-	}
-
-	$Folder "Xbox"	[$X360]
-	{
-		-$File	"xbox\xbox.def"
-		$File	"xbox\xbox_dx9.def"
 	}
 
 	$Folder	"Header Files"
@@ -202,17 +173,11 @@ $Project "stdshader_dx9"
 		$File	"water_ps2x_helper.h"
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
 		$File	"$SRCDIR\dx9sdk\lib\d3dx9.lib"		
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\shaderlib.lib"
-	}
-
-	$Folder	"Link Libraries" [$X360]
-	{
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"	
-		$File	"$SRCDIR\lib\public\shaderlib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\shaderlib.lib"
 	}
 
 	$File	"$SRCDIR\devtools\bin\vsh_prep.pl"

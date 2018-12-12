@@ -5,14 +5,9 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
-
-$Linux
-{
-	$BuildForLinux 1
-}
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
@@ -102,19 +97,19 @@ $Project "StudioRender"
 		$File	"$SRCDIR\public\tier1\utlstringmap.h"
 	}
 
-	$folder "Link Libraries"	[$WIN32]
+	$folder "Link Libraries"	[$WINDOWS]
 	{
-		$file	"$SRCDIR\lib\public\bitmap.lib"
-		$file	"$SRCDIR\lib\public\mathlib.lib"
-		$file	"$SRCDIR\lib\public\tier2.lib"
-		$file	"$SRCDIR\lib\public\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
 	}
 
 	$folder "Link Libraries"	[$X360]
 	{
-		$file	"$SRCDIR\lib\public\bitmap_360.lib"
-		$file	"$SRCDIR\lib\public\mathlib_360.lib"
-		$file	"$SRCDIR\lib\public\tier2_360.lib"
-		$file	"$SRCDIR\lib\public\tier3_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3_360.lib"
 	}
 }

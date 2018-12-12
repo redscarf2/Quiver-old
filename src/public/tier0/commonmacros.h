@@ -141,4 +141,18 @@ char (*RtlpNumberOf( UNALIGNED T (&)[N] ))[N];
 #define ARRAYSIZE(A)    RTL_NUMBER_OF_V2(A)
 #define _ARRAYSIZE(A)   RTL_NUMBER_OF_V1(A)
 
+#if defined(WIN32)
+#define PLATFORM_SUBDIR "win32"
+#elif defined(WIN64)
+#define PLATFORM_SUBDIR "win64"
+#elif defined(LINUX32)
+#define PLATFORM_SUBDIR "linux32"
+#elif defined(LINUX64)
+#define PLATFORM_SUBDIR "linux64"
+#elif defined(OSX32)
+#define PLATFORM_SUBDIR "win64"
+#elif defined(OSX64)
+#define PLATFORM_SUBDIR "win64"
+#endif
+
 #endif // COMMONMACROS_H

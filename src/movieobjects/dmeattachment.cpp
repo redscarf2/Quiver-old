@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2004, Valve Corporation, All rights reserved. =======
+//====== Copyright Valve Corporation, All rights reserved. ====================
 //
 // Dme version of a model attachment point
 //

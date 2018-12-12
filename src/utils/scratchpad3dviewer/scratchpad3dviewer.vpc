@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_base.vpc"
 
@@ -13,7 +13,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE,$SRCDIR\dx9sdk\include"
+		$AdditionalIncludeDirectories		"$BASE,$SRCDIR\dx8sdk\include"
 		$PreprocessorDefinitions			"$BASE;NO_MATHLIB_FTOL"
 	}
 
@@ -50,6 +50,6 @@ $Project "ScratchPad3DViewer"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
 	}
 }

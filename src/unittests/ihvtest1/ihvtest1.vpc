@@ -31,7 +31,7 @@ $Project "ihvtest1"
 		$File	"$SRCDIR\Public\collisionutils.cpp"
 		$File	"ihvtest1.cpp"
 		$File	"$SRCDIR\public\studio.cpp"
-		$File	"sys_clock.cpp"						[$WIN32]
+		$File	"sys_clock.cpp"						[$WINDOWS]
 	}
 
 	$Folder	"Public Header Files"
@@ -103,16 +103,16 @@ $Project "ihvtest1"
 		$File	"copystudiorendersrc.bat"
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\appframework.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
 		$File	"$SRCDIR\lib\common\vtuneapi.lib"
 	}
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\appframework_360.lib"
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
 	}
 }

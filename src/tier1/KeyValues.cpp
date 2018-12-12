@@ -1824,7 +1824,7 @@ bool EvaluateConditional( const char *str )
 	}
 	else
 	{
-		bResult = !Q_stricmp( "[$WIN32]", str );
+		bResult = !Q_stricmp( "[$WINDOWS]", str );
 	}
 
 	return bResult;

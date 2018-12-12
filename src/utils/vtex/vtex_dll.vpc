@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -22,8 +22,8 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory			".\Debug_dll"			[$WIN32]
-		$IntermediateDirectory		".\Debug_dll"			[$WIN32]
+		$OutputDirectory			".\Debug_dll"			[$WINDOWS]
+		$IntermediateDirectory		".\Debug_dll"			[$WINDOWS]
 	}
 }
 
@@ -31,12 +31,12 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory			".\Release_dll"			[$WIN32]
-		$IntermediateDirectory		".\Release_dll"			[$WIN32]
+		$OutputDirectory			".\Release_dll"			[$WINDOWS]
+		$IntermediateDirectory		".\Release_dll"			[$WINDOWS]
 	}
 }
 
-$Project "Vtex_dll"
+$Project "vtex_dll"
 {
 	$Folder	"Source Files"
 	{
@@ -54,9 +54,9 @@ $Project "Vtex_dll"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\vtf.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf.lib"
 	}
 }

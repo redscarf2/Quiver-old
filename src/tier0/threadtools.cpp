@@ -278,7 +278,8 @@ void ThreadSetDebugName( ThreadId_t id, const char *pszName )
 
 		__try
 		{
-			RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(DWORD), (DWORD *)&info);
+			//RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(DWORD), (DWORD *)&info);
+			RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(DWORD), (const ULONG_PTR *)&info);
 		}
 		__except (EXCEPTION_CONTINUE_EXECUTION)
 		{
@@ -739,7 +740,7 @@ bool ThreadInterlockedAssignIf64(volatile int64 *pDest, int64 value, int64 compe
 {
 	Assert( (size_t)pDest % 8 == 0 );
 
-#if defined(_WIN32) && !defined(_X360)
+#if defined(_WIN32)
 	__asm
 	{
 		lea esi,comperand;

@@ -200,10 +200,10 @@ BOOL COPTBuild::HandleInsertParm(UINT nID)
 	switch (nID)
 	{
 		case id_InsertParmMapFileNoExt:
-			pszInsert = "$file";
+			pszInsert = "$File";
 			break;
 		case id_InsertParmMapFile:
-			pszInsert = "$file.$ext";
+			pszInsert = "$File.$ext";
 			break;
 		case id_InsertParmMapPath:
 			pszInsert = "$path";

@@ -208,7 +208,7 @@ bool CNetworkTestApp::SetupSearchPaths()
 	char platform[MAX_PATH];
 	Q_strncpy( platform, steamInfo.m_GameInfoPath, MAX_PATH );
 	Q_StripTrailingSlash( platform );
-	Q_strncat( platform, "/../platform", MAX_PATH, MAX_PATH );
+	Q_strncat( platform, "/../core", MAX_PATH, MAX_PATH );
 
 	g_pFileSystem->AddSearchPath( platform, "PLATFORM" );
 

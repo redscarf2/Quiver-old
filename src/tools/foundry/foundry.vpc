@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\tools"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -51,16 +51,16 @@ $Project "foundry"
 	
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\datamodel.lib"
-		$File	"$SRCDIR\lib\public\dmserializers.lib"
-		$File	"$SRCDIR\lib\public\dme_controls.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\matsys_controls.lib"
-		$File	"$SRCDIR\lib\public\movieobjects.lib"
-		$File	"$SRCDIR\lib\public\sfmobjects.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
-		$File	"$SRCDIR\lib\public\toolutils.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\datamodel.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmserializers.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dme_controls.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\matsys_controls.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\movieobjects.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\sfmobjects.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\toolutils.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
 	}
 }

@@ -288,25 +288,8 @@ inline void CCycleCount::Init( int64 cycles )
 
 inline void CCycleCount::Sample()
 {
-#if defined( _X360 )
-#if !defined( _CERT )
-	// read the highest resolution timer directly (ticks at native 3.2GHz), bypassing any calls into PMC
-	// can only resolve 32 bits, rollover is ~1.32 secs
-	// based on PMCGetIntervalTimer() from the April 2007 XDK
-	int64 temp;
-	__asm 
-	{
-		lis		r11,08FFFh
-		ld		r11,011E0h(r11)
-		rldicl	r11,r11,32,32
-		// unforunate can't get the inline assembler to write directly into desired target
-		std		r11,temp
-	}
-	m_Int64 = temp;
-#else
-	m_Int64 = ++g_dwFakeFastCounter;
-#endif
-#elif defined( _WIN32 )
+#if 0
+#ifdef _WIN32
 	unsigned long* pSample = (unsigned long *)&m_Int64;
 	__asm
 	{
@@ -330,6 +313,9 @@ inline void CCycleCount::Sample()
 		: "D" (pSample)
 		: "%eax", "%edx" );
 #endif
+#endif
+
+	m_Int64 = Plat_Rdtsc();
 }
 
 #pragma warning(pop)

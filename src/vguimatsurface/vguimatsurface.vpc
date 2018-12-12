@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
@@ -21,8 +21,7 @@ $Configuration
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE vgui_surfacelib_360.lib"			[$X360]
-		$AdditionalDependencies			"$BASE vgui_surfacelib.lib nvtc.lib"	[$WIN32]
+		$AdditionalDependencies			"$BASE nvtc.lib"	[$WIN32] // vgui_surfacelib.lib
 	}
 }
 
@@ -92,21 +91,11 @@ $Project "vguimatsurface"
 
 	$Folder	"Link Libraries" [$WIN32]
 	{
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls.lib"
-		$File	"$SRCDIR\lib\public\vgui_surfacelib.lib"
-	}
-
-	$Folder	"Link Libraries" [$X360]
-	{
-		$File	"$SRCDIR\lib\public\bitmap_360.lib"
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\tier3_360.lib"
-		$File	"$SRCDIR\lib\public\vgui_controls_360.lib"
-		$File	"$SRCDIR\lib\public\vgui_surfacelib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_surfacelib.lib"
 	}
 }

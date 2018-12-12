@@ -37,7 +37,7 @@
 defaultConfigInfo_t HL2Info =
 {
 	"Half-Life 2",
-	"hl2",
+	"mod_hl2",
 	"halflife2.fgd",
 	"half-life 2",
 	"info_player_start",
@@ -46,7 +46,7 @@ defaultConfigInfo_t HL2Info =
 };
 
 // Counter-Strike: Source
-defaultConfigInfo_t CStrikeInfo =
+/*defaultConfigInfo_t CStrikeInfo =
 {
 	"Counter-Strike: Source",
 	"cstrike",
@@ -55,13 +55,13 @@ defaultConfigInfo_t CStrikeInfo =
 	"info_player_terrorist",
 	"hl2.exe",
 	GetAppSteamAppId( k_App_CSS )
-};
+};*/
 
 //Half-Life 2: Deathmatch
 defaultConfigInfo_t HL2DMInfo =
 {
 	"Half-Life 2: Deathmatch",
-	"hl2mp",
+	"mod_hl2mp",
 	"hl2mp.fgd",
 	"half-life 2 deathmatch",
 	"info_player_deathmatch",
@@ -70,7 +70,7 @@ defaultConfigInfo_t HL2DMInfo =
 };
 
 // Day of Defeat: Source
-defaultConfigInfo_t DODInfo = 
+/*defaultConfigInfo_t DODInfo = 
 {
 	"Day of Defeat: Source",
 	"dod",
@@ -79,13 +79,13 @@ defaultConfigInfo_t DODInfo =
 	"info_player_allies",
 	"hl2.exe",
 	GetAppSteamAppId( k_App_DODS )
-};
+};*/
 
 // Half-Life 2 Episode 1
 defaultConfigInfo_t Episode1Info =
 {
 	"Half-Life 2: Episode One",
-	"episodic",
+	"mod_episodic",
 	"halflife2.fgd",
 	"half-life 2 episode one",
 	"info_player_start",
@@ -97,7 +97,7 @@ defaultConfigInfo_t Episode1Info =
 defaultConfigInfo_t Episode2Info =
 {
 	"Half-Life 2: Episode Two",
-	"ep2",
+	"mod_ep2",
 	"halflife2.fgd",
 	"half-life 2 episode two",
 	"info_player_start",
@@ -106,7 +106,7 @@ defaultConfigInfo_t Episode2Info =
 };
 
 // Team Fortress 2
-defaultConfigInfo_t TF2Info =
+/*defaultConfigInfo_t TF2Info =
 {
 	"Team Fortress 2",
 	"tf",
@@ -115,10 +115,10 @@ defaultConfigInfo_t TF2Info =
 	"info_player_teamspawn",
 	"hl2.exe",
 	GetAppSteamAppId( k_App_TF2 )
-};
+};*/
 
 // Portal
-defaultConfigInfo_t PortalInfo =
+/*defaultConfigInfo_t PortalInfo =
 {
 	"Portal",
 	"portal",
@@ -127,7 +127,7 @@ defaultConfigInfo_t PortalInfo =
 	"info_player_start",
 	"hl2.exe",
 	GetAppSteamAppId( k_App_PORTAL )
-};
+};*/
 
 //-----------------------------------------------------------------------------
 // Constructor
@@ -910,9 +910,9 @@ bool CGameConfigManager::GetDefaultGameBlock( KeyValues *pIn )
 	if ( m_eSDKEpoch == HL2 || m_eSDKEpoch == EP1 )
 	{
 		defaultConfigs.AddToTail( HL2Info );
-		defaultConfigs.AddToTail( CStrikeInfo );
+//		defaultConfigs.AddToTail( CStrikeInfo );
 		defaultConfigs.AddToTail( HL2DMInfo );
-		defaultConfigs.AddToTail( DODInfo );
+//		defaultConfigs.AddToTail( DODInfo );
 	}
 	// Add EP1 game to list
 	if ( m_eSDKEpoch == EP1 )
@@ -923,8 +923,8 @@ bool CGameConfigManager::GetDefaultGameBlock( KeyValues *pIn )
 	if ( m_eSDKEpoch == EP2 )
 	{
 		defaultConfigs.AddToTail( Episode2Info );
-		defaultConfigs.AddToTail( TF2Info );
-		defaultConfigs.AddToTail( PortalInfo );
+//		defaultConfigs.AddToTail( TF2Info );
+//		defaultConfigs.AddToTail( PortalInfo );
 	}
 
 	if ( pIn == NULL )

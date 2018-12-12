@@ -102,7 +102,7 @@ bool CUIManager::Init()
 	if (! vgui::scheme()->LoadSchemeFromFile("resource/legion.res", "Legion" ) )
 		return false;
 
-	vgui::filesystem()->AddSearchPath( "platform", "PLATFORM" );
+	vgui::filesystem()->AddSearchPath( "core", "PLATFORM" );
 	vgui::localize()->AddFile( vgui::filesystem(), "Resource/vgui_%language%.txt" );
 
 	// start vgui

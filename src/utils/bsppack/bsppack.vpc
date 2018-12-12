@@ -5,15 +5,15 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
 	$Compiler
 	{
-		$PreprocessorDefinitions		"$BASE;WIN_ERROR;_USRDLL;BSPPACK_EXPORTS"						[$WIN32]
+		$PreprocessorDefinitions		"$BASE;WIN_ERROR;_USRDLL;BSPPACK_EXPORTS"						[$WINDOWS]
 		$PreprocessorDefinitions		"$BASE;WIN_ERROR;_USRDLL;BSPPACK_EXPORTS;BSP_USE_LESS_MEMORY"	[$X360]
 		$AdditionalIncludeDirectories	"..\common;$BASE"
 	}
@@ -42,15 +42,15 @@ $Project "bsppack"
 		$File	"$SRCDIR\Public\bspfile.h"
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
 	}
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
 	}
 }

@@ -15,6 +15,10 @@
 #include "tier0/dbg.h"
 #include "tier0/vcrmode.h"
 
+#ifdef WIN32
+#include <intrin.h>
+#endif
+
 #ifdef _LINUX
 #include <pthread.h>
 #include <errno.h>
@@ -115,11 +119,10 @@ extern "C" unsigned long __declspec(dllimport) __stdcall GetCurrentThreadId();
 
 inline void ThreadPause()
 {
-#if defined( _WIN32 ) && !defined( _X360 )
-	__asm pause;
+#if defined( _WIN32 )
+	_mm_pause();
 #elif _LINUX
 	__asm __volatile("pause");
-#elif defined( _X360 )
 #else
 #error "implement me"
 #endif

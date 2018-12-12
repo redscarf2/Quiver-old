@@ -576,7 +576,7 @@ skipspace:
 	*token_p = 0;
 
 	// check for other commands
-	if (!stricmp (token, "$include"))
+	if (!stricmp (token, "$Include"))
 	{
 		GetToken (false);
 		AddScriptToStack (token);
@@ -707,7 +707,7 @@ skipspace:
 
 	*token_p = 0;
 
-	if (!stricmp (token, "$include"))
+	if (!stricmp (token, "$Include"))
 	{
 		GetToken (false);
 		AddScriptToStack (token);

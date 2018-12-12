@@ -8,7 +8,7 @@ $Include "$SRCDIR\vpc_scripts\version.vpc"
 
 $MacroRequired				"SRCDIR"
 $MacroRequired				"OUTLIBNAME"	"$PROJECTNAME"
-$MacroRequired				"OUTLIBDIR"
+$MacroRequired				"OUTLIBDIR"		"$SRCDIR\..\lib\public$PLATSUBDIR"
 
 $Include "$SRCDIR\vpc_scripts\source_lib_win32_debug.vpc"
 $Include "$SRCDIR\vpc_scripts\source_lib_win32_release.vpc"

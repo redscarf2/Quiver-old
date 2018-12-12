@@ -7757,11 +7757,11 @@ void PhonemeEditor::LoadPhonemeConverters()
 
 	// Enumerate modules under bin folder of exe
 	FileFindHandle_t findHandle;
-	const char *pFilename = filesystem->FindFirstEx( "phonemeextractors/*.dll", "EXECUTABLE_PATH", &findHandle );
+	const char *pFilename = filesystem->FindFirstEx( "utils/*.dll", "EXECUTABLE_PATH", &findHandle );
 	while( pFilename )
 	{	
 		char fullpath[ 512 ];
-		Q_snprintf( fullpath, sizeof( fullpath ), "phonemeextractors/%s", pFilename );
+		Q_snprintf( fullpath, sizeof( fullpath ), "utils/%s", pFilename );
 
 		Con_Printf( "Loading extractor from %s\n", fullpath );
 

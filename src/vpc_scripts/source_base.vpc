@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-//	source_base.VPC
+//	SOURCE_BASE.VPC
 //
 //  This is the base VPC file that is included by all others, on all platforms.
 //
@@ -9,11 +9,6 @@
 // Set which branch we are building out of.
 // This is one file we expect to be different between branches and so it must be merged carefully
 
-// Staging branch:
-//$Conditional STAGING_ONLY	"1"
-
-// rel/tf_beta branch:
-//$Conditional TF_BETA	"1"
 
 $Configuration "Debug"
 {
@@ -21,11 +16,6 @@ $Configuration "Debug"
 	{
 		// Pass on appropriate branch define to preprocessor
 		$PreprocessorDefinitions		"VPC"
-		$PreprocessorDefinitions		"$BASE;STAGING_ONLY" [$STAGING_ONLY]
-		$PreprocessorDefinitions		"$BASE;TF_BETA" [$TF_BETA]
-// Need to revisit the code to make things run with the _RETAIL preprocessor definition
-// This line was added in the previous check-in, but had previously not been defined in this branch
-//		$PreprocessorDefinitions		"$BASE;_RETAIL"		[$RETAIL]
 	}
 }
 
@@ -35,10 +25,5 @@ $Configuration "Release"
 	{
 		// Pass on appropriate branch define to preprocessor
 		$PreprocessorDefinitions		"VPC"
-		$PreprocessorDefinitions		"$BASE;STAGING_ONLY" [$STAGING_ONLY]
-		$PreprocessorDefinitions		"$BASE;TF_BETA" [$TF_BETA]
-// Need to revisit the code to make things run with the _RETAIL preprocessor definition
-// This line was added in the previous check-in, but had previously not been defined in this branch
-//		$PreprocessorDefinitions		"$BASE;_RETAIL"		[$RETAIL]
 	}
 }

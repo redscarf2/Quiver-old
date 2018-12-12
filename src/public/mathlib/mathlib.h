@@ -312,9 +312,10 @@ int Q_log2(int val);
 // Math routines done in optimized assembly math package routines
 void inline SinCos( float radians, float *sine, float *cosine )
 {
-#if defined( _X360 )
-	XMScalarSinCos( sine, cosine, radians );
-#elif defined( _WIN32 )
+#ifdef WIN64
+	*sine = sin(radians);
+	*cosine = cos(radians);
+#elif defined( WIN32 )
 	_asm
 	{
 		fld		DWORD PTR [radians]
@@ -1066,93 +1067,53 @@ inline float SimpleSplineRemapValClamped( float val, float A, float B, float C, 
 
 FORCEINLINE int RoundFloatToInt(float f)
 {
-#if defined( _X360 )
+#if defined(__i386__) || defined(_M_IX86) || defined( WIN64 )
+	return _mm_cvtss_si32(_mm_load_ss(&f));
+#elif defined( _X360 )
 #ifdef Assert
-	Assert( IsFPUControlWordSet() );
+	Assert(IsFPUControlWordSet());
 #endif
 	union
 	{
 		double flResult;
 		int pResult[2];
 	};
-	flResult = __fctiw( f );
+	flResult = __fctiw(f);
 	return pResult[1];
-#else // !X360
-	int nResult;
-#if defined( _WIN32 )
-	__asm
-	{
-		fld f
-		fistp nResult
-	}
-#elif _LINUX
-	__asm __volatile__ (
-		"fistpl %0;": "=m" (nResult): "t" (f) : "st"
-	);
-#endif
-	return nResult;
+#else
+#error Unknown architecture
 #endif
 }
 
 FORCEINLINE unsigned char RoundFloatToByte(float f)
 {
-#if defined( _X360 )
+	int nResult = RoundFloatToInt(f);
 #ifdef Assert
-	Assert( IsFPUControlWordSet() );
+	Assert((nResult & ~0xFF) == 0);
 #endif
-	union
-	{
-		double flResult;
-		int pIntResult[2];
-		unsigned char pResult[8];
-	};
-	flResult = __fctiw( f );
-#ifdef Assert
-	Assert( pIntResult[1] >= 0 && pIntResult[1] <= 255 );
-#endif
-	return pResult[8];
-
-#else // !X360
-	
-	int nResult;
-
-#if defined( _WIN32 )
-	__asm
-	{
-		fld f
-		fistp nResult
-	}
-#elif _LINUX
-	__asm __volatile__ (
-		"fistpl %0;": "=m" (nResult): "t" (f) : "st"
-	);
-#endif
-
-#ifdef Assert
-	Assert( nResult >= 0 && nResult <= 255 );
-#endif 
-	return nResult;
-
-#endif
+	return (unsigned char)nResult;
 }
 
 FORCEINLINE unsigned long RoundFloatToUnsignedLong(float f)
 {
-#if defined( _X360 )
-#ifdef Assert
-	Assert( IsFPUControlWordSet() );
-#endif
-	union
+#ifdef WIN64
+	uint nRet = (uint)f;
+	if (nRet & 1)
 	{
-		double flResult;
-		int pIntResult[2];
-		unsigned long pResult[2];
-	};
-	flResult = __fctiw( f );
-	Assert( pIntResult[1] >= 0 );
-	return pResult[1];
-#else  // !X360
-	
+		if ((f - floor(f) >= 0.5))
+		{
+			nRet++;
+		}
+	}
+	else
+	{
+		if ((f - floor(f) > 0.5))
+		{
+			nRet++;
+}
+	}
+	return nRet;
+#else
 	unsigned char nResult[8];
 
 #if defined( _WIN32 )
@@ -1161,80 +1122,35 @@ FORCEINLINE unsigned long RoundFloatToUnsignedLong(float f)
 		fld f
 		fistp       qword ptr nResult
 	}
-#elif _LINUX
-	__asm __volatile__ (
-		"fistpl %0;": "=m" (nResult): "t" (f) : "st"
-	);
+#elif POSIX
+	__asm __volatile__(
+	"fistpl %0;": "=m" (nResult) : "t" (f) : "st"
+		);
 #endif
 
 	return *((unsigned long*)nResult);
-#endif
+#endif // PLATFORM_WINDOWS_PC64
 }
 
 // Fast, accurate ftol:
 FORCEINLINE int Float2Int( float a )
 {
-#if defined( _X360 )
-	union
-	{
-		double flResult;
-		int pResult[2];
-	};
-	flResult = __fctiwz( a );
-	return pResult[1];
-#else  // !X360
-	
-	int RetVal;
-
-#if defined( _WIN32 )
-	int CtrlwdHolder;
-	int CtrlwdSetter;
-	__asm 
-	{
-		fld    a					// push 'a' onto the FP stack
-		fnstcw CtrlwdHolder		// store FPU control word
-		movzx  eax, CtrlwdHolder	// move and zero extend word into eax
-		and    eax, 0xFFFFF3FF	// set all bits except rounding bits to 1
-		or     eax, 0x00000C00	// set rounding mode bits to round towards zero
-		mov    CtrlwdSetter, eax	// Prepare to set the rounding mode -- prepare to enter plaid!
-		fldcw  CtrlwdSetter		// Entering plaid!
-		fistp  RetVal				// Store and converted (to int) result
-		fldcw  CtrlwdHolder		// Restore control word
-	}
-#elif _LINUX
-	RetVal = static_cast<int>( a );
-#endif
-
-	return RetVal;
-#endif
+	return (int)a;
 }
 
 // Over 15x faster than: (int)floor(value)
 inline int Floor2Int( float a )
 {
-   int RetVal;
-
-#if defined( _X360 )
-	RetVal = (int)floor( a );
-#elif defined( _WIN32 )
-   int CtrlwdHolder;
-   int CtrlwdSetter;
-   __asm 
-   {
-      fld    a					// push 'a' onto the FP stack
-      fnstcw CtrlwdHolder		// store FPU control word
-      movzx  eax, CtrlwdHolder	// move and zero extend word into eax
-      and    eax, 0xFFFFF3FF	// set all bits except rounding bits to 1
-      or     eax, 0x00000400	// set rounding mode bits to round down
-      mov    CtrlwdSetter, eax	// Prepare to set the rounding mode -- prepare to enter plaid!
-      fldcw  CtrlwdSetter		// Entering plaid!
-      fistp  RetVal				// Store floored and converted (to int) result
-      fldcw  CtrlwdHolder		// Restore control word
-   }
-#elif _LINUX
-	RetVal = static_cast<int>( floor(a) );
+	int RetVal;
+#if defined( __i386__ )
+	// Convert to int and back, compare, subtract one if too big
+	__m128 a128 = _mm_set_ss(a);
+	RetVal = _mm_cvtss_si32(a128);
+	__m128 rounded128 = _mm_cvt_si2ss(_mm_setzero_ps(), RetVal);
+	RetVal -= _mm_comigt_ss(rounded128, a128);
+#else
+	RetVal = static_cast<int>(floor(a));
 #endif
-
 	return RetVal;
 }
 
@@ -1270,29 +1186,16 @@ inline float ClampToMsec( float in )
 // Over 15x faster than: (int)ceil(value)
 inline int Ceil2Int( float a )
 {
-   int RetVal;
-
-#if defined( _X360 )
-	RetVal = (int)ceil( a );
-#elif defined( _WIN32 )
-   int CtrlwdHolder;
-   int CtrlwdSetter;
-   __asm 
-   {
-      fld    a					// push 'a' onto the FP stack
-      fnstcw CtrlwdHolder		// store FPU control word
-      movzx  eax, CtrlwdHolder	// move and zero extend word into eax
-      and    eax, 0xFFFFF3FF	// set all bits except rounding bits to 1
-      or     eax, 0x00000800	// set rounding mode bits to round down
-      mov    CtrlwdSetter, eax	// Prepare to set the rounding mode -- prepare to enter plaid!
-      fldcw  CtrlwdSetter		// Entering plaid!
-      fistp  RetVal				// Store floored and converted (to int) result
-      fldcw  CtrlwdHolder		// Restore control word
-   }
-#elif _LINUX
-	RetVal = static_cast<int>( ceil(a) );
+	int RetVal;
+#if defined( __i386__ )
+	// Convert to int and back, compare, add one if too small
+	__m128 a128 = _mm_load_ss(&a);
+	RetVal = _mm_cvtss_si32(a128);
+	__m128 rounded128 = _mm_cvt_si2ss(_mm_setzero_ps(), RetVal);
+	RetVal += _mm_comilt_ss(rounded128, a128);
+#else
+	RetVal = static_cast<int>(ceil(a));
 #endif
-
 	return RetVal;
 }
 

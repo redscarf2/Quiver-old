@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2004, Valve Corporation, All rights reserved. =======
+//====== Copyright Valve Corporation, All rights reserved. ====================
 //
 // A class representing a Dag (directed acyclic graph) node used for holding transforms, lights, cameras and shapes
 //

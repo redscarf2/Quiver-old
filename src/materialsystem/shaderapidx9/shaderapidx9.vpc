@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
 $Macro OUTBINNAME	"shaderapidx9"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
@@ -15,7 +15,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include;..\" 	[$WIN32]
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include;..\" 	[$WINDOWS]
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\x360xdk\include\win32\vs2005;..\" [$X360]
 		$PreprocessorDefinitions		"$BASE;SHADERAPIDX9;SHADER_DLL_EXPORT;PROTECTED_THINGS_ENABLE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead"
 
@@ -44,12 +44,12 @@ $Project "shaderapidx9"
 	$Folder	"Source Files"
 	{
 		$File	"ColorFormatDX8.cpp"
-		$File	"d3d_async.cpp"								[$WIN32]
+		$File	"d3d_async.cpp"								[$WINDOWS]
 		$File	"$SRCDIR\public\filesystem_helpers.cpp"
 		$File	"HardwareConfig.cpp"
 		$File	"meshbase.cpp"
 		$File	"MeshDX8.cpp"
-		$File	"Recording.cpp"								[$WIN32]
+		$File	"Recording.cpp"								[$WINDOWS]
 		$File	"ShaderAPIDX8.cpp"
 		$File	"ShaderDeviceBase.cpp"
 		$File	"ShaderAPIBase.cpp"
@@ -60,11 +60,11 @@ $Project "shaderapidx9"
 		$File	"cvballoctracker.cpp"
 		$File	"vertexdecl.cpp"
 		$File	"VertexShaderDX8.cpp"
-		$File	"wmi.cpp"									[$WIN32]
+		$File	"wmi.cpp"									[$WINDOWS]
 		$File	"textureheap.cpp"							[$X360]
 	}
 
-	$Folder	"DirectX Header Files" [$WIN32]
+	$Folder	"DirectX Header Files" [$WINDOWS]
 	{
 		$File	"$SRCDIR\dx8sdk\include\d3d8.h"
 		$File	"$SRCDIR\dx8sdk\include\d3d8caps.h"
@@ -110,7 +110,7 @@ $Project "shaderapidx9"
 		$File	"vertexdecl.h"
 //		$File	"..\CMaterialSystemStats.h"
 		$File	"ColorFormatDX8.h"
-		$File	"d3d_async.h"					[$WIN32]
+		$File	"d3d_async.h"					[$WINDOWS]
 		$File	"dynamicib.h"
 		$File	"dynamicvb.h"
 		$File	"HardwareConfig.h"
@@ -127,15 +127,15 @@ $Project "shaderapidx9"
 		$File	"stubd3ddevice.h"
 		$File	"TextureDX8.h"
 		$File	"VertexShaderDX8.h"
-		$File	"wmi.h"							[$WIN32]
+		$File	"wmi.h"							[$WINDOWS]
 		$File	"textureheap.h"					[$X360]
 	}
 
-	$Folder	"Link Libraries" [$WIN32]
+	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
 		$File	"$SRCDIR\dx9sdk\lib\d3d9.lib"
 		$File	"$SRCDIR\dx9sdk\lib\d3dx9.lib"
 		$File	"$SRCDIR\lib\common\vc7\bzip2.lib"
@@ -143,10 +143,10 @@ $Project "shaderapidx9"
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\bitmap_360.lib"
-		$File	"$SRCDIR\lib\public\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\vtf_360.lib"
-		$File	"$SRCDIR\lib\public\tier2_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf_360.lib"
+		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
 		$File	"$SRCDIR\lib\common\vc7\bzip2_360.lib"
 	}
 }

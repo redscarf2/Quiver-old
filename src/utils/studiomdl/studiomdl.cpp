@@ -8775,7 +8775,7 @@ struct
 	{ "$limitrotation", Cmd_LimitRotation },
 	{ "$definebone", Cmd_DefineBone },
 	{ "$jigglebone", Cmd_JiggleBone },
-	{ "$includemodel", Cmd_IncludeModel },
+	{ "$Includemodel", Cmd_IncludeModel },
 	{ "$opaque", Cmd_Opaque },
 	{ "$mostlyopaque", Cmd_TranslucentTwoPass },
 //	{ "$platform", Cmd_Platform },

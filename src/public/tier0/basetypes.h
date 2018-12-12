@@ -104,8 +104,9 @@ typedef unsigned char BYTE;
 typedef unsigned char byte;
 typedef unsigned short word;
 
+#ifndef WIN64
 typedef unsigned int uintptr_t;
-
+#endif
 
 enum ThreeState_t
 {

@@ -35,6 +35,12 @@ bool CP4File::Add(void)
 	return true;
 }
 
+bool CP4File::Revert(void)
+{
+	return false;
+}
+
+
 // Is the file in perforce?
 bool CP4File::IsFileInPerforce()
 {

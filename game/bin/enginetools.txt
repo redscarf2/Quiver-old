@@ -1,0 +1,9 @@
+"enginetools"
+{
+	"library"	"actbusy.dll"
+	"library"	"commedit.dll"
+	"library"	"foundry.dll"
+	"library"	"pet.dll"
+	"library"	"vcdblock.dll"
+	"library"	"vmt.dll"
+}

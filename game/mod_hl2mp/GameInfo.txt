@@ -42,7 +42,7 @@
 			Game				|gameinfo_path|.
 			Game				hl2mp
 			Game				hl2
-			Platform			platform
+			Platform			core
 		}
 	}
 }

@@ -31,8 +31,8 @@
 		SearchPaths
 		{
 			Game				|gameinfo_path|.
-			Game				hl2
-			Platform			platform
+			Game				mod_hl2
+			Platform			core
 		}
 	}
 }

@@ -31,10 +31,10 @@
 		//
 		SearchPaths
 		{
-			Game				|gameinfo_path|.
-			Game				episodic
-			Game				hl2
-			Platform			platform
+			game				|gameinfo_path|.
+			game				mod_episodic
+			game				mod_hl2
+			platform			core
 		}
 	}
 }

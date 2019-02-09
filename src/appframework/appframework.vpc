@@ -9,6 +9,14 @@ $Macro OUTLIBDIR	"$SRCDIR\lib\public\$PLATSUBDIR"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
+$Configuration
+{
+    $General
+    {
+		$AdditionalProjectDependencies                  "$BASE;togl"  [!$IS_LIB_PROJECT && $GL]
+	}
+}
+
 $Linux
 {
 		$BuildForLinux 1
@@ -35,5 +43,10 @@ $Project "appframework"
 		$File	"$SRCDIR\public\appframework\tier2app.h"
 		$File	"$SRCDIR\public\appframework\tier3app.h"
 		$File	"$SRCDIR\public\appframework\VguiMatSysApp.h"
+	}
+	
+	$Folder	"Link Libraries"
+	{
+		$ImpLib togl [!$IS_LIB_PROJECT && $GL]
 	}
 }

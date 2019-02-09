@@ -900,6 +900,11 @@ $Project "tier3test"
 	"unittests\tier3test\tier3test.vpc" 	[$WINDOWS]
 }
 
+$Project "togl"
+{
+	"togl\togl.vpc" [$GL]
+}
+
 $Project "toolutils"
 {
 	"tools\toolutils\toolutils.vpc" [$WINDOWS]

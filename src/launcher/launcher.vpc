@@ -77,11 +77,12 @@ $Project "launcher"
 		$File	"$SRCDIR\public\vstdlib\vstdlib.h"
 	}
 
-	$folder	"Link Libraries"	[$WINDOWS||$POSIX]
+	$folder	"Link Libraries"
 	{
 		$Lib	"$LIBPUBLIC\appframework"		
 		$Lib	"$LIBPUBLIC\tier2"			
 		$Lib	"$LIBPUBLIC\tier3"				
+		$ImpLib togl [!$IS_LIB_PROJECT && $GL]
 	}
 
 	$folder	"Link Libraries"	[$X360]

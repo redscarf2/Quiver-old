@@ -9,6 +9,8 @@
 #include "BaseFileSystem.h"
 #include "steamcommon.h"
 #include "steaminterface.h"
+#include "steam/steamclientpublic.h"
+#include "steam/steam_api.h"
 #include "tier0/dbg.h"
 #include "tier0/icommandline.h"
 
@@ -301,9 +303,23 @@ void CFileSystem_Steam::Shutdown()
 
 void CFileSystem_Steam::LoadAndStartSteam()
 {
+	if (!m_hSteamDLL)
+	{
+		const char *installDir = SteamAPI_GetSteamInstallPath();
+		if (installDir)
+		{
+			char dllPath[MAX_PATH];
+#ifdef WIN32
+			V_ComposeFileName(installDir, "steam" + DLL_EXT_STRING, dllPath, Q_ARRAYSIZE(dllPath)); // windows uses 'steam.dll'
+#elif defined(POSIX)
+			V_ComposeFileName(installDir, "libsteam" + DLL_EXT_STRING, dllPath, Q_ARRAYSIZE(dllPath)); // mac/linux uses 'libsteam.so/dylib'
+#else
+#error
+#endif
+
 	if ( !m_hSteamDLL )
 	{
-		m_hSteamDLL = (HMODULE)Sys_LoadModule( "steam.dll" );
+		m_hSteamDLL = (HMODULE)Sys_LoadModule(installDir);
 	}
 
 	if ( m_hSteamDLL )

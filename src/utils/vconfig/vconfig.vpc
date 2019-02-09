@@ -57,7 +57,7 @@ $Project "vconfig"
 	$Folder	"Link Libraries"
 	{
 		$Lib	"$LIBPUBLIC\appframework"
-		$File	"$SRCDIR\lib\common\Steam.lib"
+		$Lib	"$LIBCOMMON\steam_api"
 		$Lib	"$LIBPUBLIC\tier2"
 		$Lib	"$LIBPUBLIC\tier3"
 		$Lib	"$LIBPUBLIC\vgui_controls"

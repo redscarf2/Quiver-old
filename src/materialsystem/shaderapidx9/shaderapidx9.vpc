@@ -15,9 +15,11 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include;..\" 	[$WINDOWS]
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include;..\" 	[$WINDOWS && !$GL]
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\x360xdk\include\win32\vs2005;..\" [$X360]
 		$PreprocessorDefinitions		"$BASE;SHADERAPIDX9;SHADER_DLL_EXPORT;PROTECTED_THINGS_ENABLE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead"
+		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [$WIN32 && !$GL]
+		$PreprocessorDefinitions		"$BASE;GL_GLEXT_PROTOTYPES;DX_TO_GL_ABSTRACTION" [$GL]
 
 //		$AdditionalOptions		"/FC"
 	}
@@ -64,7 +66,7 @@ $Project "shaderapidx9"
 		$File	"textureheap.cpp"							[$X360]
 	}
 
-	$Folder	"DirectX Header Files" [$WINDOWS]
+	$Folder	"DirectX Header Files" [$WINDOWS && !$GL]
 	{
 		$File	"$SRCDIR\dx8sdk\include\d3d8.h"
 		$File	"$SRCDIR\dx8sdk\include\d3d8caps.h"
@@ -148,5 +150,6 @@ $Project "shaderapidx9"
 		$Lib	"$LIBPUBLIC\vtf_360"
 		$Lib	"$LIBPUBLIC\tier2_360"
 		$File	"$SRCDIR\lib\common\vc7\bzip2_360.lib"
+		$ImpLib "$LIBPUBLIC\togl" [!$IS_LIB_PROJECT && $GL]
 	}
 }

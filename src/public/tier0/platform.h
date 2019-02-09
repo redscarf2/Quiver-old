@@ -1062,35 +1062,6 @@ RETURN_TYPE FASTCALL __Function_##NAME<nArgument>::Run ARGS
 		CODE;\
 	}
 
-#if defined( _WIN32 ) && defined( _MSC_VER ) && ( _MSC_VER >= 1400 )
-extern "C" unsigned __int64 __rdtsc();
-#pragma intrinsic(__rdtsc)
-#endif
-
-inline uint64 Plat_Rdtsc()
-{
-#if defined( _WIN64 )
-	return (uint64)__rdtsc();
-#elif defined( _WIN32 )
-#if defined( _MSC_VER ) && ( _MSC_VER >= 1400 )
-	return (uint64)__rdtsc();
-#else
-	__asm rdtsc;
-	__asm ret;
-#endif
-#elif defined( __i386__ )
-	uint64 val;
-	__asm__ __volatile__("rdtsc" : "=A" (val));
-	return val;
-#elif defined( __x86_64__ )
-	uint32 lo, hi;
-	__asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
-	return (((uint64)hi) << 32) | lo;
-#else
-#error
-#endif
-}
-
 //-----------------------------------------------------------------------------
 
 #if defined(_INC_WINDOWS) && defined(_WIN32)

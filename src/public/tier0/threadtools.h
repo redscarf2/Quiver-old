@@ -112,21 +112,36 @@ typedef int (*ThreadedLoadLibraryFunc_t)();
 TT_INTERFACE void SetThreadedLoadLibraryFunc( ThreadedLoadLibraryFunc_t func );
 TT_INTERFACE ThreadedLoadLibraryFunc_t GetThreadedLoadLibraryFunc();
 
-#if defined( _WIN32 ) && !defined( _WIN64 ) && !defined( _X360 )
+#if defined( _WIN32 ) && !defined( _WIN64 )
 extern "C" unsigned long __declspec(dllimport) __stdcall GetCurrentThreadId();
 #define ThreadGetCurrentId GetCurrentThreadId
 #endif
 
 inline void ThreadPause()
 {
+#if defined( _WIN32 ) && !defined( _X360 )
+	__asm pause;
+#elif _LINUX
+	__asm __volatile("pause");
+#elif defined( _X360 )
+#else
+#error "implement me"
+#endif
+}
+
+// Re-implement for x64
+// -Ethan
+/*inline void ThreadPause()
+{
 #if defined( _WIN32 )
+	// Intrinsic for __asm pause; from <intrin.h>
 	_mm_pause();
 #elif _LINUX
 	__asm __volatile("pause");
 #else
 #error "implement me"
 #endif
-}
+}*/
 
 TT_INTERFACE bool ThreadJoin( ThreadHandle_t, unsigned timeout = TT_INFINITE );
 

@@ -41,11 +41,11 @@ $Project "QCGenerator_Launcher"
 
 	$Folder "Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\matsys_controls.lib"
+		$Lib	"$LIBPUBLIC\appframework"
+		$Lib	"$LIBPUBLIC\matsys_controls"
 		$File	"$SRCDIR\lib\common\sqlwrapper.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
+		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"$LIBPUBLIC\tier3"
+		$Lib	"$LIBPUBLIC\vgui_controls"
 	}
 }

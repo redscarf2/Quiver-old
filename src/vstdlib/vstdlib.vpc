@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -44,7 +44,7 @@ $Project
 {
 	$folder	"Link Libraries"
 	{
-		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\vstdlib.lib"		[$WINDOWS||$LINUX]
+		-$Lib	"$LIBPUBLIC\vstdlib"		[$WINDOWS||$LINUX]
 	}
 }
 

@@ -4,20 +4,11 @@
 //
 //=====================================================================================//
 
-#if defined( _WIN32 ) && !defined( _X360 )
+#if defined( _WIN32 )
 #include <windows.h>
 #include <stdio.h>
 #include <assert.h>
 #include <direct.h>
-#endif
-#if defined( _X360 )
-#define _XBOX
-#include <xtl.h>
-#include <xbdm.h>
-#include <stdio.h>
-#include <assert.h>
-#include "xbox\xbox_core.h"
-#include "xbox\xbox_launch.h"
 #endif
 
 typedef int (*LauncherMain_t)( HINSTANCE hInstance, HINSTANCE hPrevInstance, 
@@ -27,7 +18,6 @@ typedef int (*LauncherMain_t)( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 // Purpose: Return the directory where this .exe is running from
 // Output : char
 //-----------------------------------------------------------------------------
-#if !defined( _X360 )
 static char *GetBaseDir( const char *pszBuffer )
 {
 	static char	basedir[ MAX_PATH ];
@@ -90,11 +80,7 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	szBuffer[sizeof( szBuffer ) - 1] = '\0';
 
 	// STEAM OK ... filesystem not mounted yet
-#if defined(_X360)
-	HINSTANCE launcher = LoadLibrary( szBuffer );
-#else
 	HINSTANCE launcher = LoadLibraryEx( szBuffer, NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
-#endif
 	if ( !launcher )
 	{
 		char *pszError;
@@ -112,7 +98,6 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	LauncherMain_t main = (LauncherMain_t)GetProcAddress( launcher, "LauncherMain" );
 	return main( hInstance, hPrevInstance, lpCmdLine, nCmdShow );
 }
-#endif
 
 #if defined( _X360 )
 //-----------------------------------------------------------------------------

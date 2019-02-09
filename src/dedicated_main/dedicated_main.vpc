@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 $Macro OUTBINNAME	"srcds"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_base.vpc"
@@ -36,8 +36,8 @@ $Project "Dedicated_main"
 	
 	$Folder "Link Libraries"
 	{
-		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier0.lib"
-		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier1.lib"
-		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\vstdlib.lib"
+		-$Lib	"$LIBPUBLIC\tier0"
+		-$Lib	"$LIBPUBLIC\tier1"
+		-$Lib	"$LIBPUBLIC\vstdlib"
 	}
 }

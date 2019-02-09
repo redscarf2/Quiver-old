@@ -53,7 +53,7 @@ $Project "bitmap"
 
 	$Folder "Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\nvtc.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\ATI_Compress_MT_VC8.lib"
+		$Lib	"$LIBPUBLIC\nvtc"
+		$Lib	"$LIBPUBLIC\ATI_Compress_MT_VC8"
 	}
 }

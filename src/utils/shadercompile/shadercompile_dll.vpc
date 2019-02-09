@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -53,8 +53,8 @@ $Project "Shadercompile_dll"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vmpi.lib"
+		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"$LIBPUBLIC\vmpi"
 		$File	"$SRCDIR\lib\common\vc8\lzma.lib"
 	}
 }

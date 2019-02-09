@@ -44,24 +44,10 @@ REM PC SHADERS
 REM ****************
 if /i "%ALLSHADERS_CONFIG%" == "pc" (
   %BUILD_SHADER% stdshader_dx9_20b
-  %BUILD_SHADER% stdshader_dx9_20b_new	-dx9_30
   %BUILD_SHADER% stdshader_dx9_30		-dx9_30	-force30
   %BUILD_SHADER% stdshader_dx10     -dx10
 )
 
-REM ****************
-REM X360 SHADERS
-REM ****************
-if /i "%ALLSHADERS_CONFIG%" == "x360" (
-  rem %BUILD_SHADER% stdshader_dx9_20b      %ARG_X360% %ARG_EXTRA%
-  rem %BUILD_SHADER% stdshader_dx9_20b_new	%ARG_X360% %ARG_EXTRA%
-  rem %BUILD_SHADER% stdshader_dx9_30   %ARG_X360% %ARG_EXTRA%
-  rem %BUILD_SHADER% stdshader_dx10     %ARG_X360% %ARG_EXTRA%
-)
-
-REM ****************
-REM END
-REM ****************
 :end
 
 
@@ -75,3 +61,5 @@ if not "%dynamic_shaders%" == "1" (
 
 %TTEXE% -diff %tt_all_start% -cur
 echo.
+
+pause

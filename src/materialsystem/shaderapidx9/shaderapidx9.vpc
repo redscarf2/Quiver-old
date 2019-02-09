@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 $Macro OUTBINNAME	"shaderapidx9"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
@@ -133,9 +133,9 @@ $Project "shaderapidx9"
 
 	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$Lib	"$LIBPUBLIC\bitmap"
+		$Lib	"$LIBPUBLIC\mathlib"
+		$Lib	"$LIBPUBLIC\tier2"
 		$File	"$SRCDIR\dx9sdk\lib\d3d9.lib"
 		$File	"$SRCDIR\dx9sdk\lib\d3dx9.lib"
 		$File	"$SRCDIR\lib\common\vc7\bzip2.lib"
@@ -143,10 +143,10 @@ $Project "shaderapidx9"
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap_360.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vtf_360.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$Lib	"$LIBPUBLIC\bitmap_360"
+		$Lib	"$LIBPUBLIC\mathlib_360"
+		$Lib	"$LIBPUBLIC\vtf_360"
+		$Lib	"$LIBPUBLIC\tier2_360"
 		$File	"$SRCDIR\lib\common\vc7\bzip2_360.lib"
 	}
 }

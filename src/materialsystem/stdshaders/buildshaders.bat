@@ -25,25 +25,19 @@ rem set shadercompilecommand=echo shadercompile.exe -mpi_graphics -mpi_TrackEven
 set shadercompilecommand=shadercompile.exe
 set shadercompileworkers=32
 set x360_args=
-set targetdir=..\..\..\game\hl2\shaders
+set targetdir=..\..\..\game\mod_hl2\shaders
 set SrcDirBase=..\..
 set ChangeToDir=../../../game/bin
 set shaderDir=shaders
 set SDKArgs=
 set SHADERINCPATH=vshtmp9/... fxctmp9/...
-set VALVE_NO_AUTO_P4_SHADERS=1
 
 set DIRECTX_SDK_VER=pc09.00
 set DIRECTX_SDK_BIN_DIR=dx9sdk\utilities
 
-if /i "%2" == "-x360" goto dx_sdk_x360
 if /i "%2" == "-dx9_30" goto dx_sdk_dx9_30
 if /i "%2" == "-dx10" goto dx_sdk_dx10
 goto dx_sdk_end
-:dx_sdk_x360
-			set DIRECTX_SDK_VER=x360.00
-			set DIRECTX_SDK_BIN_DIR=x360xdk\bin\win32
-			goto dx_sdk_end
 :dx_sdk_dx9_30
 			set DIRECTX_SDK_VER=pc09.30
 			set DIRECTX_SDK_BIN_DIR=dx10sdk\utilities\dx9_30
@@ -79,14 +73,6 @@ echo "       sourceDir is where the source code is (where it will find scripts a
 echo "ex   : buildshaders myshaders"
 echo "ex   : buildshaders myshaders -game c:\steam\steamapps\sourcemods\mymod -source c:\mymod\src"
 goto :end
-
-REM ****************
-REM X360 ARGS
-REM ****************
-:set_x360_args
-set x360_args=-x360
-set SHADERINCPATH=vshtmp9_360/... fxctmp9_360/...
-goto build_shaders
 
 REM ****************
 REM MOD ARGS - look for -game or the vproject environment variable
@@ -148,12 +134,6 @@ if exist filelistgen.txt del /f /q filelistgen.txt
 if exist inclist.txt del /f /q inclist.txt
 if exist vcslist.txt del /f /q vcslist.txt
 
-
-REM ****************
-REM Revert any targets (vcs or inc) that are opened for integrate.
-REM ****************
-rem perl "%SrcDirBase%\devtools\bin\p4revertshadertargets.pl" %x360_args% -source "%SrcDirBase%" %inputbase%
-
 REM ****************
 REM Generate a makefile for the shader project
 REM ****************
@@ -176,14 +156,6 @@ if exist "inclist.txt" (
 )
 
 REM ****************
-REM Deal with perforce operations for inc files
-REM ****************
-if exist inclist.txt if not "%VALVE_NO_AUTO_P4_SHADERS%" == "1" (
-	echo Executing perforce operations on .inc files.
-	..\..\devtools\bin\p4autocheckout.pl inclist.txt "Shader Auto Checkout INC" . %SHADERINCPATH%
-)
-
-REM ****************
 REM Add the executables to the worklist.
 REM ****************
 if /i "%DIRECTX_SDK_VER%" == "pc09.00" (
@@ -194,9 +166,6 @@ if /i "%DIRECTX_SDK_VER%" == "pc09.30" (
 )
 if /i "%DIRECTX_SDK_VER%" == "pc10.00" (
 	echo %SrcDirBase%\devtools\bin\d3dx10_33.dll >> filestocopy.txt
-)
-if /i "%DIRECTX_SDK_VER%" == "x360.00" (
-	rem echo "Copy extra files for xbox360
 )
 
 echo %SrcDirBase%\%DIRECTX_SDK_BIN_DIR%\dx_proxy.dll >> filestocopy.txt
@@ -237,14 +206,6 @@ REM ****************
 if not "%dynamic_shaders%" == "1" (
 	if exist makefile.%inputbase%.copy echo Publishing shaders to target...
 	if exist makefile.%inputbase%.copy perl %SrcDirBase%\devtools\bin\copyshaders.pl makefile.%inputbase%.copy %x360_args%
-)
-
-REM ****************
-REM Deal with perforce operations for vcs files
-REM ****************
-if not "%dynamic_shaders%" == "1" if exist vcslist.txt if not "%VALVE_NO_AUTO_P4_SHADERS%" == "1" (
-	echo Executing perforce operations on .vcs files.
-	..\..\devtools\bin\p4autocheckout.pl vcslist.txt "Shader Auto Checkout VCS" ../../../game/hl2/shaders ../../../game/hl2/shaders/...
 )
 
 REM ****************

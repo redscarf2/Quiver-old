@@ -55,6 +55,7 @@
 #include "tier1/utllinkedlist.h"
 #include "tier1/utlstring.h"
 #include "tier1/UtlSortVector.h"
+#include "tier1/UtlStringMap.h"
 #include "bspfile.h"
 #include "tier1/utldict.h"
 #include "tier1/tier1.h"
@@ -239,9 +240,10 @@ public:
 	// possibly embedded pack
 	int64				m_nBaseOffset;
 
-	CUtlString			m_ZipName;
+	CUtlString			m_PackName;
 
 	bool				m_bIsMapPath;
+	bool				m_bIsVPK;
 	long				m_lPackFileTime;
 
 	int					m_refCount;
@@ -339,6 +341,95 @@ protected:
 	CByteswap					m_swap;
 };
 
+class CVPKFileEntry
+{
+public:
+	unsigned int CRC; // A 32bit CRC of the file's data.
+	unsigned short PreloadBytes; // The number of bytes contained in the index file.
+
+								 // A zero based index of the archive this file's data is contained in.
+								 // If 0x7fff, the data follows the directory.
+	unsigned short ArchiveIndex;
+
+	// If ArchiveIndex is 0x7fff, the offset of the file data relative to the end of the directory (see the header for more details).
+	// Otherwise, the offset of the data from the start of the specified archive.
+	unsigned int EntryOffset;
+
+	// If zero, the entire file is stored in the preload data.
+	// Otherwise, the number of bytes stored starting at EntryOffset.
+	unsigned int EntryLength;
+
+	unsigned short Dummy; //This is always = 0xffff;
+};
+
+class CVPKFile : public CPackFile
+{
+public:
+	CVPKFile( CBaseFileSystem* fs, bool bVolumes, unsigned int nVersion );
+	~CVPKFile();
+
+	// Loads the pack file
+	virtual bool Prepare( int64 fileLen = -1, int64 nFileOfs = 0 );
+	virtual bool FindFile( const char *pFilename, int &nIndex, int64 &nOffset, int &nLength );
+	virtual int  ReadFromPack( int nIndex, void* buffer, int nDestBytes, int nBytes, int64 nOffset  );
+
+	int64 GetPackFileBaseOffset() { return m_nBaseOffset; }
+
+	bool	IndexToFilename( int nIndex, char *pBuffer, int nBufferSize ) { return true; };
+
+	inline bool	UsesVolumes()	{ return m_bVolumes; }
+
+	CUtlStringMap<CUtlStringMap<CUtlStringMap<CVPKFileEntry*>*>*> m_Extensions;
+private:
+	bool m_bVolumes;
+	unsigned int m_nVersion;
+	CVPKFileEntry* m_pLastRequest;
+protected:
+	//From VDC - https://developer.valvesoftware.com/wiki/VPK_File_Format#Tree
+
+	// Entries to the individual files stored inside the pack file.
+
+//	CVPKFileEntry m_VPKFiles;
+
+};
+
+//There is no actual version 0, we just use this struct to determine the actual version
+struct VPK0_t
+{
+	unsigned int Signature;
+	unsigned int Version;
+};
+
+//From VDC - https://developer.valvesoftware.com/wiki/VPK_File_Format#Header
+struct VPK1_t
+{
+	unsigned int Signature;
+	unsigned int Version;
+
+	// The size, in bytes, of the directory tree
+	unsigned int TreeSize;
+};
+
+struct VPK2_t
+{
+	unsigned int Signature;
+	unsigned int Version;
+
+	// The size, in bytes, of the directory tree
+	unsigned int TreeSize;
+
+	// How many bytes of file content are stored in this VPK file (0 in CSGO)
+	unsigned int FileDataSectionSize;
+
+	// The size, in bytes, of the section containing MD5 checksums for external archive content
+	unsigned int ArchiveMD5SectionSize;
+
+	// The size, in bytes, of the section containing MD5 checksums for content in this file (should always be 48)
+	unsigned int OtherMD5SectionSize;
+
+	// The size, in bytes, of the section containing the public key and signature. This is either 0 (CSGO & The Ship) or 296 (HL2, HL2:DM, HL2:EP1, HL2:EP2, HL2:LC, TF2, DOD:S & CS:S)
+	unsigned int SignatureSectionSize;
+};
 
 class CFileLoadInfo
 {
@@ -361,7 +452,8 @@ abstract_class CBaseFileSystem : public CTier1AppSystem< IFileSystem >
 {
 	friend class CPackFileHandle;
 	friend class CPackFile;
-	friend class CXZipPackFile;	
+	friend class CXZipPackFile;
+	friend class CVPKFile;
 	friend class CFileHandle;
 	friend class CFileTracker;
 	friend class CFileOpenInfo;
@@ -401,7 +493,7 @@ public:
 	virtual int					ReadEx( void* pOutput, int sizeDest, int size, FileHandle_t file );
 	virtual int					Write( void const* pInput, int size, FileHandle_t file );
 	virtual char				*ReadLine( char *pOutput, int maxChars, FileHandle_t file );
-	virtual int					FPrintf( FileHandle_t file, char *pFormat, ... );
+	virtual int					FPrintf( FileHandle_t file, PRINTF_FORMAT_STRING const char *pFormat, ... );
 
 	// Reads/writes files to utlbuffers
 	virtual bool				ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes, int nStartingByte, FSAllocFunc_t pfnAlloc = NULL );
@@ -478,12 +570,46 @@ public:
 	virtual void				RegisterFileWhitelist( IFileList *pWantCRCList, IFileList *pAllowFromDiskList, IFileList **pFilesToReload );
 	virtual	void				MarkAllCRCsUnverified();
 	virtual void				CacheFileCRCs( const char *pPathname, ECacheCRCType eType, IFileList *pFilter );
-	void						CacheFileCRCs_R( const char *pPathname, ECacheCRCType eType, IFileList *pFilter, CUtlDict<int,int> &searchPathNames );
-	virtual EFileCRCStatus		CheckCachedFileCRC( const char *pPathID, const char *pRelativeFilename, CRC32_t *pCRC );
-	virtual int					GetUnverifiedCRCFiles( CUnverifiedCRCFile *pFiles, int nMaxFiles );
+	virtual EFileCRCStatus		CheckCachedFileHash( const char *pPathID, const char *pRelativeFilename, int nFileFraction, FileHash_t *pFileHash ) { return k_eFileCRCStatus_CantOpenFile; };
+	virtual int					GetUnverifiedFileHashes( CUnverifiedFileHash *pFiles, int nMaxFiles ) { return 0; };
 	virtual int					GetWhitelistSpewFlags();
 	virtual void				SetWhitelistSpewFlags( int flags );
 	virtual void				InstallDirtyDiskReportFunc( FSDirtyDiskReportFunc_t func );
+
+	//--------------------------------------------------------
+	// Low-level file caching. Cached files are loaded into memory and used
+	// to satisfy read requests (sync and async) until the cache is destroyed.
+	// NOTE: this could defeat file whitelisting, if a file were loaded in
+	// a non-whitelisted environment and then reused. Clients should not cache
+	// files across moves between pure/non-pure environments.
+	//--------------------------------------------------------
+	virtual FileCacheHandle_t CreateFileCache() { return NULL; };
+	virtual void AddFilesToFileCache( FileCacheHandle_t cacheId, const char **ppFileNames, int nFileNames, const char *pPathID ) {};
+	virtual bool IsFileCacheFileLoaded( FileCacheHandle_t cacheId, const char* pFileName ) { return false; };
+	virtual bool IsFileCacheLoaded( FileCacheHandle_t cacheId ) { return false; };
+	virtual void DestroyFileCache( FileCacheHandle_t cacheId ) {};
+
+	// XXX For now, we assume that all path IDs are "GAME", never cache files
+	// outside of the game search path, and preferentially return those files
+	// whenever anyone searches for a match even if an on-disk file in another
+	// folder would have been found first in a traditional search. extending
+	// the memory cache to cover non-game files isn't necessary right now, but
+	// should just be a matter of defining a more complex key type. (henryg)
+
+	// Register a CMemoryFileBacking; must balance with UnregisterMemoryFile.
+	// Returns false and outputs an ref-bumped pointer to the existing entry
+	// if the same file has already been registered by someone else; this must
+	// be Unregistered to maintain the balance.
+	virtual bool RegisterMemoryFile( CMemoryFileBacking *pFile, CMemoryFileBacking **ppExistingFileWithRef ) { return false; };
+
+	// Unregister a CMemoryFileBacking; must balance with RegisterMemoryFile.
+	virtual void UnregisterMemoryFile( CMemoryFileBacking *pFile ) {};
+
+	virtual void			CacheAllVPKFileHashes( bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes ) {};
+	virtual bool			CheckVPKFileHash( int PackFileID, int nPackFileNumber, int nFileFraction, MD5Value_t &md5Value ) { return true; };
+
+	// Called when we unload a file, to remove that file's info for pure server purposes.
+	virtual void			NotifyFileUnloaded( const char *pszFilename, const char *pPathId ) {};
 
 	// Returns the file system statistics retreived by the implementation.  Returns NULL if not supported.
 	virtual const FileSystemStatistics *GetFilesystemStatistics();
@@ -511,6 +637,12 @@ public:
 	virtual void				AsyncFinishAllWrites();
 	virtual bool				AsyncSuspend();
 	virtual bool				AsyncResume();
+
+	/// Add async fetcher interface.  This gives apps a hook to intercept async requests and
+	/// pull the data from a source of their choosing.  The immediate use case is to load
+	/// assets from the CDN via HTTP.
+	virtual void				AsyncAddFetcher( IAsyncFileFetch *pFetcher ) {};
+	virtual void				AsyncRemoveFetcher( IAsyncFileFetch *pFetcher ) {};
 
 	virtual void				AsyncAddRef( FSAsyncControl_t hControl );
 	virtual void				AsyncRelease( FSAsyncControl_t hControl );
@@ -564,6 +696,17 @@ public:
 	virtual bool				ExtractRootKeyName( KeyValuesPreloadType_t type, char *outbuf, size_t bufsize, char const *filename, char const *pPathID = 0 );
 
 	virtual DVDMode_t			GetDVDMode() { return m_DVDMode; }
+
+	//--------------------------------------------------------
+	// Whitelisting for pure servers.
+	//--------------------------------------------------------
+
+	// This should be called ONCE at startup. Multiplayer games (gameinfo.txt does not contain singleplayer_only)
+	// want to enable this so sv_pure works.
+	virtual void				EnableWhitelistFileTracking( bool bEnable, bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes ) {};
+
+	// This is called when the client connects to a server using a pure_server_whitelist.txt file.
+	virtual void				RegisterFileWhitelist( IPureServerWhitelist *pWhiteList, IFileList **pFilesToReload ) {};
 
 	FSDirtyDiskReportFunc_t		GetDirtyDiskReportFunc() { return m_DirtyDiskReportFunc; }
 
@@ -874,6 +1017,7 @@ protected:
 
 	void						RemoveAllMapSearchPaths( void );
 	void						AddMapPackFile( const char *pPath, const char *pPathID, SearchPathAdd_t addType );
+	void						AddVPKFile( const char *pPath, const char *pPathID, SearchPathAdd_t addType );
 	void						AddPackFiles( const char *pPath, const CUtlSymbol &pathID, SearchPathAdd_t addType );
 	bool						PreparePackFile( CPackFile &packfile, int offsetofpackinmetafile, int64 filelen );
 

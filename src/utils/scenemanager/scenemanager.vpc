@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_base.vpc"
 
@@ -251,11 +251,11 @@ $Project "Scenemanager"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\choreoobjects.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$Lib	"$LIBPUBLIC\appframework"
+		$Lib	"$LIBPUBLIC\choreoobjects"
+		$Lib	"$LIBPUBLIC\mathlib"
 		$File	"$SRCDIR\lib\common\mxtoolkitwin32.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"$LIBPUBLIC\tier3"
 	}
 }

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 $Macro OUTBINNAME	"vgui2"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
@@ -108,14 +108,14 @@ $Project "vgui2"
 
 	$Folder "Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_surfacelib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$Lib	"$LIBPUBLIC\vgui_surfacelib"
+		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"$LIBPUBLIC\tier3"
 	}
 
 	$Folder "Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3_360.lib"
+		$Lib	"$LIBPUBLIC\tier2_360"
+		$Lib	"$LIBPUBLIC\tier3_360"
 	}
 }

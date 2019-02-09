@@ -82,6 +82,6 @@ $Project "vmpi_service_install"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vmpi.lib"
+		$Lib	"$LIBPUBLIC\vmpi"
 	}
 }

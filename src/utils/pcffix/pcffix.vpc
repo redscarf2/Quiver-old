@@ -18,10 +18,10 @@ $Project "pcffix"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\appframework.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\datamodel.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmserializers.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$Lib	"$LIBPUBLIC\appframework"
+		$Lib	"$LIBPUBLIC\datamodel"
+		$Lib	"$LIBPUBLIC\dmserializers"
+		$Lib	"$LIBPUBLIC\mathlib"
+		$Lib	"$LIBPUBLIC\tier2"
 	}
 }

@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR\utils"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -77,7 +77,7 @@ $Project "phonemeextractor"
 	
 	$Folder	"Link Libraries"
 	{
-		$File "$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$Lib	"$LIBPUBLIC\mathlib"
 		$DynamicFile "..\sapi51\lib\i386\sapi.lib"
 	}
 }

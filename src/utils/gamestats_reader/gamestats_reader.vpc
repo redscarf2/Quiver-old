@@ -32,8 +32,8 @@ $Project "Gamestats_reader"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$Lib	"$LIBPUBLIC\bitmap"
+		$Lib	"$LIBPUBLIC\mathlib"
+		$Lib	"$LIBPUBLIC\tier2"
 	}
 }

@@ -49,6 +49,6 @@ $Project "Networksystem"
 
 	$Folder "Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$Lib	"$LIBPUBLIC\tier2"
 	}
 }

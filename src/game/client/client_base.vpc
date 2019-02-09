@@ -1070,13 +1070,13 @@ $Project
 	
 	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\bitmap.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\choreoobjects.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmxloader.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\particles.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\vgui_controls.lib"
+		$Lib	"$LIBPUBLIC\bitmap"
+		$Lib	"$LIBPUBLIC\choreoobjects"
+		$Lib	"$LIBPUBLIC\dmxloader"
+		$Lib	"$LIBPUBLIC\mathlib"
+		$Lib	"$LIBPUBLIC\particles"
+		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"$LIBPUBLIC\tier3"
+		$Lib	"$LIBPUBLIC\vgui_controls"
 	}
 }

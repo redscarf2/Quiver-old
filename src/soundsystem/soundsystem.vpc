@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		".."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -57,8 +57,8 @@ $Project "Soundsystem"
 	{
 		$File	"$SRCDIR\dx9sdk\lib\dsound.lib"
 		$File	"$SRCDIR\dx9sdk\lib\dxguid.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
+		$Lib	"$LIBPUBLIC\mathlib"
 		$File	"$SRCDIR\lib\common\mss32.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$Lib	"$LIBPUBLIC\tier2"
 	}
 }

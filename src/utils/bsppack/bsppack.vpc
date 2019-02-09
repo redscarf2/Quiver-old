@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -44,13 +44,13 @@ $Project "bsppack"
 
 	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
+		$Lib	"$LIBPUBLIC\mathlib"
+		$Lib	"$LIBPUBLIC\tier2"
 	}
 
 	$Folder	"Link Libraries" [$X360]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2_360.lib"
+		$Lib	"$LIBPUBLIC\mathlib_360"
+		$Lib	"$LIBPUBLIC\tier2_360"
 	}
 }

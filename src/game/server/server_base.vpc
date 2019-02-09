@@ -974,17 +974,17 @@ $Project
 
 	$Folder	"Link Libraries" [$WINDOWS]
 	{
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\choreoobjects.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\dmxloader.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\particles.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier2.lib"
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier3.lib"
+		$Lib	"$LIBPUBLIC\choreoobjects"
+		$Lib	"$LIBPUBLIC\dmxloader"
+		$Lib	"$LIBPUBLIC\mathlib"
+		$Lib	"$LIBPUBLIC\particles"
+		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"$LIBPUBLIC\tier3"
 	}
 	
 	$Folder "Link Libraries" [$POSIX]
 	{
-		-$File	"$SRCDIR\lib\public\$PLATSUBDIR\steam_api.lib"
+		-$Lib	"$LIBPUBLIC\steam_api"
 		$File	"$SRCDIR\linux\steam_api_i486.so"
 	}
 }

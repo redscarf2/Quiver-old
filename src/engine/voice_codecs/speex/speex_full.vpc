@@ -72,7 +72,7 @@ $Project "vaudio_speex"
 	{
 	}
 	$File	"source\win32\libspeex\Release\libspeex.lib"
-	$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier0.lib"
-	$File	"$SRCDIR\lib\public\$PLATSUBDIR\tier1.lib"
-	$File	"$SRCDIR\lib\public\$PLATSUBDIR\vstdlib.lib"
+	$Lib	"$LIBPUBLIC\tier0"
+	$Lib	"$LIBPUBLIC\tier1"
+	$Lib	"$LIBPUBLIC\vstdlib"
 }

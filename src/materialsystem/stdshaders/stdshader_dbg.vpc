@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		"..\.."
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin\$PLATSUBDIR"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
@@ -85,11 +85,11 @@ $Project "stdshader_dbg"
 	$Folder	"Link Libraries"
 	{
 		$File	"$SRCDIR\dx9sdk\lib\d3dx9.lib"			[$WINDOWS]
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib.lib"		[$WINDOWS]
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\shaderlib.lib"		[$WINDOWS]
+		$Lib	"$LIBPUBLIC\mathlib"		[$WINDOWS]
+		$Lib	"$LIBPUBLIC\shaderlib"		[$WINDOWS]
 
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\mathlib_360.lib"	[$X360]
-		$File	"$SRCDIR\lib\public\$PLATSUBDIR\shaderlib_360.lib"	[$X360]
+		$Lib	"$LIBPUBLIC\mathlib_360"	[$X360]
+		$Lib	"$LIBPUBLIC\shaderlib_360"	[$X360]
 	}
 
 	$File	"$SRCDIR\devtools\bin\vsh_prep.pl"
